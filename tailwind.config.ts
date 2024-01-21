@@ -26,6 +26,7 @@ const config: Config = {
     },
     fontFamily: {
       inter: ["var(--font-inter)"],
+      lalezar: ["var(--font-lalezar)"],
     },
     plugins: [
       require("tailwindcss-animate"),

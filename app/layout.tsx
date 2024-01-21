@@ -1,8 +1,20 @@
+import React from "react";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Lalezar } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/shared/navbar/Navbar";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-inter",
+});
+
+const lalezar = Lalezar({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-lalezar",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +28,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body
+        className={`${inter.variable} ${lalezar.variable} bg-gradient-to-t from-[#F2F0FB] to-[#F9F8FD]  `}
+      >
+        <Navbar />
+        <div className="container">{children}</div>
+      </body>
     </html>
   );
 }

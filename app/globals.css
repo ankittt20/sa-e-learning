@@ -26,15 +26,15 @@ body {
   }
 
   .btn {
-    @apply bg-['#7D6DD8'] dark:bg-dark-300 !important;
+    @apply bg-[#7D6DD8] text-[#FFFDFD] !important;
   }
 
   .btn-secondary {
-    @apply bg-['#7D6DD8'] dark:bg-dark-400 !important;
+    @apply bg-[#fff] text-[#000] !important;
   }
 
   .btn-tertiary {
-    @apply bg-light-700 dark:bg-dark-300 !important;
+    @apply bg-light-700 !important;
   }
 
   .markdown {

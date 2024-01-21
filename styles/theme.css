@@ -1,0 +1,11 @@
+.h1-bold {
+  @apply text-[56px] font-bold leading-normal font-inter;
+}
+
+.h3-bold {
+  @apply text-[32px] font-normal leading-[26px] font-lalezar;
+}
+
+.body-semibold {
+  @apply text-[24px] font-normal leading-9 font-inter;
+}
