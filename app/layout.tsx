@@ -30,7 +30,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <div
-          className={`${inter.variable} ${lalezar.variable}  bg-[url('/assets/icons/border-effect.svg')] bg-no-repeat `}
+          className={`${inter.variable} ${lalezar.variable}  bg-no-repeat sm:bg-[url('/assets/icons/border-effect.svg')] `}
         >
           <Navbar />
           <div className="container">{children}</div>
