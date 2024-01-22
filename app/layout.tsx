@@ -28,11 +28,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.variable} ${lalezar.variable} bg-gradient-to-t from-[#F2F0FB] to-[#F9F8FD]  `}
-      >
-        <Navbar />
-        <div className="container">{children}</div>
+      <body>
+        <div
+          className={`${inter.variable} ${lalezar.variable}  bg-[url('/assets/icons/border-effect.svg')] bg-no-repeat `}
+        >
+          <Navbar />
+          <div className="container">{children}</div>
+        </div>
       </body>
     </html>
   );

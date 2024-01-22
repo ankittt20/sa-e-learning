@@ -3,8 +3,8 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="mt-[236px]">
-      <div className="flex justify-between">
+    <div className="relative mt-[236px]">
+      <div className="flex flex-col-reverse items-center justify-center max-sm:px-5 max-sm:text-center sm:flex-row sm:justify-between">
         <div>
           <h1 className="h1-bold max-w-[596px]">
             Dive into a world of{" "}
@@ -15,7 +15,7 @@ export default function Home() {
             tincidunt lobortis velit enim. Pellentesque tempor urna nunc pretium
             ac leo.
           </p>
-          <div className="mt-20 flex gap-9">
+          <div className="mt-20 flex flex-col gap-9 sm:flex-row ">
             <button className="btn rounded-[30px] px-10 py-3">
               <p className="text-xl font-bold">Enroll Now</p>
             </button>
@@ -29,7 +29,7 @@ export default function Home() {
               />
             </button>
           </div>
-          <div className="mt-20 flex gap-7">
+          <div className="my-20 flex gap-7">
             <Info
               image="/assets/icons/circle-blue.svg"
               text="Get certificate"
@@ -87,6 +87,36 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <Image
+        src="/assets/icons/flask.svg"
+        width={121}
+        height={164}
+        alt="flask"
+        className="absolute bottom-5 left-2"
+      />
+      <Image
+        src="/assets/icons/protractor.svg"
+        width={85}
+        height={65}
+        alt="Protractor"
+        className="absolute bottom-[7rem] left-[40%]"
+      />
+      <Image
+        src="/assets/icons/notes.svg"
+        width={70}
+        height={73}
+        alt="Notes"
+        // eslint-disable-next-line tailwindcss/enforces-negative-arbitrary-values
+        className="absolute -top-[90px] right-0"
+      />
+      <Image
+        src="/assets/icons/paperplane.svg"
+        width={69}
+        height={59}
+        alt="Paperplane"
+        // eslint-disable-next-line tailwindcss/enforces-negative-arbitrary-values
+        className="absolute -top-[100px] right-[30%]"
+      />
     </div>
   );
 }
