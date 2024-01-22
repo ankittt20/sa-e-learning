@@ -11,7 +11,7 @@ interface Props {
 
 const Info = ({ image, text, isImage, extraClasses, size }: Props) => {
   return (
-    <div className={`flex items-center justify-start gap-2 ${extraClasses}`}>
+    <div className={`flex items-center justify-center gap-2 ${extraClasses}`}>
       {" "}
       {isImage && <Image src={image} width={size} height={size} alt={text} />}
       <p className="">{text}</p>

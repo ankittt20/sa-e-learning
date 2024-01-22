@@ -19,17 +19,17 @@ export default function Home() {
             <button className="btn rounded-[30px] px-10 py-3">
               <p className="text-xl font-bold">Enroll Now</p>
             </button>
-            <button className="btn btn-secondary  rounded-[30px] px-10 py-3">
+            <button className="btn btn-secondary rounded-[30px] px-10 py-3 drop-shadow-2xl">
               <Info
                 image="/assets/icons/video.svg"
                 text="Play Video"
                 isImage
-                extraClasses="text-xl font-bold"
+                extraClasses="text-xl font-bold text-center"
                 size={16}
               />
             </button>
           </div>
-          <div className="my-20 flex gap-7">
+          <div className="my-20 flex flex-wrap gap-7">
             <Info
               image="/assets/icons/circle-blue.svg"
               text="Get certificate"
