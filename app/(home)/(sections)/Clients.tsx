@@ -22,6 +22,7 @@ const Clients = () => {
         />
         <Info
           text="Udemy"
+          image=""
           size={26.45}
           isImage={false}
           fontStyles="text-sm sm:text-[26px] font-semibold text-[rgba(0,0,0,0.5)]"
@@ -35,6 +36,7 @@ const Clients = () => {
         />
         <Info
           text="Google"
+          image=""
           size={26.45}
           isImage={false}
           fontStyles="text-sm sm:text-[26px] font-semibold text-[rgba(0,0,0,0.5)]"
