@@ -4,8 +4,8 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <nav className="flex-between container items-center pt-16">
-      <h3 className="h3-bold">SAelearning</h3>
+    <nav className="flex-between container items-center pt-10">
+      <h3 className="text-3xl font-bold">SAelearning</h3>
       <ul className="flex-between gap-16">
         {navLinks.map((link) => {
           return (
