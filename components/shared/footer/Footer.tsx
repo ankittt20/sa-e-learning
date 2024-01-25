@@ -11,7 +11,7 @@ const Footer = (props: Props) => {
       <footer className="p-8 pb-24">
         <div className="grid grid-cols-4 gap-4">
           <div>
-            <h2 className="text-xl font-bold mb-4">SAelearning</h2>
+            <h2 className="mb-4 text-xl font-bold">SAelearning</h2>
             <div>
               <p>
                 Lorem ipsum dolor sit amet consectetur. Auctor suspendisse
@@ -31,7 +31,7 @@ const Footer = (props: Props) => {
             </div>
           </div>
           <div>
-            <h2 className="text-lg font-bold mb-4">Pages</h2>
+            <h2 className="mb-4 text-lg font-bold">Pages</h2>
             <div>
               <p>About</p>
               <p>Our Team</p>
@@ -40,14 +40,14 @@ const Footer = (props: Props) => {
             </div>
           </div>
           <div>
-            <h2 className="text-lg font-bold mb-4">Support</h2>
+            <h2 className="mb-4 text-lg font-bold">Support</h2>
             <p>Help Center</p>
             <p>Partner with us</p>
             <p>FAQ&apos;s</p>
             <p>Privacy Policy</p>
           </div>
           <div>
-            <h2 className="text-lg font-bold mb-4">Meet Us</h2>
+            <h2 className="mb-4 text-lg font-bold">Meet Us</h2>
             <p>+91-098338939</p>
             <p>info@saelearning.com</p>
             <p>205.street, Chennai, India</p>

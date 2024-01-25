@@ -23,6 +23,7 @@ const config: Config = {
         100: "#000000",
       },
       "accent-blue": "#7D6DD8",
+      "accent-secondary": "#E0DAFD",
     },
     fontFamily: {
       inter: ["var(--font-inter)"],

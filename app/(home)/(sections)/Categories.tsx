@@ -1,7 +1,6 @@
+import TopicAndMore from "@/components/shared/TopicAndMore";
 import CategoryCards from "@/components/shared/cards/CategoryCards";
 import { categoryTypes } from "@/types/types";
-import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 
 const categories: categoryTypes[] = [
@@ -38,23 +37,8 @@ const categories: categoryTypes[] = [
 const Categories = () => {
   return (
     <div>
-      <div className="flex items-center justify-between">
-        <h2 className="h2-bold">Browse from our Top Categories</h2>
-
-        <Link
-          href="/"
-          className="header-nav flex items-center justify-center gap-7"
-        >
-          Browse More{" "}
-          <Image
-            src="/assets/icons/arrow-right.svg"
-            alt="browse more"
-            width={24}
-            height={24}
-          />
-        </Link>
-      </div>
-      <div className="mt-20 flex items-center justify-center gap-8 bg-[url('/assets/images/backgroundCategories.svg'),url('/assets/images/backgroundCategories3.svg'),url('/assets/images/backgroundCategories2.svg')]">
+      <TopicAndMore heading="Browse from our Top Categories" />
+      <div className="mt-20 flex flex-wrap items-center justify-center gap-8 bg-[url('/assets/images/backgroundCategories.svg'),url('/assets/images/backgroundCategories3.svg'),url('/assets/images/backgroundCategories2.svg')]">
         {categories.map((category) => {
           return (
             <CategoryCards
