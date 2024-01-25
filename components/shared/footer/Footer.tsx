@@ -9,11 +9,11 @@ const Footer = (props: Props) => {
   return (
     <div>
       <footer className="p-8 pb-24">
-        <div className="grid grid-cols-4 gap-4">
+        <div className="flex flex-wrap justify-between gap-12">
           <div>
             <h2 className="mb-4 text-xl font-bold">SAelearning</h2>
-            <div>
-              <p>
+            <div className="max-w-[317px]">
+              <p className="sm:text-center sm:text-2xl">
                 Lorem ipsum dolor sit amet consectetur. Auctor suspendisse
                 tempus vulputate fames.{" "}
               </p>
@@ -33,24 +33,24 @@ const Footer = (props: Props) => {
           <div>
             <h2 className="mb-4 text-lg font-bold">Pages</h2>
             <div>
-              <p>About</p>
-              <p>Our Team</p>
-              <p>Categories</p>
-              <p>Contact</p>
+              <p className="mb-3 sm:text-2xl">About</p>
+              <p className="mb-3 sm:text-2xl">Our Team</p>
+              <p className="mb-3 sm:text-2xl">Categories</p>
+              <p className="mb-3 sm:text-2xl">Contact</p>
             </div>
           </div>
           <div>
             <h2 className="mb-4 text-lg font-bold">Support</h2>
-            <p>Help Center</p>
-            <p>Partner with us</p>
-            <p>FAQ&apos;s</p>
-            <p>Privacy Policy</p>
+            <p className="mb-3 sm:text-2xl">Help Center</p>
+            <p className="mb-3 sm:text-2xl">Partner with us</p>
+            <p className="mb-3 sm:text-2xl">FAQ&apos;s</p>
+            <p className="mb-3 sm:text-2xl">Privacy Policy</p>
           </div>
           <div>
             <h2 className="mb-4 text-lg font-bold">Meet Us</h2>
-            <p>+91-098338939</p>
-            <p>info@saelearning.com</p>
-            <p>205.street, Chennai, India</p>
+            <p className="mb-3 sm:text-2xl">+91-098338939</p>
+            <p className="mb-3 sm:text-2xl">info@saelearning.com</p>
+            <p className="mb-3 sm:text-2xl">205.street, Chennai, India</p>
           </div>
         </div>
       </footer>

@@ -1,35 +1,39 @@
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import React from "react";
 
 type Props = {};
 
 const Newsletter = (props: Props) => {
   return (
-    <div className="bg-[#E0DAFD] pt-[70px] pr-[75px] pb-[82px] pl-[75px] rounded-3xl">
-      <div className="flex flex-col justify-center items-center">
+    <div className="rounded-3xl bg-[#E0DAFD] px-[75px] pb-[82px] pt-[70px]">
+      <div className="flex flex-col items-center justify-center">
         <div>
-          <img
-            src="./assets/icons/newsletter.svg"
+          <Image
+            src="/assets/icons/newsletter.svg"
             alt="Newsletter Icon"
-            className="w-[188px] h-[180.67px]"
+            width={188}
+            height={180.67}
           />
         </div>
         <div className="flex flex-col items-center justify-center">
-          <h2 className="text-[48px] font-bold mb-5">Newsletter</h2>
-          <p className="mb-12 text-[24px]">Subscribe to our newsletter for discounts.</p>
+          <h2 className="mb-5 text-[48px] font-bold">Newsletter</h2>
+          <p className="mb-12 text-center text-base sm:text-2xl">
+            Subscribe to our newsletter for discounts.
+          </p>
         </div>
 
-        <form className="flex flex-row items-center space-x-[76px]">
+        <form className="flex flex-col items-center justify-center gap-5 sm:flex-row">
           <input
             type="email"
             placeholder="&#xf0e0; Your Email"
-            className="border border-gray-300 rounded-md px-[41px] py-[23px] w-[661px] h-[90px] font-inter text-[20px] font-semibold outline-none border-none placeholder-[#111]"
+            className="h-[56px] w-[240px] rounded-md border border-none border-[rgb(209,213,219)] px-[41px] py-[23px] font-[#000] text-[20px] font-semibold  outline-none sm:h-[90px] sm:w-[661px]"
           />
-          <button
-            type="submit"
-            className="bg-accent-blue font-inter text-[20px] font-semibold text-[#fff] px-[70px] py-[26px] rounded-md w-[240px] h-[90px]"
-          >
-            Subscribe
-          </button>
+          <Button className="mx-auto rounded-xl bg-accent-blue px-[70px] py-[26px] sm:h-[56px] sm:w-[240px]">
+            <p className="text-base font-bold text-primary-100 sm:text-[20px]">
+              Subscribe
+            </p>
+          </Button>
         </form>
       </div>
     </div>
