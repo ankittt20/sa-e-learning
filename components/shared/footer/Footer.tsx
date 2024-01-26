@@ -8,12 +8,12 @@ type Props = {};
 const Footer = (props: Props) => {
   return (
     <div>
-      <footer className="p-8 pb-24">
+      <footer className="px-8 pb-24">
         <div className="flex flex-wrap justify-between gap-12">
           <div>
-            <h2 className="mb-4 text-xl font-bold">SAelearning</h2>
+            <h2 className="mb-4 text-[32px] font-bold">SAelearning</h2>
             <div className="max-w-[317px]">
-              <p className="sm:text-center sm:text-2xl">
+              <p className="sm:text-2xl">
                 Lorem ipsum dolor sit amet consectetur. Auctor suspendisse
                 tempus vulputate fames.{" "}
               </p>
@@ -31,7 +31,7 @@ const Footer = (props: Props) => {
             </div>
           </div>
           <div>
-            <h2 className="mb-4 text-lg font-bold">Pages</h2>
+            <h2 className="mb-4 text-2xl font-bold">Pages</h2>
             <div>
               <p className="mb-3 sm:text-2xl">About</p>
               <p className="mb-3 sm:text-2xl">Our Team</p>
@@ -40,14 +40,14 @@ const Footer = (props: Props) => {
             </div>
           </div>
           <div>
-            <h2 className="mb-4 text-lg font-bold">Support</h2>
+            <h2 className="mb-4 text-2xl font-bold">Support</h2>
             <p className="mb-3 sm:text-2xl">Help Center</p>
             <p className="mb-3 sm:text-2xl">Partner with us</p>
             <p className="mb-3 sm:text-2xl">FAQ&apos;s</p>
             <p className="mb-3 sm:text-2xl">Privacy Policy</p>
           </div>
           <div>
-            <h2 className="mb-4 text-lg font-bold">Meet Us</h2>
+            <h2 className="mb-4 text-2xl font-bold">Meet Us</h2>
             <p className="mb-3 sm:text-2xl">+91-098338939</p>
             <p className="mb-3 sm:text-2xl">info@saelearning.com</p>
             <p className="mb-3 sm:text-2xl">205.street, Chennai, India</p>

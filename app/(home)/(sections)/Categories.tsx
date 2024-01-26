@@ -38,7 +38,7 @@ const Categories = () => {
   return (
     <div>
       <TopicAndMore heading="Browse from our Top Categories" />
-      <div className="mt-20 flex flex-wrap items-center justify-center gap-8 bg-[url('/assets/images/backgroundCategories.svg'),url('/assets/images/backgroundCategories3.svg'),url('/assets/images/backgroundCategories2.svg')]">
+      <div className="mt-20 flex flex-wrap items-center justify-center gap-4 bg-[url('/assets/images/backgroundCategories.svg'),url('/assets/images/backgroundCategories3.svg'),url('/assets/images/backgroundCategories2.svg')]">
         {categories.map((category) => {
           return (
             <CategoryCards

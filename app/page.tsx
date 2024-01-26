@@ -6,6 +6,7 @@ import Categories from "./(home)/(sections)/Categories";
 import Community from "./(home)/(sections)/Community";
 import Newsletter from "@/components/shared/newsletter/Newsletter";
 import PopularCourses from "./(home)/(sections)/PopularCourses";
+import Instructor from "@/components/shared/instructor/Instructor";
 
 const page = () => {
   return (
@@ -22,6 +23,9 @@ const page = () => {
       </div>
       <div className="mt-28">
         <PopularCourses />
+      </div>
+      <div className="mt-28">
+        <Instructor />
       </div>
       <div className="mt-28">
         <Newsletter />

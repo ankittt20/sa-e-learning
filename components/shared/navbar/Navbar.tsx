@@ -5,7 +5,7 @@ import MobileNav from "./MobileNav";
 
 const Navbar = () => {
   return (
-    <nav className="flex-between container items-center pt-10">
+    <nav className="flex-between justify-center container items-center pt-10">
       <h3 className="text-3xl font-bold">SAelearning</h3>
       <ul className="flex-between gap-16 max-sm:hidden">
         {navLinks.map((link) => {

@@ -27,9 +27,9 @@ const Newsletter = (props: Props) => {
           <input
             type="email"
             placeholder="&#xf0e0; Your Email"
-            className="h-[56px] w-[240px] rounded-md border border-none border-[rgb(209,213,219)] px-[41px] py-[23px] font-[#000] text-[20px] font-semibold  outline-none sm:h-[90px] sm:w-[661px]"
+            className="h-[56px] sm:h-[90px] w-[240px] sm:w-[661px] rounded-md border border-none border-[rgb(209,213,219)] px-[41px] py-[23px] font-[#000] text-[20px] font-semibold placeholder-dark-100 outline-none"
           />
-          <Button className="mx-auto rounded-xl bg-accent-blue px-[70px] py-[26px] sm:h-[56px] sm:w-[240px]">
+          <Button className="h-[59px] sm:h-[90px] w-[240px] mx-auto rounded-xl bg-accent-blue px-[70px] py-[26px]">
             <p className="text-base font-bold text-primary-100 sm:text-[20px]">
               Subscribe
             </p>
