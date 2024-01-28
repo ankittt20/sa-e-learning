@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter, Lalezar } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/shared/navbar/Navbar";
+import Footer from "@/components/shared/footer/Footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -34,6 +35,9 @@ export default function RootLayout({
         >
           <Navbar />
           <div className="container">{children}</div>
+          <div className="mt-28">
+            <Footer />
+          </div>
         </div>
       </body>
     </html>

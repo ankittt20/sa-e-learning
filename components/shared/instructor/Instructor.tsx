@@ -7,22 +7,22 @@ const Instructor = (props: Props) => {
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="col-span-1 md:col-span-1 py-[63px] space-y-9">
-          <h1 className="text-4xl font-inter font-bold p-2">
+        <div className="col-span-1 md:col-span-1 py-[63px] pb-0 space-y-9">
+          <h1 className="text-lg sm:text-4xl font-inter font-bold p-2 text-center sm:text-left">
             Ready to become an instructor
           </h1>
-          <p className="p-2 font-inter text-2xl">
+          <p className="p-2 font-inter text-[16px] sm:text-2xl text-center sm:text-left">
             Lorem ipsum dolor sit amet consectetur. Auctor suspendisse tempus
             vulputate fames. Donec donec nisi neque gravida id purus eu nisl
             urna. odio ultrices nisi egetmetus. Vulputate condimentum tincidunt
             quis maecenas nibh
           </p>
           <img
-            className="h-12 w-32"
+            className="h-12 w-32 mx-auto sm:mx-0"
             src="./assets/icons/instructor-icon.svg"
             alt="Instructor Icons"
           />
-          <p className="p-2 font-inter text-2xl">
+          <p className="p-2 font-inter text-[16px] sm:text-2xl text-center sm:text-left">
             Lorem ipsum dolor sit amet consectetur. Auctor suspendisse tempus
             vulputate fames. Donec donec nisi neque gravida id purus eu nisl
             urna. odio ultrices nisi egetmetus. Vulputate condimentum tincidunt
@@ -35,7 +35,7 @@ const Instructor = (props: Props) => {
           </Button>
         </div>
 
-        <div className="col-span-1 md:col-span-1 flex justify-end">
+        <div className="col-span-1 md:col-span-1 flex justify-end order-first md:order-none">
           <img
             src="./assets/images/instructor.png"
             alt="Become An Instructor"
