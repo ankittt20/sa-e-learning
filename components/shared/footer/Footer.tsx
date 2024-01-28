@@ -1,10 +1,4 @@
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 
 import React from "react";
 import MobileFooter from "./MobileFooter";
