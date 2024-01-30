@@ -1,3 +1,5 @@
+import Footer from "@/components/shared/footer/Footer";
+import Navbar from "@/components/shared/navbar/Navbar";
 import React from "react";
 
 type Props = {};
@@ -5,8 +7,10 @@ type Props = {};
 const page = (props: Props) => {
   return (
     <>
-      <div>
+      <div className="container">
+        <Navbar />
         <h1>Page</h1>
+        <Footer />
       </div>
     </>
   );

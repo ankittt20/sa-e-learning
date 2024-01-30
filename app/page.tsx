@@ -6,11 +6,14 @@ import Community from "./(home)/(sections)/Community";
 import Newsletter from "@/components/shared/newsletter/Newsletter";
 import PopularCourses from "./(home)/(sections)/PopularCourses";
 import Instructor from "@/components/shared/instructor/Instructor";
+import Footer from "@/components/shared/footer/Footer";
+import Navbar from "@/components/shared/navbar/Navbar";
 
 const page = () => {
   return (
     <>
-      <div className="space-y-28">
+      <div className="space-y-28 container">
+        <Navbar />
         <Hero />
         <Clients />
         <Categories />
@@ -18,6 +21,7 @@ const page = () => {
         <PopularCourses />
         <Instructor />
         <Newsletter />
+        <Footer />
       </div>
     </>
   );

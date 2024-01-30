@@ -2,8 +2,6 @@ import React from "react";
 import type { Metadata } from "next";
 import { Inter, Lalezar } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/shared/navbar/Navbar";
-import Footer from "@/components/shared/footer/Footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -33,11 +31,7 @@ export default function RootLayout({
         <div
           className={`${inter.variable} ${lalezar.variable}  bg-no-repeat sm:bg-[url('/assets/icons/border-effect.svg')] `}
         >
-          <Navbar />
-          <div className="container">{children}</div>
-          <div className="mt-28">
-            <Footer />
-          </div>
+          <div>{children}</div>
         </div>
       </body>
     </html>

@@ -9,7 +9,7 @@ const Footer = (props: Props) => {
   return (
     <>
       <div className="max-sm:hidden">
-        <footer className="px-8 pb-24">
+        <footer className="pb-24">
           <div className="flex flex-wrap justify-between gap-12">
             <div>
               <h2 className="mb-4 text-[32px] font-bold">SAelearning</h2>

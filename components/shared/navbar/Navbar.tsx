@@ -5,9 +5,9 @@ import MobileNav from "./MobileNav";
 
 const Navbar = () => {
   return (
-    <nav className="flex-between gap-24 justify-center container items-center pt-10">
+    <nav className="flex-between gap-20 justify-center items-center pt-10">
       <h3 className="text-3xl font-bold">SAelearning</h3>
-      <ul className="flex-between gap-24 max-sm:hidden">
+      <ul className="flex-between gap-20 max-sm:hidden">
         {navLinks.map((link) => {
           return (
             <li key={link.id}>
@@ -17,7 +17,9 @@ const Navbar = () => {
         })}
       </ul>
       <Button className="btn rounded-[30px] px-10 py-3 max-sm:hidden">
-        <p className="font-inter text-xl font-bold">Register</p>
+        <a href="/login" className="font-inter text-xl font-bold">
+          Register/Login
+        </a>
       </Button>
       <MobileNav />
     </nav>
