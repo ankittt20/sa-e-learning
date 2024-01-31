@@ -24,6 +24,7 @@ const config: Config = {
       },
       "accent-blue": "#7D6DD8",
       "accent-secondary": "#E0DAFD",
+      "accent-pink": "#F762A2",
     },
     fontFamily: {
       inter: ["var(--font-inter)"],

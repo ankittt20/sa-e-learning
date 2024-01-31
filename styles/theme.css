@@ -10,6 +10,10 @@
   @apply text-[32px] font-normal leading-[26px] font-lalezar;
 }
 
+.h3-bold-extra {
+  @apply text-[32px] font-extrabold leading-[26px] font-inter;
+}
+
 .body-semibold {
   @apply text-sm sm:text-2xl font-normal leading-9 font-inter;
 }

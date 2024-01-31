@@ -28,9 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div
-          className={`${inter.variable} ${lalezar.variable}  bg-no-repeat sm:bg-[url('/assets/icons/border-effect.svg')] `}
-        >
+        <div className={`${inter.variable} ${lalezar.variable}`}>
           <div>{children}</div>
         </div>
       </body>

@@ -11,7 +11,7 @@ type Props = {};
 const MobileFooter = (props: Props) => {
   return (
     <div>
-      <footer className="pt-0 p-8">
+      <footer className=" pt-0">
         <div className="flex flex-wrap justify-between gap-12">
           <div>
             <h2 className="mb-4 text-[32px] font-bold">SAelearning</h2>
@@ -80,7 +80,9 @@ const MobileFooter = (props: Props) => {
               <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
                   <AccordionTrigger>
-                    <h2 className="mb-4 text-2xl font-bold">Meet Us</h2>
+                    <h2 className="mb-4 whitespace-nowrap text-2xl font-bold">
+                      Meet Us
+                    </h2>
                   </AccordionTrigger>
                   <AccordionContent>
                     <p className="mb-3 text-xl">+91-098338939</p>
@@ -89,9 +91,7 @@ const MobileFooter = (props: Props) => {
                     <p className="mb-3 text-xl">info@saelearning.com</p>
                   </AccordionContent>
                   <AccordionContent>
-                    <p className="mb-3 text-xl">
-                      205.street, Chennai, India
-                    </p>
+                    <p className="mb-3 text-xl">205.street, Chennai, India</p>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>

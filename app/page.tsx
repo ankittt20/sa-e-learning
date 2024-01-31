@@ -11,8 +11,8 @@ import Navbar from "@/components/shared/navbar/Navbar";
 
 const page = () => {
   return (
-    <>
-      <div className="space-y-28 container">
+    <div className="bg-no-repeat sm:bg-[url('/assets/icons/border-effect.svg')]">
+      <div className="container space-y-28">
         <Navbar />
         <Hero />
         <Clients />
@@ -23,7 +23,7 @@ const page = () => {
         <Newsletter />
         <Footer />
       </div>
-    </>
+    </div>
   );
 };
 
