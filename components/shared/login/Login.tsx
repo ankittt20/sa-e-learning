@@ -95,7 +95,7 @@ const Login = (props: Props) => {
           </Button>
         </form>
         <div className="flex justify-center space-x-2 text-[12px] sm:text-[16px] font-bold">
-          <p className="text-[#6D7D8B]">Don't have an account?</p>
+          <p className="text-[#6D7D8B]">Don&apos;t have an account?</p>
           <a className="text-[#7D6DD8]" href="/signup">
             Create an account
           </a>
