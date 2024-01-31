@@ -7,7 +7,7 @@ type Props = {};
 
 const Newsletter = (props: Props) => {
   return (
-    <div className=" rounded-3xl bg-[#E0DAFD] px-[75px] pb-[82px] pt-[70px] ">
+    <div className=" rounded-3xl bg-[#E0DAFD] px-[75px] pb-[82px] pt-[70px]">
       <div className="flex flex-col items-center justify-center">
         <div>
           <Image
