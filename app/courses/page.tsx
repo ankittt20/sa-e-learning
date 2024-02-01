@@ -1,3 +1,4 @@
+import LearningNow from "@/components/shared/LearningNow";
 import Footer from "@/components/shared/footer/Footer";
 import Filter from "@/components/shared/forms/filters/Filter";
 import FilterInput from "@/components/shared/forms/inputs/FilterInput";
@@ -84,7 +85,10 @@ const page = (props: Props) => {
             </div>
           </div>
         </div>
-        <Footer />
+        <div className="container space-y-28">
+          <LearningNow />
+          <Footer />
+        </div>
       </div>
     </div>
   );
