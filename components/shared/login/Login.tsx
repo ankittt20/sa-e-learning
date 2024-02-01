@@ -17,9 +17,11 @@ const Login = (props: Props) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-10 h-screen sm:overflow-hidden">
       <div className="col-span-4 bg-primary-100 sm:bg-[#F8BC12] flex justify-center sm:justify-start">
-        <h3 className="text-3xl font-bold p-8 max-sm:hidden">SAelearning</h3>
+        <h3 className="text-3xl font-bold p-8 max-sm:hidden">
+          <a href="/">SAelearning</a>
+        </h3>
         <Image
-          className="sm:absolute top-24 left-24 w-72 sm:w-[293px]"
+          className="sm:absolute top-24 left-24 w-72 sm:w-[418px]"
           src="./assets/icons/login-icon.svg"
           alt="Login"
           width={450}

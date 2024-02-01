@@ -42,6 +42,7 @@ const Instructor = (props: Props) => {
 
         <div className="order-first col-span-1 flex justify-end md:order-none md:col-span-1">
           <Image
+            className="w-full p-6 sm:p-8"
             src="/assets/images/instructor.png"
             alt="Become An Instructor"
             width={316}
