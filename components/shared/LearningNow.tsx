@@ -25,7 +25,7 @@ const LearningNow = (props: Props) => {
       </div>
       <div className="">
         <Image
-          className="absolute -right-1 -top-2 max-sm:h-[244px] max-sm:w-[116px]  sm:-top-[120px] sm:right-5"
+          className="absolute -right-1 -top-2 max-sm:h-[244px] max-sm:w-[116px]  sm:right-5 sm:top-[-120px]"
           src="/assets/images/learning-now.svg"
           alt="Learning Now"
           width={389}
