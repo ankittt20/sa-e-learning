@@ -7,10 +7,11 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Slider } from "@/components/ui/slider";
+import { Button } from "../ui/button";
 
 const SideFilter = () => {
   return (
-    <div className="max-w-[350px] rounded-xl border border-[rgba(0,0,0,0.2)] p-5">
+    <div className="h-fit w-[350px] rounded-xl border border-[rgba(0,0,0,0.2)] p-5 max-sm:hidden">
       <div className="flex items-center justify-between">
         <h3 className="text-2xl font-bold">Filter</h3>
         <span className="text-xs font-bold text-accent-pink underline underline-offset-4">
@@ -21,7 +22,7 @@ const SideFilter = () => {
         return (
           <Accordion type="single" collapsible key={filter.id}>
             <AccordionItem value="item-1">
-              <AccordionTrigger className="w-[50px] items-center justify-between border-b  text-left font-bold">
+              <AccordionTrigger className=" items-center justify-between border-b  text-left font-bold">
                 {filter.name}
               </AccordionTrigger>
               <AccordionContent className="mt-4">
@@ -50,6 +51,12 @@ const SideFilter = () => {
           </Accordion>
         );
       })}
+      <div className="flex items-center justify-center">
+        <Button className="mx-auto mt-5 rounded-[50px] bg-accent-pink px-20 py-6 text-[20px] font-medium text-[#fff]">
+          {" "}
+          Save Filter
+        </Button>
+      </div>
     </div>
   );
 };

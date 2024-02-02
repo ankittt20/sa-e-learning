@@ -6,26 +6,26 @@ type Props = {};
 
 const LearningNow = (props: Props) => {
   return (
-    <div className="grid h-52 w-full grid-cols-10 rounded-[20px] bg-[#E0DAFD] px-6 py-9 sm:h-96 sm:px-14 sm:py-20">
-      <div className="col-span-6 space-y-5">
+    <div className="relative flex h-52 w-full grid-cols-10 justify-between gap-8 rounded-[20px] bg-[#E0DAFD] px-6 py-9 drop-shadow-2xl sm:h-96 sm:px-14 sm:py-20">
+      <div className="max-w-[65%] space-y-5 sm:max-w-[56%]">
         <h1 className="text-lg sm:text-[40px]">Learning Now!</h1>
         <p className="text-[7px] sm:text-[16px]">
           By the same illusion which lifts the horizon of the sea to the level
           of the spectator. Lorem ipsum dolor sit amet consectetur. Auctor
           suspendisse tempus vulputate fames.{" "}
         </p>
-        <div className="space-x-2 sm:space-x-10">
-          <Button className="btn h-7 w-16 text-[8px] font-bold sm:w-44 sm:text-lg">
+        <div className="w-full space-x-2 sm:space-x-10">
+          <Button className="btn rounded-lg px-2 py-[2px] text-[8px] font-bold max-sm:h-[30px] sm:w-44 sm:px-5 sm:py-8 sm:text-lg">
             Get Started
           </Button>
-          <Button className="h-7 w-16 border-[1px] border-primary-100 bg-none text-[8px] font-bold text-accent-blue sm:w-44 sm:text-lg">
+          <Button className="border border-primary-100 bg-none p-1 px-2 py-[2px] text-[8px] font-bold text-accent-blue max-sm:h-[30px] sm:w-44 sm:px-5 sm:py-8 sm:text-lg">
             Contact
           </Button>
         </div>
       </div>
-      <div className="col-span-4">
+      <div className="">
         <Image
-          className="-right-16 -top-56 sm:relative"
+          className="absolute -right-1 -top-2 max-sm:h-[244px] max-sm:w-[116px]  sm:-top-[120px] sm:right-5"
           src="/assets/images/learning-now.svg"
           alt="Learning Now"
           width={389}

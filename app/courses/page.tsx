@@ -7,6 +7,9 @@ import { Button } from "@/components/ui/button";
 import { FaSearch } from "react-icons/fa";
 import React from "react";
 import SideFilter from "@/components/shared/SideFilter";
+import CourseCardInfo from "@/components/shared/cards/CourseCardInfo";
+import Pagination from "@/components/shared/Pagination";
+
 // import Caraousel from "@/components/shared/Caraousel";
 
 type Props = {};
@@ -80,8 +83,22 @@ const page = (props: Props) => {
               </Button>
             </div>
             {/* <Caraousel items={caraouselItems} /> */}
-            <div className="mt-28">
+            <div className="my-28 flex gap-16">
               <SideFilter />
+              <div className="mb-28">
+                <div className="flex flex-wrap items-center justify-center gap-4">
+                  <CourseCardInfo />
+                  <CourseCardInfo />
+                  <CourseCardInfo />
+                  <CourseCardInfo />
+                  <CourseCardInfo />
+                  <CourseCardInfo />
+                  <CourseCardInfo />
+                  <CourseCardInfo />
+                  <CourseCardInfo />
+                </div>
+                <Pagination />
+              </div>
             </div>
           </div>
         </div>
