@@ -18,7 +18,7 @@ const CourseCardInfo = () => {
           <h5 className="absolute left-[24px] top-[28px] text-[10px] font-bold uppercase text-primary-100">
             Programming
           </h5>
-          <div className="absolute left-[233px] top-[12px] flex justify-between rounded-full bg-primary-100 p-3">
+          <div className="absolute right-[12px] top-[12px] flex justify-between rounded-full bg-primary-100 p-2">
             <Image
               src="/assets/icons/star.svg"
               width={16}
@@ -28,7 +28,7 @@ const CourseCardInfo = () => {
           </div>
         </div>
         <div className="mt-3 px-4 pb-3">
-          <p className="text-center text-lg text-[#333333]">
+          <p className="text-left text-lg text-[#333333]">
             System Administration and IT Infrastructure Services
           </p>
           <div className="mt-5 rounded-xl bg-[#fff] px-4 py-3">

@@ -36,7 +36,7 @@ const Courses = (props: Props) => {
         <div className="my-28 flex gap-16">
           <SideFilter />
           <div>
-            <div className="flex flex-wrap items-center justify-center gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 items-center justify-center gap-4">
               <CourseCardInfo />
               <CourseCardInfo />
               <CourseCardInfo />

@@ -15,17 +15,17 @@ const LearningNow = (props: Props) => {
           suspendisse tempus vulputate fames.{" "}
         </p>
         <div className="w-full space-x-2 sm:space-x-10">
-          <Button className="btn rounded-lg px-2 py-[2px] text-[8px] font-bold max-sm:h-[30px] sm:w-44 sm:px-5 sm:py-8 sm:text-lg">
+          <Button className="btn rounded-lg px-3 py-[2px] text-[8px] font-bold max-sm:h-[30px] sm:w-44 sm:px-5 sm:py-8 sm:text-lg">
             Get Started
           </Button>
-          <Button className="border border-primary-100 bg-none p-1 px-2 py-[2px] text-[8px] font-bold text-accent-blue max-sm:h-[30px] sm:w-44 sm:px-5 sm:py-8 sm:text-lg">
+          <Button className="border border-primary-100 bg-none p-1 px-4 py-[2px] text-[8px] font-bold text-accent-blue max-sm:h-[30px] sm:w-44 sm:px-5 sm:py-8 sm:text-lg">
             Contact
           </Button>
         </div>
       </div>
       <div className="">
         <Image
-          className="absolute -right-1 -top-2 max-sm:h-[244px] max-sm:w-[116px]  sm:right-5 sm:top-[-120px]"
+          className="absolute -right-1 -top-2 max-sm:h-[244px] max-sm:w-[116px] sm:right-5 sm:top-[-120px]"
           src="/assets/images/learning-now.svg"
           alt="Learning Now"
           width={389}
