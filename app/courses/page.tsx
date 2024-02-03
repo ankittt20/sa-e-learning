@@ -9,8 +9,7 @@ import React from "react";
 import SideFilter from "@/components/shared/SideFilter";
 import CourseCardInfo from "@/components/shared/cards/CourseCardInfo";
 import Pagination from "@/components/shared/Pagination";
-
-// import Caraousel from "@/components/shared/Caraousel";
+import Testimonial from "@/components/shared/testimonial/Testimonial";
 
 type Props = {};
 
@@ -82,10 +81,9 @@ const page = (props: Props) => {
                 <FaSearch size={17} color="#fff" />
               </Button>
             </div>
-            {/* <Caraousel items={caraouselItems} /> */}
             <div className="my-28 flex gap-16">
               <SideFilter />
-              <div className="mb-28">
+              <div>
                 <div className="flex flex-wrap items-center justify-center gap-4">
                   <CourseCardInfo />
                   <CourseCardInfo />
@@ -103,6 +101,7 @@ const page = (props: Props) => {
           </div>
         </div>
         <div className="container space-y-28">
+          <Testimonial />
           <LearningNow />
           <Footer />
         </div>
