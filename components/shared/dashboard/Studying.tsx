@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
 import { Progress } from "@/components/ui/progress";
+import TopicAndMore from "../TopicAndMore";
 
 type Props = {};
 
@@ -9,14 +10,14 @@ const Studying = (props: Props) => {
   return (
     <>
       <div className="font-poppins">
-        <div className="flex items-center justify-between">
-          <h1 className="text-lg font-semibold">Studying</h1>
-          <p className="text-xs font-semibold text-accent-blue underline cursor-pointer">
-            See all
-          </p>
-        </div>
-        <div className="grid grid-cols-3 gap-x-4">
-          <Card className="w-64 h-72 border-none bg-primary-100">
+        <TopicAndMore
+          heading="Studying"
+          styles="text-lg font-semibold"
+          linkStyle="text-xs font-semibold"
+          linkContent="See all"
+        />
+        <div className="mt-5 flex gap-4">
+          <Card className="h-72 w-64 border-none bg-primary-100">
             <CardHeader className="p-0">
               <Image
                 className="w-64"
@@ -26,14 +27,14 @@ const Studying = (props: Props) => {
                 height={140}
               />
             </CardHeader>
-            <CardContent className="p-3 space-y-2">
-              <p className="text-[10px] text-accent-blue font-medium">
+            <CardContent className="space-y-2 p-3">
+              <p className="text-[10px] font-medium text-accent-blue">
                 Graphic Design
               </p>
               <h1 className="text-sm font-semibold">
                 Video Production Bootcamp: Videography
               </h1>
-              <div className="flex space-x-2 items-center">
+              <div className="flex items-center space-x-2">
                 <Image
                   src="/assets/icons/bookmark.svg"
                   alt="Bookmark"
@@ -48,7 +49,7 @@ const Studying = (props: Props) => {
               <p className="text-xs text-[#838383]">Jerremy Mamika</p>
             </CardContent>
           </Card>
-          <Card className="w-64 h-72 border-none bg-primary-100">
+          <Card className="h-72 w-64 border-none bg-primary-100">
             <CardHeader className="p-0">
               <Image
                 className="w-64"
@@ -58,14 +59,14 @@ const Studying = (props: Props) => {
                 height={140}
               />
             </CardHeader>
-            <CardContent className="p-3 space-y-2">
-              <p className="text-[10px] text-accent-blue font-medium">
+            <CardContent className="space-y-2 p-3">
+              <p className="text-[10px] font-medium text-accent-blue">
                 Graphic Design
               </p>
               <h1 className="text-sm font-semibold">
                 Video Production Bootcamp: Videography
               </h1>
-              <div className="flex space-x-2 items-center">
+              <div className="flex items-center space-x-2">
                 <Image
                   src="/assets/icons/bookmark.svg"
                   alt="Bookmark"
@@ -80,7 +81,7 @@ const Studying = (props: Props) => {
               <p className="text-xs text-[#838383]">Jerremy Mamika</p>
             </CardContent>
           </Card>
-          <Card className="w-64 h-72 border-none bg-primary-100">
+          <Card className="h-72 w-64 border-none bg-primary-100">
             <CardHeader className="p-0">
               <Image
                 className="w-64"
@@ -90,14 +91,14 @@ const Studying = (props: Props) => {
                 height={140}
               />
             </CardHeader>
-            <CardContent className="p-3 space-y-2">
-              <p className="text-[10px] text-accent-blue font-medium">
+            <CardContent className="space-y-2 p-3">
+              <p className="text-[10px] font-medium text-accent-blue">
                 Graphic Design
               </p>
               <h1 className="text-sm font-semibold">
                 Video Production Bootcamp: Videography
               </h1>
-              <div className="flex space-x-2 items-center">
+              <div className="flex items-center space-x-2">
                 <Image
                   src="/assets/icons/bookmark.svg"
                   alt="Bookmark"

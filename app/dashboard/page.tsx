@@ -12,13 +12,13 @@ type Props = {};
 
 const page = (props: Props) => {
   return (
-    <div className="w-full flex bg-no-repeat sm:bg-[url('/assets/images/navborder.svg')]">
-      <div className="w-[224px] h-full bg-[#F3F1FC] max-sm:hidden">
+    <div className="flex w-full bg-no-repeat sm:bg-[url('/assets/images/navborder.svg')]">
+      <div className="h-full w-[224px] bg-[#F3F1FC] max-sm:hidden">
         <Sidebar />
       </div>
       <div className="container">
         <Header />
-        <div className="flex space-x-8">
+        <div className="flex flex-col-reverse space-x-8 sm:flex-row">
           <div className="space-y-10">
             <Studying />
             <MyCourses />
