@@ -1,6 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
-import { Inter, Lalezar } from "next/font/google";
+import { Inter, Lalezar, Poppins } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -13,6 +13,12 @@ const lalezar = Lalezar({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-lalezar",
+});
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-poppins",
 });
 
 export const metadata: Metadata = {
@@ -28,7 +34,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className={`${inter.variable} ${lalezar.variable}`}>
+        <div
+          className={`${inter.variable} ${lalezar.variable} ${poppins.variable}`}
+        >
           <div>{children}</div>
         </div>
       </body>
