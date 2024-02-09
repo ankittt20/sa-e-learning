@@ -37,12 +37,12 @@ const MyCourses = (props: Props) => {
           </div>
         </div>
         <div className="mt-5 flex flex-wrap gap-4">
-          <div className="relative">
+          <div className="relative w-[326px] sm:w-[189px]">
             <Image
               src="/assets/images/my-courses.png"
               height={187}
               width={189}
-              className="rounded-lg"
+              className="w-[326px] rounded-lg sm:w-[189px]"
               alt="my-course"
             />
             <div className="absolute bottom-9 left-5">
@@ -54,12 +54,12 @@ const MyCourses = (props: Props) => {
               </h5>
             </div>
           </div>
-          <div className="relative">
+          <div className="relative w-[326px] sm:w-[189px]">
             <Image
               src="/assets/images/my-courses.png"
               height={187}
               width={189}
-              className="rounded-lg"
+              className="w-[326px] rounded-lg sm:w-[189px]"
               alt="my-course"
             />
             <div className="absolute bottom-9 left-5">
@@ -71,12 +71,12 @@ const MyCourses = (props: Props) => {
               </h5>
             </div>
           </div>
-          <div className="relative">
+          <div className="relative w-[326px] sm:w-[189px]">
             <Image
               src="/assets/images/my-courses.png"
               height={187}
               width={189}
-              className="rounded-lg"
+              className="w-[326px] rounded-lg sm:w-[189px]"
               alt="my-course"
             />
             <div className="absolute bottom-9 left-5">
@@ -88,12 +88,12 @@ const MyCourses = (props: Props) => {
               </h5>
             </div>
           </div>
-          <div className="relative">
+          <div className="relative w-[326px] sm:w-[189px]">
             <Image
               src="/assets/images/my-courses.png"
               height={187}
               width={189}
-              className="rounded-lg"
+              className="w-[326px] rounded-lg sm:w-[189px]"
               alt="my-course"
             />
             <div className="absolute bottom-9 left-5">

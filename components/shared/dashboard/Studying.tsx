@@ -9,14 +9,14 @@ type Props = {};
 const Studying = (props: Props) => {
   return (
     <>
-      <div className="font-poppins">
+      <div className="font-poppins max-sm:mt-5">
         <TopicAndMore
           heading="Studying"
           styles="text-lg font-semibold"
           linkStyle="text-xs font-semibold"
           linkContent="See all"
         />
-        <div className="mt-5 flex gap-4">
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-4">
           <Card className="h-72 w-64 border-none bg-primary-100">
             <CardHeader className="p-0">
               <Image

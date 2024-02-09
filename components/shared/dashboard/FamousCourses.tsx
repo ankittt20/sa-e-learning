@@ -15,12 +15,12 @@ type Props = {};
 const FamousCourses = (props: Props) => {
   return (
     <>
-      <div className="font-poppins space-y-5">
+      <div className="space-y-5 font-poppins">
         <div className="flex items-center justify-between">
           <h1 className="text-lg font-semibold">Most Purchased Courses</h1>
           <div>
             <DropdownMenu>
-              <DropdownMenuTrigger className="border py-2 px-5 border-[#F2F2F2] rounded-lg">
+              <DropdownMenuTrigger className="rounded-lg border border-[#F2F2F2] px-5 py-2">
                 <span className="flex items-center space-x-2">
                   <p className="text-sm text-[#888888]">Design</p>
                   <FaChevronDown className="text-xs text-[#888888]" />

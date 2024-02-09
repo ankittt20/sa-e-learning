@@ -24,7 +24,7 @@ const page = (props: Props) => {
             <MyCourses />
             <FamousCourses />
           </div>
-          <div className="">
+          <div className="flex grow flex-col max-sm:items-center max-sm:justify-center">
             <Profile />
             <Progress />
             <Scheduled />

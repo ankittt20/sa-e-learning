@@ -15,21 +15,21 @@ type Props = {};
 
 const Header = (props: Props) => {
   return (
-    <header className="flex items-center py-14 justify-between">
-      <h1 className="text-[32px] font-bold">Dashboard</h1>
+    <header className="flex items-center justify-between py-14">
+      <h1 className="text-[32px] font-bold max-sm:hidden">Dashboard</h1>
       <div className="flex items-center space-x-4">
         <input
-          className="bg-primary-100 w-72 h-14 border border-[#DADADA] rounded-md px-3"
+          className="h-14 w-60 rounded-md border border-[#DADADA] bg-primary-100 px-3 sm:w-72"
           type="text"
           placeholder="Find Your Course"
         />
-        <Button className="bg-accent-blue w-14 h-14 rounded-md">
-          <FaSearch className="h-5 w-5 text-primary-100" />
+        <Button className="size-14 rounded-md bg-accent-blue">
+          <FaSearch className="size-5 text-primary-100" />
         </Button>
-        <Button className="bg-primary-100 w-14 h-14 rounded-md">
-          <FaBell className="h-8 w-8" />
+        <Button className="size-14 rounded-md bg-primary-100 max-sm:hidden">
+          <FaBell className="size-8" />
         </Button>
-        <div className="bg-primary-100 flex items-center h-14 rounded-md px-3">
+        <div className="flex h-14 items-center rounded-md bg-primary-100 px-3 max-sm:hidden">
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center space-x-6">
               <div className="flex items-center space-x-3 p-1">

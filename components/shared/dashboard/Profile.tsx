@@ -14,7 +14,7 @@ type Props = {};
 const Profile = (props: Props) => {
   return (
     <>
-      <Card className="relative w-[317px] rounded-xl border-0 bg-primary-100 p-0">
+      <Card className="relative w-[327px] rounded-xl border-0 bg-primary-100 p-0 sm:w-[317px]">
         <CardHeader className="p-0">
           <Image
             src="/assets/images/profile.png"
