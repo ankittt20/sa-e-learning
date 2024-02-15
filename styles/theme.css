@@ -18,10 +18,54 @@
   @apply text-[20px] sm:text-2xl font-bold leading-8 font-inter;
 }
 
+.text-normal-lg {
+  @apply text-[20px] font-normal;
+}
+
+.text-medium-lg {
+  @apply text-[20px] font-medium font-inter;
+}
+
+.text-medium-lg-2 {
+  @apply text-lg font-medium;
+}
+
+.text-semibold {
+  @apply text-[20px] font-semibold;
+}
+
+.text-semibold-2 {
+  @apply text-lg font-semibold;
+}
+
+.text-bold {
+  @apply text-[20px] font-bold leading-8 font-inter;
+}
+
+.text-bold-2 {
+  @apply text-lg font-bold;
+}
+
+.text-medium-lg-xl {
+  @apply text-2xl font-medium;
+}
+
+.text-semibold-lg-xl {
+  @apply text-2xl font-semibold;
+}
+
+.text-bold-lg-xl {
+  @apply text-2xl font-bold;
+}
+
 .body-semibold {
   @apply text-sm sm:text-2xl font-normal leading-9 font-inter;
 }
 
 .header-nav {
   @apply text-xs sm:text-lg font-bold text-[#7D6DD8];
+}
+
+.bg-active {
+  @apply bg-[#F2F0FB];
 }
