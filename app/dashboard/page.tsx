@@ -17,7 +17,7 @@ const page = (props: Props) => {
         <Sidebar />
       </div>
       <div className="container">
-        <Header />
+        <Header showSearch heading="Dashboard" />
         <div className="flex flex-col-reverse space-x-8 sm:flex-row">
           <div className="space-y-10">
             <Studying />

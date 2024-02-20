@@ -16,7 +16,7 @@ const TopicAndMore = ({
   linkContent,
 }: TopicAndMoreProps) => {
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between text-center">
       <h2 className={styles || "h2-bold"}>{heading}</h2>
 
       <Link

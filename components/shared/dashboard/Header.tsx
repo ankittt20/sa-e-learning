@@ -11,21 +11,32 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 
-type Props = {};
+type Props = {
+  showSearch?: boolean;
+  heading: string;
+};
 
-const Header = (props: Props) => {
+const Header = ({ showSearch, heading }: Props) => {
+  const flexValue = showSearch
+    ? "items-center justify-between"
+    : "items-centerjustify-between";
   return (
-    <header className="flex items-center justify-between py-14">
-      <h1 className="text-[32px] font-bold max-sm:hidden">Dashboard</h1>
+    <header className={`flex ${flexValue} py-14`}>
+      <h1 className="text-[32px] font-bold max-sm:hidden">{heading}</h1>
       <div className="flex items-center space-x-4">
-        <input
-          className="h-14 w-60 rounded-md border border-[#DADADA] bg-primary-100 px-3 sm:w-72"
-          type="text"
-          placeholder="Find Your Course"
-        />
-        <Button className="size-14 rounded-md bg-accent-blue">
-          <FaSearch className="size-5 text-primary-100" />
-        </Button>
+        {showSearch && (
+          <>
+            <input
+              className="h-14 w-60 rounded-md border border-[#DADADA] bg-primary-100 px-3 sm:w-72"
+              type="text"
+              placeholder="Find Your Course"
+            />
+            <Button className="size-14 rounded-md bg-accent-blue">
+              <FaSearch className="size-5 text-primary-100" />
+            </Button>
+          </>
+        )}
+
         <Button className="size-14 rounded-md bg-primary-100 max-sm:hidden">
           <FaBell className="size-8" />
         </Button>

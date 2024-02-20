@@ -11,3 +11,20 @@ export interface categoryTypes {
   image: string;
   bgColor: string;
 }
+
+export interface memberTableDataTypes {
+  id: number;
+  name: string;
+  role: string;
+  grade: string;
+  availability: string;
+  Tag: string;
+}
+
+export interface permissionsTableDataTypes {
+  id: number;
+  name: string;
+  permission: string;
+  decision: string;
+  Tag: string;
+}
