@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
-import { FaBell, FaChevronDown, FaSearch } from "react-icons/fa";
+import { FaBell, FaChevronDown } from "react-icons/fa";
 import {
   DropdownMenu,
   DropdownMenuContent,
