@@ -8,7 +8,7 @@ const Navbar = () => {
     <nav>
       <div className="flex-between items-center justify-center gap-20 pt-10">
         <h3 className="text-3xl font-bold">SAelearning</h3>
-        <ul className="flex-between gap-20 max-sm:hidden">
+        <ul className="flex-between max-sm:hidden">
           {navLinks.map((link) => {
             return (
               <li key={link.id}>
