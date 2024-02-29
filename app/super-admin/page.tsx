@@ -4,7 +4,7 @@ import Filter from "@/components/shared/forms/filters/Filter";
 import FilterInput from "@/components/shared/forms/inputs/FilterInput";
 import SideNav from "@/components/shared/navbar/SideNav";
 import DataTable from "@/components/shared/table/DataTable";
-import AdminCard from "@/components/super-admin/AdminCard";
+import AdminCard from "@/components/shared/super-admin/AdminCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FaSearch } from "react-icons/fa";

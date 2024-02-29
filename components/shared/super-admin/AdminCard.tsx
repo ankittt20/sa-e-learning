@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import CUD from "../shared/actions/CUD";
+import CUD from "../actions/CUD";
 
 const AdminCard = () => {
   return (
