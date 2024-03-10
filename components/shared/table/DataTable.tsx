@@ -14,9 +14,10 @@ interface Props {
   labels: string[];
   data: memberTableDataTypes[] | permissionsTableDataTypes[];
   hideControls?: boolean;
+  isMobile?: boolean;
 }
 
-const DataTable = ({ labels, data, hideControls }: Props) => {
+const DataTable = ({ labels, data, hideControls, isMobile }: Props) => {
   const showTags = labels.includes("Tags");
 
   return (
@@ -50,6 +51,7 @@ const DataTable = ({ labels, data, hideControls }: Props) => {
                 key={item.id}
                 item={item}
                 hideControls={hideControls}
+                isMobile={isMobile}
               />
             </TableRow>
           );

@@ -15,6 +15,7 @@ import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 interface Props {
   item: memberTableDataTypes | permissionsTableDataTypes;
   hideControls?: boolean;
+  isMobile?: boolean;
 }
 
 const SelectComponent = () => {
@@ -34,7 +35,7 @@ const SelectComponent = () => {
   );
 };
 
-const TableValues = ({ item, hideControls }: Props) => {
+const TableValues = ({ item, hideControls, isMobile }: Props) => {
   const keys = Object.keys(item);
 
   return (
@@ -88,7 +89,9 @@ const TableValues = ({ item, hideControls }: Props) => {
           </TableCell>
         );
       })}
-      <TableCell className={`${hideControls && "hidden"}`}>
+      <TableCell
+        className={`${hideControls && "hidden"} ${isMobile && "hidden"}`}
+      >
         <CUD />
       </TableCell>
     </>

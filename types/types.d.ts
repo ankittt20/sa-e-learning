@@ -16,8 +16,8 @@ export interface memberTableDataTypes {
   id: number;
   name: string;
   role: string;
-  grade: string;
-  availability: string;
+  grade?: string;
+  availability?: string;
   Tag: string;
 }
 
@@ -27,4 +27,13 @@ export interface permissionsTableDataTypes {
   permission: string;
   decision: string;
   Tag: string;
+}
+
+export interface discountTableDataTypes {
+  id: number;
+  name: string;
+  discountPurpose: string;
+  couponCode: string;
+  percentage: string;
+  decision: string;
 }

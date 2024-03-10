@@ -19,7 +19,7 @@ type Props = {
 const Header = ({ showSearch, heading }: Props) => {
   const flexValue = showSearch
     ? "items-center justify-between"
-    : "items-centerjustify-between";
+    : "items-center justify-between";
   return (
     <header className={`flex ${flexValue} py-14`}>
       <h1 className="text-[32px] font-bold max-sm:hidden">{heading}</h1>
