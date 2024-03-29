@@ -1,5 +1,6 @@
+"use client";
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import {
   DropdownMenu,
@@ -10,10 +11,37 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { FaChevronDown } from "react-icons/fa";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 const Login = (props: Props) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Prevent default form submission behavior
+
+    try {
+      const signInData = await signIn("credentials", {
+        email: email,
+        password: password,
+      });
+
+      if (signInData?.error) {
+        throw new Error("Authentication failed: " + signInData.error);
+      } else {
+        // Redirect to dashboard upon successful authentication
+        router.push("/dashboard");
+      }
+    } catch (error) {
+      console.error("Error during authentication:", error);
+      alert("Something went wrong during authentication!");
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-10 h-screen sm:overflow-hidden">
       <div className="col-span-4 bg-primary-100 sm:bg-[#F8BC12] flex justify-center sm:justify-start">
@@ -31,7 +59,7 @@ const Login = (props: Props) => {
       <div className="col-span-6 w-80 sm:w-[420px] flex flex-col justify-center mx-auto order-first sm:order-none">
         <h1 className="text-3xl sm:text-[40px] font-bold mb-6">Log In</h1>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
               className="block text-gray-700 text-[12px] sm:text-[16px] font-semibold mb-2"
@@ -40,7 +68,8 @@ const Login = (props: Props) => {
               Email
             </label>
             <input
-              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               id="email"
               name="email"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-[#BBC8D4] leading-tight focus:outline-none focus:shadow-outline"
@@ -59,6 +88,8 @@ const Login = (props: Props) => {
               type="password"
               id="password"
               name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-[#BBC8D4] leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Password"
             />
