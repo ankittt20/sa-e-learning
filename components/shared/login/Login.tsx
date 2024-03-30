@@ -19,6 +19,7 @@ type Props = {};
 const Login = (props: Props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -26,43 +27,46 @@ const Login = (props: Props) => {
 
     try {
       const signInData = await signIn("credentials", {
-        email: email,
-        password: password,
+        email,
+        password,
+        callbackUrl: "/dashboard",
       });
+
+      console.log(signInData);
 
       if (signInData?.error) {
         throw new Error("Authentication failed: " + signInData.error);
       } else {
         // Redirect to dashboard upon successful authentication
-        router.push("/dashboard");
+        router.replace("/dashboard");
       }
     } catch (error) {
-      console.error("Error during authentication:", error);
+      console.error("The error at authentication is", error);
       alert("Something went wrong during authentication!");
     }
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-10 h-screen sm:overflow-hidden">
-      <div className="col-span-4 bg-primary-100 sm:bg-[#F8BC12] flex justify-center sm:justify-start">
-        <h3 className="text-3xl font-bold p-8 max-sm:hidden">
+    <div className="grid h-screen grid-cols-1 sm:grid-cols-10 sm:overflow-hidden">
+      <div className="col-span-4 flex justify-center bg-primary-100 sm:justify-start sm:bg-[#F8BC12]">
+        <h3 className="p-8 text-3xl font-bold max-sm:hidden">
           <a href="/">SAelearning</a>
         </h3>
         <Image
-          className="sm:absolute top-24 left-24 w-72 sm:w-[418px]"
+          className="left-24 top-24 w-72 sm:absolute sm:w-[418px]"
           src="./assets/icons/login-icon.svg"
           alt="Login"
           width={450}
           height={450}
         />
       </div>
-      <div className="col-span-6 w-80 sm:w-[420px] flex flex-col justify-center mx-auto order-first sm:order-none">
-        <h1 className="text-3xl sm:text-[40px] font-bold mb-6">Log In</h1>
+      <div className="order-first col-span-6 mx-auto flex w-80 flex-col justify-center sm:order-none sm:w-[420px]">
+        <h1 className="mb-6 text-3xl font-bold sm:text-[40px]">Log In</h1>
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-[12px] sm:text-[16px] font-semibold mb-2"
+              className="text-gray-700 mb-2 block text-[12px] font-semibold sm:text-[16px]"
               htmlFor="email"
             >
               Email
@@ -72,14 +76,14 @@ const Login = (props: Props) => {
               onChange={(e) => setEmail(e.target.value)}
               id="email"
               name="email"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-[#BBC8D4] leading-tight focus:outline-none focus:shadow-outline"
+              className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-[#BBC8D4] shadow focus:outline-none"
               placeholder="wbelenskyweber@gmail.com"
             />
           </div>
 
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-[12px] sm:text-[16px] font-semibold mb-2"
+              className="text-gray-700 mb-2 block text-[12px] font-semibold sm:text-[16px]"
               htmlFor="password"
             >
               Password
@@ -90,11 +94,11 @@ const Login = (props: Props) => {
               name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-[#BBC8D4] leading-tight focus:outline-none focus:shadow-outline"
+              className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-[#BBC8D4] shadow focus:outline-none"
               placeholder="Password"
             />
           </div>
-          <div className="flex justify-between mb-4">
+          <div className="mb-4 flex justify-between">
             <div className="mb-4 flex items-center">
               <input
                 type="radio"
@@ -103,7 +107,7 @@ const Login = (props: Props) => {
                 className="mr-2"
               />
               <label
-                className="text-[#6D7D8B] text-[12px] sm:text-[16px] font-bold"
+                className="text-[12px] font-bold text-[#6D7D8B] sm:text-[16px]"
                 htmlFor="keepSignedIn"
               >
                 Keep me signed
@@ -113,7 +117,7 @@ const Login = (props: Props) => {
             <div className="sm:mb-4">
               <a
                 href="#"
-                className="text-[#7D6DD8] text-[12px] sm:text-[16px] font-bold"
+                className="text-[12px] font-bold text-[#7D6DD8] sm:text-[16px]"
               >
                 Forgot Password?
               </a>
@@ -122,22 +126,22 @@ const Login = (props: Props) => {
 
           <Button
             type="submit"
-            className="btn w-full rounded-[30px] mb-4 text-[12px] sm:text-[16px] font-bold"
+            className="btn mb-4 w-full rounded-[30px] text-[12px] font-bold sm:text-[16px]"
           >
             Log In
           </Button>
         </form>
-        <div className="flex justify-center space-x-2 text-[12px] sm:text-[16px] font-bold">
+        <div className="flex justify-center space-x-2 text-[12px] font-bold sm:text-[16px]">
           <p className="text-[#6D7D8B]">Don&apos;t have an account?</p>
           <a className="text-[#7D6DD8]" href="/signup">
             Create an account
           </a>
         </div>
 
-        <div className="sm:absolute top-10 right-20 my-4">
+        <div className="right-20 top-10 my-4 sm:absolute">
           <DropdownMenu>
-            <DropdownMenuTrigger className="w-full sm:w-36 sm:h-8 rounded-md text-xs p-3 sm:p-0 sm:text-[16px] border-[1px] border-accent-blue outline-none text-center text-accent-blue">
-              Select a Role <FaChevronDown className="inline ml-3 sm:ml-0" />
+            <DropdownMenuTrigger className="w-full rounded-md border-[1px] border-accent-blue p-3 text-center text-xs text-accent-blue outline-none sm:h-8 sm:w-36 sm:p-0 sm:text-[16px]">
+              Select a Role <FaChevronDown className="ml-3 inline sm:ml-0" />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>Roles</DropdownMenuLabel>
