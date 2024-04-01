@@ -15,8 +15,6 @@ import {
   discountTableValues,
   mebersTableLabels,
   memberTableData,
-  memberTableDataMobile,
-  memberTableLabelsMobile,
   permissionsTableLabels,
   permissionsTableValues,
 } from "@/constants/tableHeaders";
@@ -30,6 +28,8 @@ import Link from "next/link";
 import PermissionTableMobile from "@/components/shared/table/PermissionTableMobile";
 import DiscountTableMobile from "@/components/shared/table/DiscountTableMobile";
 import MobileFooter from "@/components/shared/footer/MobileFooter";
+import UserMap from "@/components/shared/UserMap";
+import AddUserDialogue from "@/components/shared/AddUserDialogue";
 
 const page = () => {
   return (
@@ -57,7 +57,7 @@ const page = () => {
                 <h4 className="text-semibold-lg-xl max-sm:text-[20px]">
                   All Members
                 </h4>
-                <Link href="/" className="text-xs text-[#7D6DD8]">
+                <Link href="/all-members" className="text-xs text-[#7D6DD8]">
                   See all
                 </Link>
               </div>
@@ -78,35 +78,18 @@ const page = () => {
                     <FaSearch className="size-5 text-primary-100" />
                   </Button>
                 </div>
-                <div className="flex-center mb-[-12px] ml-6 gap-4 py-3">
-                  <div className="flex-center gap-2">
-                    <div className="relative size-[18px] rounded bg-[#8181FF]"></div>
-                    <span className="text-xs font-semibold">Students</span>
-                  </div>
-                  <div className="flex-center gap-2">
-                    <div className="size-[18px] rounded bg-accent-pink"></div>
-                    <span className="text-xs font-semibold">Teachers</span>
-                  </div>
-                  <div className="flex-center gap-2">
-                    <div className="size-[18px] rounded bg-[#FFAC0A]"></div>
-                    <span className="text-xs font-semibold">Admin</span>
-                  </div>
-                </div>
+                <UserMap />
               </div>
               <div className="mt-12 max-sm:hidden">
                 <DataTable labels={mebersTableLabels} data={memberTableData} />
               </div>
-              <div className="mt-12 max-sm:block">
-                <DataTable
-                  labels={memberTableLabelsMobile}
-                  data={memberTableDataMobile}
-                  isMobile
-                />
-              </div>
               <div className="mt-12">
                 <div className="flex flex-wrap gap-6 max-sm:justify-center">
                   <div>
-                    <h4 className="text-semibold-2">Manage Admins</h4>
+                    <div className="flex flex-col items-center gap-5 sm:flex-row">
+                      <h4 className="text-semibold-2">Manage Admins</h4>
+                      <AddUserDialogue />
+                    </div>
                     <div className="mt-4">
                       <AdminCard />
                       <AdminCard />
