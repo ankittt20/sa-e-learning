@@ -8,7 +8,9 @@ const page = (props: Props) => {
   return (
     <>
       <div className="container flex justify-between p-7 sm:hidden">
-        <h3 className="text-xl font-bold">SAelearning</h3>
+        <h3 className="text-xl font-bold">
+          <a href="/">SAelearning</a>
+        </h3>
         <MobileNav />
       </div>
       <Login />

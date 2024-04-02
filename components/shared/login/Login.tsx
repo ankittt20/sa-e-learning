@@ -19,6 +19,7 @@ type Props = {};
 const Login = (props: Props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
 
   const router = useRouter();
 
@@ -32,17 +33,14 @@ const Login = (props: Props) => {
         callbackUrl: "/dashboard",
       });
 
-      console.log(signInData);
-
-      if (signInData?.error) {
-        throw new Error("Authentication failed: " + signInData.error);
+      if (!signInData?.ok) {
+        setError(true);
       } else {
-        // Redirect to dashboard upon successful authentication
+        router.refresh();
         router.replace("/dashboard");
       }
     } catch (error) {
-      console.error("The error at authentication is", error);
-      alert("Something went wrong during authentication!");
+      setError(true);
     }
   };
 
@@ -123,6 +121,12 @@ const Login = (props: Props) => {
               </a>
             </div>
           </div>
+
+          {error && (
+            <p className="flex justify-center py-3 text-[#FF0000] text-md italic">
+              Uh oh! Something went wrong. Please Try Again!
+            </p>
+          )}
 
           <Button
             type="submit"

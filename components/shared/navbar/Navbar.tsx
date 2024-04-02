@@ -1,9 +1,13 @@
 import { Button } from "@/components/ui/button";
+import LogoutButton from "@/components/ui/logout-button";
 import { navLinks } from "@/constants/links";
 import React from "react";
 import MobileNav from "./MobileNav";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
 
-const Navbar = () => {
+const Navbar = async () => {
+  const session = await getServerSession(authOptions);
   return (
     <nav>
       <div className="flex items-center justify-between pt-10">
@@ -17,11 +21,15 @@ const Navbar = () => {
             );
           })}
         </ul>
-        <Button className="btn rounded-[30px] px-10 py-3 max-sm:hidden">
-          <a href="/login" className="font-inter text-xl font-bold">
-            Register/Login
-          </a>
-        </Button>
+        {session?.user ? (
+          <LogoutButton />
+        ) : (
+          <Button className="btn rounded-full px-5 py-3 shadow-sm hover:shadow-md max-sm:hidden">
+            <a href="/login" className="text-lg font-semibold">
+              Register/Login
+            </a>
+          </Button>
+        )}
         <MobileNav />
       </div>
     </nav>
