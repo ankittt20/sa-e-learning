@@ -1,6 +1,7 @@
 "use server";
 import { mailService } from "@/lib/mailService";
 import { db } from "@/lib/prisma";
+import { hashSync } from "bcrypt";
 
 interface SuperAdmin {
   email: string;
@@ -16,7 +17,6 @@ export const addSuperAdmin = async (params: SuperAdmin) => {
 
   if (role === "super-admin") {
     // checking if the super admin already exists
-    console.log(db);
     const superAdmin = await db.SuperAdmin.findUnique({
       where: {
         email,
@@ -27,11 +27,11 @@ export const addSuperAdmin = async (params: SuperAdmin) => {
       return { msg: "Super admin already exists", success: false };
     }
 
+    const hashedPassword = hashSync(password, 10);
+
     // creating a super admin
     const user = await db.superAdmin.create({
-      email,
-      password,
-      name,
+      data: { name, email, password: hashedPassword },
     });
 
     // creating an email
@@ -43,9 +43,7 @@ export const addSuperAdmin = async (params: SuperAdmin) => {
     };
 
     // sending the email
-    const info = await mailService.sendMail(mailOptions);
-
-    console.log(info);
+    await mailService.sendMail(mailOptions);
 
     return { msg: "Super admin created successfully", success: true, user };
   } else {
