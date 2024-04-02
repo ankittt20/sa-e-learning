@@ -40,7 +40,7 @@ const page = () => {
           <div className="flex-between container p-5 sm:hidden">
             <h2 className="font-lalezar text-[20px]">SAelearning</h2>
             <div className="flex items-center gap-4">
-              <FaRegBell size={18} className="size-[18px] text-[#7D6DD8]" />
+              <FaRegBell size={18} className="size-[18px] text-accent-blue" />
               <Image
                 src="/assets/icons/hamburger.svg"
                 alt="menu"
@@ -57,7 +57,7 @@ const page = () => {
                 <h4 className="text-semibold-lg-xl max-sm:text-[20px]">
                   All Members
                 </h4>
-                <Link href="/all-members" className="text-xs text-[#7D6DD8]">
+                <Link href="/all-members" className="text-xs text-accent-blue">
                   See all
                 </Link>
               </div>

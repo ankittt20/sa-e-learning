@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 import Filter from "../forms/filters/Filter";
 
 const Chart = () => {
-  const width = window.innerWidth;
+  let width = 768;
+  if (window !== undefined) width = window.innerWidth;
   const [chartWidth, setChartWidth] = useState(width);
 
   useEffect(() => {

@@ -71,17 +71,23 @@ const AddUserDialogue = () => {
       password,
       role,
     };
-    const res = await addSuperAdmin(data);
-    if (res.success) {
-      setName("");
-      setEmail("");
-      setPassword("");
-      setCpassword("");
-      setRole("");
-    } else {
-      setError(res.msg);
+    try {
+      const res = await addSuperAdmin(data);
+      if (res.success) {
+        setName("");
+        setEmail("");
+        setPassword("");
+        setCpassword("");
+        setRole("");
+      } else {
+        setError(res.msg);
+      }
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
