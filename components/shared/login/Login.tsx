@@ -24,7 +24,7 @@ const Login = (props: Props) => {
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission behavior
 
     try {
       const signInData = await signIn("credentials", {
