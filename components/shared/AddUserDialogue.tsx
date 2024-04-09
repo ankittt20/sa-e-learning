@@ -96,9 +96,9 @@ const AddUserDialogue = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="bg-accent-blue text-[#fff]">Add Admin</Button>
+        <Button className="bg-[accent-blue] text-white">Add Admin</Button>
       </DialogTrigger>
-      <DialogContent className="bg-accent-secondary sm:max-w-[425px]">
+      <DialogContent className="bg-[accent-secondary] sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Add Admin</DialogTitle>
           <DialogDescription>
@@ -179,7 +179,7 @@ const AddUserDialogue = () => {
         <DialogFooter>
           <Button
             type="submit"
-            className="bg-accent-blue"
+            className="bg-[accent-blue]"
             onClick={handleSubmit}
             disabled={loading}
           >

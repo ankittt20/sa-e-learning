@@ -1,3 +1,4 @@
+"use server";
 import { addTutorTypes } from "@/types/types";
 import { db } from "@/lib/prisma";
 import { hashSync } from "bcrypt";
@@ -43,8 +44,18 @@ export const addTutor = async (data: addTutorTypes) => {
       password: hashedPassword,
       idNumber,
       address,
-      forDisabled,
+      forDisabled: forDisabled === "true",
       profilePicture,
+      about: "",
+      experience: "",
+      speciality: "",
+      education: "",
+      rating: 0,
+      fbUrl: "",
+      linkedInUrl: "",
+      twitterUrl: "",
+      instagramUrl: "",
+      verified: false,
     },
   });
 

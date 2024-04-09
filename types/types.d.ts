@@ -45,6 +45,18 @@ export interface addSuperAdminTypes {
   role: string;
 }
 
+export interface registerTutorTypes {
+  idNumber: string;
+  firstName: string;
+  lastName: string;
+  streetAddress: string;
+  streetAddressOptional?: string;
+  pincode: string;
+  city: string;
+  country: string;
+  canTeachDisabled?: boolean;
+}
+
 export interface addTutorTypes {
   name: string;
   email: string;

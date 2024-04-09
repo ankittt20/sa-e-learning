@@ -1,112 +1,315 @@
+"use client";
 import { Button } from "@/components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import React from "react";
+import { z } from "zod";
+import { tutorRegistrationSchema } from "@/lib/validations";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { registerTutorTypes } from "@/types/types";
 
-const StepOne = ({ onNextStep }: { onNextStep: () => void }) => {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+const StepOne = ({
+  onNextStep,
+  handleFormData,
+}: {
+  onNextStep: () => void;
+  handleFormData: (data: any) => void;
+}) => {
+  const form = useForm<z.infer<typeof tutorRegistrationSchema>>({
+    resolver: zodResolver(tutorRegistrationSchema),
+    defaultValues: {
+      idNumber: "",
+      firstName: "",
+      lastName: "",
+      streetAddress: "",
+      streetAddressOptional: "",
+      pincode: "",
+      city: "",
+      country: "",
+      teachDisabled: false,
+      email: "",
+      password: "",
+      cpassword: "",
+    },
+  });
+
+  const handleSubmit = async (data: registerTutorTypes) => {
+    console.log(data);
+    handleFormData(data);
     onNextStep();
   };
 
   return (
-    <div>
-      <form className="space-y-5" onSubmit={handleSubmit}>
-        <div>
-          <label className="block font-semibold">YOUR ID NUMBER</label>
-          <input
-            className="bg-primary-100 p-2 border-2 border-[#BBC8D4] rounded focus:outline-none mt-2"
-            type="text"
-            name="id_number"
-            placeholder="XXXXXXXXXXX"
+    <Form {...form}>
+      <form className="space-y-5" onSubmit={form.handleSubmit(handleSubmit)}>
+        <FormField
+          name="idNumber"
+          control={form.control}
+          render={({ field }: { field: any }) => (
+            <FormItem>
+              <FormLabel className="block font-semibold">
+                YOUR ID NUMBER
+              </FormLabel>
+              <FormControl>
+                <Input
+                  className="mt-2 w-2/5 rounded border-2 border-[#BBC8D4] bg-[primary-100] p-2 focus:outline-none"
+                  type="text"
+                  name="id_number"
+                  placeholder="XXXXXXXXXXX"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription className="mt-2 text-xs">
+                This should be 11 digits long.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="flex gap-4">
+          <FormField
+            name="firstName"
+            control={form.control}
+            render={({ field }: { field: any }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    className="mt-2 w-full rounded border-2 border-[#BBC8D4] bg-[primary-100] p-2 focus:outline-none"
+                    type="text"
+                    name="firstName"
+                    placeholder="First Name"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          <p className="text-xs mt-2">This should be 11 digits long.</p>
-        </div>
 
-        <div>
-          <label className="block font-semibold">Full Name</label>
-          <input
-            className="bg-primary-100 p-2 border-2 border-[#BBC8D4] rounded w-2/5 focus:outline-none mt-2 mr-5"
-            type="text"
-            name="first_name"
-            placeholder="First Name"
-          />
-          <input
-            className="bg-primary-100 p-2 border-2 border-[#BBC8D4] rounded w-2/5 focus:outline-none mt-2"
-            type="text"
-            name="last_name"
-            placeholder="Last Name"
+          <FormField
+            name="lastName"
+            control={form.control}
+            render={({ field }: { field: any }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    className="mt-2 w-full rounded border-2 border-[#BBC8D4] bg-[primary-100] p-2 focus:outline-none"
+                    type="text"
+                    name="lastName"
+                    placeholder="Last Name"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
         </div>
-
+        <FormField
+          name="email"
+          control={form.control}
+          render={({ field }: { field: any }) => (
+            <FormItem>
+              <FormLabel className="block font-semibold">Email</FormLabel>
+              <FormControl>
+                <Input
+                  className="mt-2 w-2/5 rounded border-2 border-[#BBC8D4] bg-[primary-100] p-2 focus:outline-none"
+                  type="text"
+                  name="email"
+                  placeholder="test@example.com"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="flex gap-4">
+          <FormField
+            name="password"
+            control={form.control}
+            render={({ field }: { field: any }) => (
+              <FormItem>
+                <FormLabel className="block font-semibold">Password</FormLabel>
+                <FormControl>
+                  <Input
+                    className="mt-2 rounded border-2 border-[#BBC8D4] bg-[primary-100] p-2 focus:outline-none"
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="cpassword"
+            control={form.control}
+            render={({ field }: { field: any }) => (
+              <FormItem>
+                <FormLabel className="block font-semibold">
+                  Confirm Password
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    className="mt-2 rounded border-2 border-[#BBC8D4] bg-[primary-100] p-2 focus:outline-none"
+                    type="password"
+                    name="cpassword"
+                    placeholder="Confirm Password"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <div>
-          <label className="block font-semibold">
-            YOUR RESIDENTIAL ADDRESS
-          </label>
-          <div>
-            <input
-              className="bg-primary-100 p-2 border-2 border-[#BBC8D4] rounded w-2/5 focus:outline-none mt-2 mr-5"
-              type="text"
-              name="street_address"
-              placeholder="Street Address"
+          <div className="flex items-end gap-4">
+            <FormField
+              name="streetAddress"
+              control={form.control}
+              render={({ field }: { field: any }) => (
+                <FormItem>
+                  <FormLabel className="block font-semibold">
+                    YOUR RESIDENTIAL ADDRESS
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      className="mt-2 rounded border-2 border-[#BBC8D4] bg-[primary-100] p-2 focus:outline-none"
+                      type="text"
+                      name="street_address"
+                      placeholder="Street Address"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            <input
-              className="bg-primary-100 p-2 border-2 border-[#BBC8D4] rounded w-2/5 focus:outline-none mt-2"
-              type="text"
-              name="street_address_optional"
-              placeholder="Street Address (optional)"
+            <FormField
+              name="streetAddressOptional"
+              control={form.control}
+              render={({ field }: { field: any }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      className="mt-2 rounded border-2 border-[#BBC8D4] bg-[primary-100] p-2 focus:outline-none"
+                      type="text"
+                      name="street_address(optional)"
+                      placeholder="Street Address(Optional)"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
           </div>
-          <div className="mt-2">
-            <input
-              className="bg-primary-100 p-2 border-2 border-[#BBC8D4] rounded focus:outline-none mt-2 mr-4"
-              type="text"
+          <div className="mt-2 flex gap-4">
+            <FormField
               name="pincode"
-              placeholder="Pincode"
+              control={form.control}
+              render={({ field }: { field: any }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      className="mt-2 rounded border-2 border-[#BBC8D4] bg-[primary-100] p-2 focus:outline-none"
+                      type="text"
+                      name="pincode"
+                      placeholder="Pincode"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            <input
-              className="bg-primary-100 p-2 border-2 border-[#BBC8D4] rounded focus:outline-none mt-2 mr-4"
-              type="text"
+            <FormField
               name="city"
-              placeholder="City"
+              control={form.control}
+              render={({ field }: { field: any }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      className="mt-2 rounded border-2 border-[#BBC8D4] bg-[primary-100] p-2 focus:outline-none"
+                      type="text"
+                      name="city"
+                      placeholder="City"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            <input
-              className="bg-primary-100 p-2 border-2 border-[#BBC8D4] rounded focus:outline-none mt-2"
-              type="text"
+            <FormField
               name="country"
-              placeholder="Country"
+              control={form.control}
+              render={({ field }: { field: any }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      className="mt-2 rounded border-2 border-[#BBC8D4] bg-[primary-100] p-2 focus:outline-none"
+                      type="text"
+                      name="country"
+                      placeholder="country"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
           </div>
         </div>
 
-        <div>
-          <label className="font-semibold">Able to teach Disabled ?</label>
-          <div className="flex">
-            <input
-              className="mr-2"
-              type="radio"
-              id="yes"
-              name="teach_disabled"
-              value="yes"
-            />
-            <label className="mr-5">Yes</label>
-            <input
-              className="mr-2"
-              type="radio"
-              id="no"
-              name="teach_disabled"
-              value="no"
-            />
-            <label>No</label>
-          </div>
-        </div>
+        <FormField
+          name="teachDisabled"
+          control={form.control}
+          render={({ field }: { field: any }) => (
+            <FormItem>
+              <FormLabel>Able to teach Disabled ?</FormLabel>
+              <FormControl>
+                <RadioGroup defaultValue="false" onValueChange={field.onChange}>
+                  <label className="font-semibold"></label>
+                  <div className="flex">
+                    <RadioGroupItem value={"true"} className="mr-5" id="yes" />
+                    <label className="mr-5" htmlFor="yes">
+                      Yes
+                    </label>
+                    <RadioGroupItem value="false" className="mr-5" id="no" />
+                    <label className="mr-5" htmlFor="no">
+                      No
+                    </label>
+                  </div>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <Button
-          className="bg-accent-blue text-primary-100 px-8 text-sm font-bold rounded-3xl"
+          className="rounded-3xl bg-accent-blue px-8 text-sm font-bold text-primary-100"
           type="submit"
         >
           Next
         </Button>
       </form>
-    </div>
+    </Form>
   );
 };
 

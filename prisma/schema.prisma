@@ -45,14 +45,14 @@ model tutor{
   address  String     @db.VarChar(500)
   forDisabled Boolean @default(false)
   profilePicture String
-  about String        @db.VarChar(5000)
-  speciality String
-  experience String
-  education String
-  rating Int
-  fbUrl String
-  linkedInUrl String
-  twitterUrl String
-  instagramUrl String
+  about String?        @db.VarChar(5000)
+  speciality String?
+  experience String?
+  education String?
+  rating Int?
+  fbUrl String?
+  linkedInUrl String?
+  twitterUrl String?
+  instagramUrl String?
   verified Boolean @default(false)
 }

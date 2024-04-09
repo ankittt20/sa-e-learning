@@ -6,15 +6,18 @@ import React, { useState } from "react";
 const StepTwo = ({
   onNextStep,
   onPrevStep,
+  updateFormData,
 }: {
   onNextStep: () => void;
   onPrevStep: () => void;
+  updateFormData: (key: string, value: string) => void;
 }) => {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [filePath, setFilePath] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert("Submitted");
+    updateFormData("profile_image", filePath);
     onNextStep();
   };
 
@@ -30,6 +33,7 @@ const StepTwo = ({
       reader.onloadend = () => {
         setPreviewImage(reader.result as string); // Cast reader.result to string
       };
+      setFilePath(file.name);
       reader.readAsDataURL(file);
     }
   };
@@ -38,14 +42,14 @@ const StepTwo = ({
     <div>
       <form onSubmit={handleSubmit}>
         <div>
-          <label className="block font-semibold mb-5">SELECT YOUR PHOTO</label>
+          <label className="mb-5 block font-semibold">SELECT YOUR PHOTO</label>
           {previewImage && (
             <Image
               src={previewImage}
               alt="Preview"
               width={320}
               height={320}
-              className="max-w-xs max-h-xs my-2"
+              className="my-2 max-w-xs"
             />
           )}
           <input
@@ -59,16 +63,16 @@ const StepTwo = ({
 
         <div className="flex justify-between">
           <Button
-            className="bg-accent-blue text-primary-100 px-8 text-sm font-bold rounded-3xl"
+            className="rounded-3xl bg-accent-blue px-8 text-sm font-bold text-primary-100"
             onClick={handlePrev}
           >
             Previous
           </Button>
           <Button
-            className="bg-accent-blue text-primary-100 px-8 text-sm font-bold rounded-3xl"
+            className="rounded-3xl bg-accent-blue px-8 text-sm font-bold text-primary-100"
             type="submit"
           >
-            Submit
+            Next
           </Button>
         </div>
       </form>
