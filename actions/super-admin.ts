@@ -1,16 +1,16 @@
 "use server";
 import { mailService } from "@/lib/mailService";
 import { db } from "@/lib/prisma";
+import { addSuperAdminTypes } from "@/types/types";
 import { hashSync } from "bcrypt";
 
-interface SuperAdmin {
-  email: string;
-  password: string;
-  name: string;
-  role: string;
-}
+export const getAllSuperAdmins = async () => {
+  const superAdmins = await db.superAdmin.findMany();
 
-export const addSuperAdmin = async (params: SuperAdmin) => {
+  return { superAdmins, success: true };
+};
+
+export const addSuperAdmin = async (params: addSuperAdminTypes) => {
   const { email, password, name, role } = params;
 
   // checking the role
@@ -49,4 +49,41 @@ export const addSuperAdmin = async (params: SuperAdmin) => {
   } else {
     return { msg: "Invalid role", success: false };
   }
+};
+
+// validate the tutor
+export const validateTutor = async (id: number, email: string) => {
+  // find the tutor
+  const tutor = await db.tutor.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!tutor) {
+    return { msg: "Tutor not found", success: false };
+  }
+
+  // update the tutor
+  await db.tutor.update({
+    where: {
+      id,
+    },
+    data: {
+      verified: true,
+    },
+  });
+
+  // send a confirmation email
+  const mailOptions = {
+    from: "shubhut17@gmail.com",
+    to: email,
+    subject: "Your validation status",
+    text: `Hello ${tutor.name}, Your account has been validated by the admins. You can now access the tutor panel and start publishing your courses.`,
+  };
+
+  // send the email
+  await mailService.sendMail(mailOptions);
+
+  return { msg: "Tutor validated successfully", success: true };
 };

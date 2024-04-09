@@ -30,6 +30,8 @@ const AddUserDialogue = () => {
   const [role, setRole] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
 
   const hanldeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -79,10 +81,11 @@ const AddUserDialogue = () => {
         setPassword("");
         setCpassword("");
         setRole("");
+        setSuccess(true);
+        setSuccessMsg(res.msg);
       } else {
         setError(res.msg);
       }
-      setLoading(false);
     } catch (e) {
       console.log(e);
     } finally {
@@ -102,6 +105,7 @@ const AddUserDialogue = () => {
             You can add the super admin and the admin here.
           </DialogDescription>
           <div>{error && <AlertDestructive message={error} />}</div>
+          <div>{success && <AlertDestructive message={successMsg} />}</div>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
