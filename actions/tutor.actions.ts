@@ -44,7 +44,8 @@ export const addTutor = async (data: addTutorTypes) => {
       password: hashedPassword,
       idNumber,
       address,
-      forDisabled: forDisabled === "true",
+
+      forDisabled: Boolean(forDisabled), // eslint-disable-next-line no-use-before-define
       profilePicture,
       about: "",
       experience: "",
