@@ -2,7 +2,7 @@ import type { AuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { db } from "./prisma";
-import { compare } from "bcrypt";
+import { compare } from "bcryptjs";
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(db),
@@ -75,7 +75,7 @@ export const authOptions: AuthOptions = {
         user: {
           email: token.email,
         },
-      }
+      };
     },
   },
 };

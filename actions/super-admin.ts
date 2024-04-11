@@ -2,7 +2,7 @@
 import { mailService } from "@/lib/mailService";
 import { db } from "@/lib/prisma";
 import { addSuperAdminTypes } from "@/types/types";
-import { hashSync } from "bcrypt";
+import { hashSync } from "bcryptjs";
 
 export const getAllSuperAdmins = async () => {
   const superAdmins = await db.superAdmin.findMany();

@@ -1,7 +1,7 @@
 "use server";
 import { addTutorTypes } from "@/types/types";
 import { db } from "@/lib/prisma";
-import { hashSync } from "bcrypt";
+import { hashSync } from "bcryptjs";
 import { mailService } from "@/lib/mailService";
 
 export const addTutor = async (data: addTutorTypes) => {
