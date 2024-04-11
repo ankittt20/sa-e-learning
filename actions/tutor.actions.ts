@@ -114,7 +114,7 @@ export const addSection = async (data: any) => {
 
   try {
     // add the section
-    await db.section.create({
+    await db.courseSections.create({
       data: {
         name,
         courseId,
