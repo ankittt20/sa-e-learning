@@ -54,5 +54,53 @@ model tutor{
   linkedInUrl String?
   twitterUrl String?
   instagramUrl String?
+  courses course[]
   verified Boolean @default(false)
+}
+
+model course{
+  id       Int      @id @default(autoincrement())
+  name     String?   @db.VarChar(255)
+  description String? @db.VarChar(50000)
+  price Int?
+  tutorId Int
+  tutor tutor @relation(fields: [tutorId], references: [id])
+  category categorisedCourse[]
+  sections courseSections[]
+  rating Int?
+  image String?
+  isPublished Boolean @default(false)
+  verified Boolean @default(false)
+}
+
+model category{
+  id       Int      @id @default(autoincrement())
+  name     String?   @db.VarChar(255)
+  course categorisedCourse[]
+  type Int
+}
+
+model categorisedCourse{
+  id       Int      @id @default(autoincrement())
+  courseId Int
+  categoryId Int
+  course course @relation(fields: [courseId], references: [id])
+  category category @relation(fields: [categoryId], references: [id])
+}
+
+model courseSections{
+  id       Int      @id @default(autoincrement())
+  name     String?   @db.VarChar(255)
+  courseId Int
+  course course @relation(fields: [courseId], references: [id])
+  lessons lesson[]
+}
+
+model lesson{
+  id       Int      @id @default(autoincrement())
+  name     String?   @db.VarChar(255)
+  description String? @db.VarChar(5000)
+  videoUrl String?
+  courseSectionsId Int
+  courseSections courseSections @relation(fields: [courseSectionsId], references: [id])
 }
