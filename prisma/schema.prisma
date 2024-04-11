@@ -71,6 +71,9 @@ model course{
   image String?
   isPublished Boolean @default(false)
   verified Boolean @default(false)
+  level String?
+  requirements String?
+  objectives String?
 }
 
 model category{
