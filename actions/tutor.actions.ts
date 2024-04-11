@@ -73,3 +73,78 @@ export const addTutor = async (data: addTutorTypes) => {
 
   return { msg: "Tutor created successfully", success: true };
 };
+
+// create course for a tutor
+export const createCourse = async (data: any) => {
+  // destructuring the data
+  const {
+    name,
+    description,
+    price,
+    tutorId,
+    category,
+    level,
+    requirements,
+    objectives,
+    image,
+  } = data;
+
+  // add the course
+  await db.course.create({
+    data: {
+      name,
+      description,
+      price,
+      tutorId,
+      category,
+      level,
+      requirements,
+      objectives,
+      image,
+    },
+  });
+
+  return { msg: "Course created successfully", success: true };
+};
+
+// add sections to the course
+export const addSection = async (data: any) => {
+  // destructuring the data
+  const { name, courseId } = data;
+
+  try {
+    // add the section
+    await db.section.create({
+      data: {
+        name,
+        courseId,
+      },
+    });
+
+    return { msg: "Section created successfully", success: true };
+  } catch (err) {
+    return { msg: "Error creating section", success: false };
+  }
+};
+
+// add lessons to the section
+export const addLesson = async (data: any) => {
+  // destructuring the data
+  const { name, courseSectionsId, videoUrl, description } = data;
+
+  try {
+    // add the lesson
+    await db.lesson.create({
+      data: {
+        name,
+        courseSectionsId,
+        videoUrl,
+        description,
+      },
+    });
+
+    return { msg: "Lesson created successfully", success: true };
+  } catch (err) {
+    return { msg: "Error creating lesson", success: false };
+  }
+};
