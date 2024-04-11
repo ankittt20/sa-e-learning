@@ -17,7 +17,7 @@ export const addSuperAdmin = async (params: addSuperAdminTypes) => {
 
   if (role === "super-admin") {
     // checking if the super admin already exists
-    const superAdmin = await db.SuperAdmin.findUnique({
+    const superAdmin = await db.superAdmin.findUnique({
       where: {
         email,
       },
