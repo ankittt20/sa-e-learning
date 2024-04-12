@@ -10,6 +10,22 @@ export const getAllSuperAdmins = async () => {
   return { superAdmins, success: true };
 };
 
+export const getAllMembers = async () => {
+  const allMembers = [];
+
+  try {
+    const superAdmins = await db.superAdmin.findMany();
+    const tutors = await db.tutor.findMany();
+    const students = await db.user.findMany();
+    const admins = await db.admin.findMany();
+    allMembers.push({ superAdmins }, { tutors }, { students }, { admins });
+    return { allMembers, success: true };
+  } catch (err) {
+    return { msg: "Error fetching members", success: false };
+  }
+};
+
+// add a super admin or an admin
 export const addSuperAdmin = async (params: addSuperAdminTypes) => {
   const { email, password, name, role } = params;
 
@@ -47,7 +63,35 @@ export const addSuperAdmin = async (params: addSuperAdminTypes) => {
 
     return { msg: "Super admin created successfully", success: true, user };
   } else {
-    return { msg: "Invalid role", success: false };
+    const admin = await db.admin.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (admin) {
+      return { msg: "Admin already exists", success: false };
+    }
+
+    const hashedPassword = hashSync(password, 10);
+
+    // creating a super admin
+    const user = await db.admin.create({
+      data: { name, email, password: hashedPassword },
+    });
+
+    // creating an email
+    const mailOptions = {
+      from: "shubhut17@gmail.com",
+      to: email,
+      subject: "Welcome to the platform",
+      text: `Hello ${name}, Welcome to the platform. You have been assigned the role of the admin. You can now access the admin panel and manage the platform. Your login credentials are: Email: ${email}, Password: ${password}`,
+    };
+
+    // sending the email
+    await mailService.sendMail(mailOptions);
+
+    return { msg: "Super admin created successfully", success: true, user };
   }
 };
 
@@ -86,4 +130,39 @@ export const validateTutor = async (id: number, email: string) => {
   await mailService.sendMail(mailOptions);
 
   return { msg: "Tutor validated successfully", success: true };
+};
+
+// add a new discount code
+export const addDiscountCode = async (
+  code: string,
+  discount: number,
+  expiryDate: Date,
+  purpose: string
+) => {
+  try {
+    // check if the code already exists
+    const discountCode = await db.discount.findUnique({
+      where: {
+        code,
+      },
+    });
+
+    if (discountCode) {
+      return { msg: "Discount code already exists", success: false };
+    }
+
+    // create a new discount code
+    await db.discount.create({
+      data: {
+        code,
+        discount,
+        expiryDate,
+        purpose,
+      },
+    });
+
+    return { msg: "Discount code created successfully", success: true };
+  } catch (err) {
+    return { msg: "Error creating discount code", success: false };
+  }
 };

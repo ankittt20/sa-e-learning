@@ -20,6 +20,7 @@ model User {
   password String?
   gender   String?
   category String?
+  courses studentCourse[]
 }
 
 model SuperAdmin {
@@ -66,6 +67,7 @@ model course{
   tutorId Int
   tutor tutor @relation(fields: [tutorId], references: [id])
   category categorisedCourse[]
+  student studentCourse[]
   sections courseSections[]
   rating Int?
   image String?
@@ -91,6 +93,18 @@ model categorisedCourse{
   category category @relation(fields: [categoryId], references: [id])
 }
 
+model studentCourse{
+  id       Int      @id @default(autoincrement())
+  studentId Int
+  courseId Int
+  student User @relation(fields: [studentId], references: [id])
+  course course @relation(fields: [courseId], references: [id])
+  progress Int?
+  completed Boolean @default(false)
+  startedAt DateTime?
+  completedAt DateTime?
+}
+
 model courseSections{
   id       Int      @id @default(autoincrement())
   name     String?   @db.VarChar(255)
@@ -106,4 +120,12 @@ model lesson{
   videoUrl String?
   courseSectionsId Int
   courseSections courseSections @relation(fields: [courseSectionsId], references: [id])
+}
+
+model discount{
+  id       Int      @id @default(autoincrement())
+  code     String   @unique @db.VarChar(255)
+  discount Decimal?
+  expiryDate DateTime?
+  purpose String?
 }
