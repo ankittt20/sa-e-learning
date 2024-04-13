@@ -21,6 +21,9 @@ model User {
   gender   String?
   category String?
   courses studentCourse[]
+  profilePicture String?
+  articleComments articleComment[]
+
 }
 
 model SuperAdmin {
@@ -56,6 +59,7 @@ model tutor{
   twitterUrl String?
   instagramUrl String?
   courses course[]
+  articles article[]
   verified Boolean @default(false)
 }
 
@@ -80,7 +84,7 @@ model course{
 
 model category{
   id       Int      @id @default(autoincrement())
-  name     String?   @db.VarChar(255)
+  name     String   @unique @db.VarChar(255)
   course categorisedCourse[]
   type Int
 }
@@ -128,4 +132,25 @@ model discount{
   discount Decimal?
   expiryDate DateTime?
   purpose String?
+}
+
+model article{
+  id       Int      @id @default(autoincrement())
+  title    String?   @db.VarChar(255)
+  content String? @db.VarChar()
+  authorId Int
+  author  tutor @relation(fields: [authorId], references: [id])
+  publishedAt DateTime?
+  verified Boolean @default(false)
+  comments articleComment[]
+}
+
+model articleComment{
+  id       Int      @id @default(autoincrement())
+  articleId Int
+  userId Int
+  content String? @db.VarChar(5000)
+  article article @relation(fields: [articleId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+  createdAt DateTime?
 }

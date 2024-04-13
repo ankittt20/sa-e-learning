@@ -95,6 +95,33 @@ export const addSuperAdmin = async (params: addSuperAdminTypes) => {
   }
 };
 
+// delete admin
+export const deleteAdmin = async (id: number) => {
+  try {
+    // check if the admin exists
+    const admin = await db.admin.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!admin) {
+      return { msg: "Admin not found", success: false };
+    }
+
+    // delete the admin
+    await db.admin.delete({
+      where: {
+        id,
+      },
+    });
+
+    return { msg: "Admin deleted successfully", success: true };
+  } catch (err) {
+    return { msg: "An error occurred", success: false };
+  }
+};
+
 // validate the tutor
 export const validateTutor = async (id: number, email: string) => {
   // find the tutor
