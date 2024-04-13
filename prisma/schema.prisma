@@ -23,6 +23,7 @@ model User {
   courses studentCourse[]
   profilePicture String?
   articleComments articleComment[]
+  certificates certificate[]
 
 }
 
@@ -80,6 +81,7 @@ model course{
   level String?
   requirements String?
   objectives String?
+  certificate certificate?
 }
 
 model category{
@@ -153,4 +155,15 @@ model articleComment{
   article article @relation(fields: [articleId], references: [id])
   user User @relation(fields: [userId], references: [id])
   createdAt DateTime?
+}
+
+model certificate{
+  id       Int      @id @default(autoincrement())
+  courseId Int  @unique
+  studentId Int
+  course course @relation(fields: [courseId], references: [id])
+  student User @relation(fields: [studentId], references: [id])
+  issuedAt DateTime?
+  certificateUrl String?
+  verified Boolean @default(false)
 }

@@ -158,38 +158,3 @@ export const validateTutor = async (id: number, email: string) => {
 
   return { msg: "Tutor validated successfully", success: true };
 };
-
-// add a new discount code
-export const addDiscountCode = async (
-  code: string,
-  discount: number,
-  expiryDate: Date,
-  purpose: string
-) => {
-  try {
-    // check if the code already exists
-    const discountCode = await db.discount.findUnique({
-      where: {
-        code,
-      },
-    });
-
-    if (discountCode) {
-      return { msg: "Discount code already exists", success: false };
-    }
-
-    // create a new discount code
-    await db.discount.create({
-      data: {
-        code,
-        discount,
-        expiryDate,
-        purpose,
-      },
-    });
-
-    return { msg: "Discount code created successfully", success: true };
-  } catch (err) {
-    return { msg: "Error creating discount code", success: false };
-  }
-};

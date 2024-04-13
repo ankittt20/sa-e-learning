@@ -283,3 +283,56 @@ export const verifyTutorCourse = async (
     return { msg: "An error occurred", success: false };
   }
 };
+
+// add certificate
+export const addCertificate = async (
+  certificateUrl: string,
+  studentId: number,
+  courseId: number,
+  issuedAt: Date,
+  verified: boolean
+) => {
+  try {
+    // create a new certificate
+    await db.certificate.create({
+      data: {
+        certificateUrl,
+        studentId,
+        courseId,
+        issuedAt,
+        verified,
+      },
+    });
+
+    return { msg: "Certificate created successfully", success: true };
+  } catch (err) {
+    return { msg: "An error occurred", success: false };
+  }
+};
+
+// delete certificate
+export const deleteCertificate = async (id: number) => {
+  try {
+    // check if the certificate exists
+    const certificate = await db.certificate.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!certificate) {
+      return { msg: "Certificate not found", success: false };
+    }
+
+    // delete the certificate
+    await db.certificate.delete({
+      where: {
+        id,
+      },
+    });
+
+    return { msg: "Certificate deleted successfully", success: true };
+  } catch (err) {
+    return { msg: "An error occurred", success: false };
+  }
+};
