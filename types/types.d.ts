@@ -75,3 +75,22 @@ export interface addTutorTypes {
   instagramUrl?: string;
   verified?: Boolean;
 }
+
+export interface allUsersInterface {
+  id: number;
+  name: string | null;
+  email: string | null;
+  role: string | null;
+  verified?: boolean | null;
+  grade?: string | null;
+  availability?: string | null;
+}
+
+export interface adminInterface {
+  id: number;
+  name: string | null;
+  email: string | null;
+  role: string | null;
+  availability?: string | null;
+  createdAt?: Date;
+}

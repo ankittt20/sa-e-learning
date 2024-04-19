@@ -4,7 +4,6 @@ import Filter from "@/components/shared/forms/filters/Filter";
 import FilterInput from "@/components/shared/forms/inputs/FilterInput";
 import SideNav from "@/components/shared/navbar/SideNav";
 import DataTable from "@/components/shared/table/DataTable";
-import AdminCard from "@/components/shared/super-admin/AdminCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FaSearch, FaArrowRight, FaRegBell } from "react-icons/fa";
@@ -12,11 +11,7 @@ import { IoIosMore } from "react-icons/io";
 import Image from "next/image";
 import {
   discountTableLabels,
-  discountTableValues,
   mebersTableLabels,
-  memberTableData,
-  permissionsTableLabels,
-  permissionsTableValues,
 } from "@/constants/tableHeaders";
 import React from "react";
 import Chart from "@/components/shared/charts/Chart";
@@ -30,6 +25,8 @@ import DiscountTableMobile from "@/components/shared/table/DiscountTableMobile";
 import MobileFooter from "@/components/shared/footer/MobileFooter";
 import UserMap from "@/components/shared/UserMap";
 import AddUserDialogue from "@/components/shared/AddUserDialogue";
+import ManageAdmin from "@/components/shared/super-admin/ManageAdmin";
+import PermissionTable from "@/components/shared/table/PermissionTable";
 
 const page = () => {
   return (
@@ -81,7 +78,7 @@ const page = () => {
                 <UserMap />
               </div>
               <div className="mt-12 max-sm:hidden">
-                <DataTable labels={mebersTableLabels} data={memberTableData} />
+                <DataTable labels={mebersTableLabels} />
               </div>
               <div className="mt-12">
                 <div className="flex flex-wrap gap-6 max-sm:justify-center">
@@ -90,11 +87,7 @@ const page = () => {
                       <h4 className="text-semibold-2">Manage Admins</h4>
                       <AddUserDialogue />
                     </div>
-                    <div className="mt-4">
-                      <AdminCard />
-                      <AdminCard />
-                      <AdminCard />
-                    </div>
+                    <ManageAdmin />
                   </div>
                   <div>
                     <h4 className="text-semibold-2">Chat</h4>
@@ -145,30 +138,18 @@ const page = () => {
                   <h4 className="text-semibold-2 max-sm:px-4">
                     Manage Permissions
                   </h4>
-                  <div className="flex items-center gap-4 max-sm:hidden">
-                    <div className="flex-center gap-2">
-                      <div className="relative size-[18px] rounded bg-[#8181FF]"></div>
-                      <span className="text-xs font-semibold">Students</span>
-                    </div>
-                    <div className="flex-center gap-2">
-                      <div className="size-[18px] rounded bg-accent-pink"></div>
-                      <span className="text-xs font-semibold">Teachers</span>
-                    </div>
-                    <div className="flex-center gap-2">
-                      <div className="size-[18px] rounded bg-[#FFAC0A]"></div>
-                      <span className="text-xs font-semibold">Admin</span>
-                    </div>
-                    <span className="ml-4 text-xs font-semibold text-accent-blue">
+                  <div className="flex items-center gap-3">
+                    <UserMap />
+                    <Link
+                      href="/all-members"
+                      className="mb-[-13px] p-0 text-xs text-accent-blue"
+                    >
                       See all
-                    </span>
+                    </Link>
                   </div>
                 </div>
                 <div className="mt-4 max-sm:hidden">
-                  <DataTable
-                    labels={permissionsTableLabels}
-                    data={permissionsTableValues}
-                    hideControls
-                  />
+                  <PermissionTable />
                 </div>
 
                 <div className="mt-4 sm:hidden">
@@ -222,10 +203,7 @@ const page = () => {
               Discounts and More
             </h4>
             <div className="mt-6 max-sm:hidden">
-              <DiscountTable
-                labels={discountTableLabels}
-                data={discountTableValues}
-              />
+              <DiscountTable labels={discountTableLabels} />
             </div>
             <div className="mt-6 sm:hidden">
               <DiscountTableMobile />

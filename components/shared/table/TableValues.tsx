@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
 interface Props {
-  item: memberTableDataTypes | permissionsTableDataTypes;
+  item: any;
   hideControls?: boolean;
   isMobile?: boolean;
 }
@@ -41,7 +41,7 @@ const TableValues = ({ item, hideControls, isMobile }: Props) => {
   return (
     <>
       {keys.map((key) => {
-        if (key === "id" || key === "Tag") return null;
+        if (key === "id" || key === "email") return null;
         return (
           <TableCell
             key={key}
@@ -52,7 +52,7 @@ const TableValues = ({ item, hideControls, isMobile }: Props) => {
                       | memberTableDataTypes
                       | permissionsTableDataTypes
                     )
-                  ] === "Available"
+                  ] === "available"
                   ? "text-[#7DC483]"
                   : "text-[#8181FF]"
                 : "text-[#7C7A84]"

@@ -7,18 +7,23 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { memberTableDataTypes, permissionsTableDataTypes } from "@/types/types";
-import TableValues from "./TableValues";
+import { allUsersInterface } from "@/types/types";
+import { getAllMembers } from "@/actions/super-admin";
+import CUD from "../actions/CUD";
 
 interface Props {
   labels: string[];
-  data: memberTableDataTypes[] | permissionsTableDataTypes[];
   hideControls?: boolean;
   isMobile?: boolean;
 }
 
-const DataTable = ({ labels, data, hideControls, isMobile }: Props) => {
+const DataTable = async ({ labels, hideControls, isMobile }: Props) => {
   const showTags = labels.includes("Tags");
+
+  const allUsers = await getAllMembers();
+  if (!allUsers.success) {
+    <div>Failed to fetch data</div>;
+  }
 
   return (
     <Table className="sm:w-[809px]">
@@ -39,23 +44,49 @@ const DataTable = ({ labels, data, hideControls, isMobile }: Props) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.map((item: memberTableDataTypes | permissionsTableDataTypes) => {
-          return (
-            <TableRow key={item.id}>
-              {showTags && (
-                <TableCell>
-                  <div className={`size-[18px] rounded ${item.Tag}`}></div>
+        {allUsers.allMembers &&
+          allUsers.allMembers.map((user: allUsersInterface) => {
+            const tagColor =
+              user.role === "admin" || user.role === "super-admin"
+                ? "bg-[#FFAC0A]"
+                : user.role === "tutor"
+                ? "bg-accent-pink"
+                : "bg-[#8181FF]";
+
+            const availabilityColor =
+              user.availability === "available"
+                ? "text-[#7DC483]"
+                : "text-[#8181FF]";
+
+            return (
+              <TableRow key={user.id}>
+                {showTags && (
+                  <TableCell>
+                    <div className={`size-[18px] rounded ${tagColor}`}></div>
+                  </TableCell>
+                )}
+                <TableCell className="text-sm font-medium">
+                  {user.name}
                 </TableCell>
-              )}
-              <TableValues
-                key={item.id}
-                item={item}
-                hideControls={hideControls}
-                isMobile={isMobile}
-              />
-            </TableRow>
-          );
-        })}
+                <TableCell className="text-sm font-medium text-[#7C7A84]">
+                  {user?.role?.toUpperCase()}
+                </TableCell>
+                <TableCell className="text-sm font-medium text-[#7C7A84]">
+                  {user.grade && `Grade ${user?.grade}`}
+                </TableCell>
+                <TableCell className={`${availabilityColor}`}>
+                  {user?.availability}
+                </TableCell>
+                <TableCell
+                  className={`${hideControls && "hidden"} ${
+                    isMobile && "hidden"
+                  }`}
+                >
+                  <CUD />
+                </TableCell>
+              </TableRow>
+            );
+          })}
       </TableBody>
     </Table>
   );

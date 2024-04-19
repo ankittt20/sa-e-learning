@@ -20,10 +20,13 @@ model User {
   password String?
   gender   String?
   category String?
+  grade    String?
+  availability String?
   courses studentCourse[]
   profilePicture String?
   articleComments articleComment[]
   certificates certificate[]
+  createdAt DateTime @default(now())
 
 }
 
@@ -32,6 +35,8 @@ model SuperAdmin {
   name     String? @db.VarChar(255)
   email    String?  @unique @db.VarChar(255)
   password String?
+  availability String?
+  createdAt DateTime @default(now())
 }
 
 model admin{
@@ -39,6 +44,8 @@ model admin{
   name     String?   @db.VarChar(255)
   email    String?   @unique @db.VarChar(255)
   password String?
+  availability String?
+  createdAt DateTime @default(now())
 }
 
 model tutor{
@@ -59,9 +66,11 @@ model tutor{
   linkedInUrl String?
   twitterUrl String?
   instagramUrl String?
+  availability String?
   courses course[]
   articles article[]
   verified Boolean @default(false)
+  createdAt DateTime @default(now())
 }
 
 model course{
@@ -131,9 +140,19 @@ model lesson{
 model discount{
   id       Int      @id @default(autoincrement())
   code     String   @unique @db.VarChar(255)
+  name     String?   @db.VarChar(255)
   discount Decimal?
   expiryDate DateTime?
   purpose String?
+}
+
+model permissions{
+  id       Int      @id @default(autoincrement())
+  name     String   @unique @db.VarChar(255)
+  role     String? @db.VarChar(255)
+  permissionFor String? @db.VarChar(255)
+  status Boolean @default(false)
+
 }
 
 model article{

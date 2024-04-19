@@ -10,6 +10,24 @@ export const getAllSuperAdmins = async () => {
   return { superAdmins, success: true };
 };
 
+// get all admins
+export const getAllAdmins = async () => {
+  const admins = await db.admin.findMany();
+
+  const adminData = admins.map((admin) => {
+    return {
+      id: admin.id,
+      name: admin.name,
+      email: admin.email,
+      role: "admin",
+      availability: admin.availability,
+      createdAt: admin.createdAt,
+    };
+  });
+
+  return { admins: adminData, success: true };
+};
+
 export const getAllMembers = async () => {
   const allMembers = [];
 
@@ -18,7 +36,55 @@ export const getAllMembers = async () => {
     const tutors = await db.tutor.findMany();
     const students = await db.user.findMany();
     const admins = await db.admin.findMany();
-    allMembers.push({ superAdmins }, { tutors }, { students }, { admins });
+
+    const superAdminsInfo = superAdmins.map((superAdmin) => {
+      return {
+        id: superAdmin.id,
+        name: superAdmin.name,
+        email: superAdmin.email,
+        role: "super-admin",
+        availability: superAdmin.availability,
+      };
+    });
+
+    const adminInfo = admins.map((admin) => {
+      return {
+        id: admin.id,
+        name: admin.name,
+        email: admin.email,
+        role: "admin",
+        availability: admin.availability,
+      };
+    });
+
+    const tutorsInfo = tutors.map((tutor) => {
+      return {
+        id: tutor.id,
+        name: tutor.name,
+        email: tutor.email,
+        role: "tutor",
+        availability: tutor.availability,
+        verified: tutor.verified,
+      };
+    });
+
+    const studentsInfo = students.map((student) => {
+      return {
+        id: student.id,
+        name: student.name,
+        email: student.email,
+        role: "student",
+        grade: student.grade,
+        availability: student.availability,
+      };
+    });
+
+    allMembers.push(
+      ...superAdminsInfo,
+      ...adminInfo,
+      ...tutorsInfo,
+      ...studentsInfo
+    );
     return { allMembers, success: true };
   } catch (err) {
     return { msg: "Error fetching members", success: false };
