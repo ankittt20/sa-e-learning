@@ -1,3 +1,4 @@
+import CourseDetail from "@/components/shared/add-course/CourseDetail";
 import LessonCard from "@/components/shared/add-course/LessonCard";
 import MobileNav from "@/components/shared/navbar/MobileNav";
 import { Button } from "@/components/ui/button";
@@ -17,11 +18,11 @@ const page = (props: Props) => {
         <MobileNav />
       </div>
       <div>
-        <h3 className="text-xl font-bold p-7 max-sm:hidden">
+        <h3 className="p-7 text-xl font-bold max-sm:hidden">
           <a href="/">SAelearning</a>
         </h3>
       </div>
-      <div className="sm:flex px-7 sm:px-16 pb-10 space-x-24">
+      <div className="space-x-24 px-7 pb-10 sm:flex sm:px-16">
         <div className="space-y-5">
           <div className="space-y-2">
             <h3 className="text-xl font-semibold">Course Details</h3>
@@ -32,22 +33,23 @@ const page = (props: Props) => {
               <p className="opacity-70">Your Course Style</p>
               <p className="text-accent-blue">Change Course Style</p>
             </div>
-            <div className="flex space-x-5 p-3 border border-[#000]/20 rounded-lg w-fit cursor-pointer hover:shadow-sm">
-              <PlusIcon className="text-[#F762A2] h-10 w-10" />
+            <div className="flex w-fit cursor-pointer space-x-5 rounded-lg border border-[#000]/20 p-3 hover:shadow-sm">
+              <PlusIcon className="size-10 text-accent-pink" />
               <div>
                 <h6>Video Course</h6>
-                <p className="opacity-70 text-sm">
+                <p className="text-sm opacity-70">
                   Visually show and display the lessons
                 </p>
               </div>
             </div>
+            <CourseDetail />
           </div>
           <div className="space-y-2">
             <div className="flex justify-between">
               <h3 className="text-xl font-semibold">Add Course Modules</h3>
               <p className="text-xs text-accent-blue">New Module</p>
             </div>
-            <div className="bg-accent-blue/20 rounded-lg px-5 py-3 space-y-2">
+            <div className="space-y-2 rounded-lg bg-accent-blue/20 px-5 py-3">
               <h1 className="text-sm font-medium">
                 1. Introduction to Vis a Vis
               </h1>
@@ -70,7 +72,7 @@ const page = (props: Props) => {
               <input type="radio" id="html" name="save_as" value="draft" />
               <label>Save Module as Draft</label>
             </div>
-            <div className="py-3 px-5 border border-[#000]/20 rounded-lg w-fit">
+            <div className="w-fit rounded-lg border border-[#000]/20 px-5 py-3">
               <h6 className="text-sm font-medium opacity-50">
                 Module Description
               </h6>
@@ -104,17 +106,17 @@ const page = (props: Props) => {
             <div>
               <div className="flex justify-between">
                 <h3>You are Creating a New Lesson</h3>
-                <p className="text-[#FD2121] text-xs">Cancel</p>
+                <p className="text-xs text-[#FD2121]">Cancel</p>
               </div>
-              <p className="text-xs opacity-50 font-medium">
+              <p className="text-xs font-medium opacity-50">
                 This is what your learners are going to consume
               </p>
             </div>
-            <div className="py-3 px-5 border border-[#000]/20 rounded-lg w-fit space-y-1">
+            <div className="w-fit space-y-1 rounded-lg border border-[#000]/20 px-5 py-3">
               <h6 className="text-sm font-medium opacity-50">Lesson Title</h6>
               <p className="text-xs">Lesson 1 - Vis a Vis of the Most Hight</p>
             </div>
-            <div className="py-3 px-5 border border-[#000]/20 rounded-lg w-fit space-y-1">
+            <div className="w-fit space-y-1 rounded-lg border border-[#000]/20 px-5 py-3">
               <h6 className="text-sm font-medium opacity-50">
                 Lesson Description
               </h6>
@@ -156,19 +158,19 @@ const page = (props: Props) => {
           </div>
 
           <div className="space-y-5">
-            <div className="flex py-3 px-5 space-x-5 border border-[#000]/20 rounded-lg w-fit">
-              <FaPlay className="text-accent-blue h-6 w-6 my-auto" />
+            <div className="flex w-fit space-x-5 rounded-lg border border-[#000]/20 px-5 py-3">
+              <FaPlay className="my-auto size-6 text-accent-blue" />
               <div className="space-y-1">
                 <h6 className="text-sm font-medium">
-                  Uploading <span className="opacity-50 ml-10">42%</span>
+                  Uploading <span className="ml-10 opacity-50">42%</span>
                 </h6>
                 <p className="text-xs opacity-50">
                   Lesson 2 - Video - course.mp4
                 </p>
               </div>
-              <p className="text-[#FD2121] text-xs">Cancel</p>
+              <p className="text-xs text-[#FD2121]">Cancel</p>
             </div>
-            <Button className="bg-accent-blue text-primary-100 px-5">
+            <Button className="bg-accent-blue px-5 text-primary-100">
               Save Lesson to Module
             </Button>
           </div>

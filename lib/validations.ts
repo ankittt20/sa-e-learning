@@ -19,3 +19,14 @@ export const tutorRegistrationSchema = z
     message: "Passwords do not match",
     path: ["cpassword"],
   });
+
+export const addCourseSchema = z.object({
+  title: z.string().min(3),
+  description: z.string().min(5),
+  category: z.string(),
+  price: z.number().min(0),
+  level: z.string().min(1),
+  requirements: z.string().min(5),
+  objectives: z.string().min(5),
+  image: z.string().url(),
+});

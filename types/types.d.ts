@@ -94,3 +94,9 @@ export interface adminInterface {
   availability?: string | null;
   createdAt?: Date;
 }
+
+export interface categoriesInterface {
+  id: number;
+  name: string;
+  type: number;
+}

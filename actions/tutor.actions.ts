@@ -78,7 +78,7 @@ export const addTutor = async (data: addTutorTypes) => {
 export const createCourse = async (data: any) => {
   // destructuring the data
   const {
-    name,
+    title,
     description,
     price,
     tutorId,
@@ -92,7 +92,7 @@ export const createCourse = async (data: any) => {
   // add the course
   await db.course.create({
     data: {
-      name,
+      name: title,
       description,
       price,
       tutorId,
