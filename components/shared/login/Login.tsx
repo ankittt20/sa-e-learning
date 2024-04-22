@@ -2,23 +2,22 @@
 import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
 import Image from "next/image";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { FaChevronDown } from "react-icons/fa";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
+import { SelectTrigger } from "@radix-ui/react-select";
 
 type Props = {};
 
 const Login = (props: Props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
   const [error, setError] = useState(false);
 
   const router = useRouter();
@@ -30,6 +29,7 @@ const Login = (props: Props) => {
       const signInData = await signIn("credentials", {
         email,
         password,
+        role,
         callbackUrl: "/dashboard",
       });
 
@@ -115,7 +115,7 @@ const Login = (props: Props) => {
             <div className="sm:mb-4">
               <a
                 href="#"
-                className="text-[12px] font-bold text-[#7D6DD8] sm:text-[16px]"
+                className="text-[12px] font-bold text-accent-blue sm:text-[16px]"
               >
                 Forgot Password?
               </a>
@@ -123,7 +123,7 @@ const Login = (props: Props) => {
           </div>
 
           {error && (
-            <p className="flex justify-center py-3 text-[#FF0000] text-md italic">
+            <p className="text-md flex justify-center py-3 italic text-[#FF0000]">
               Uh oh! Something went wrong. Please Try Again!
             </p>
           )}
@@ -137,25 +137,23 @@ const Login = (props: Props) => {
         </form>
         <div className="flex justify-center space-x-2 text-[12px] font-bold sm:text-[16px]">
           <p className="text-[#6D7D8B]">Don&apos;t have an account?</p>
-          <a className="text-[#7D6DD8]" href="/signup">
+          <a className="text-accent-blue" href="/signup">
             Create an account
           </a>
         </div>
 
         <div className="right-20 top-10 my-4 sm:absolute">
-          <DropdownMenu>
-            <DropdownMenuTrigger className="w-full rounded-md border-[1px] border-accent-blue p-3 text-center text-xs text-accent-blue outline-none sm:h-8 sm:w-36 sm:p-0 sm:text-[16px]">
-              Select a Role <FaChevronDown className="ml-3 inline sm:ml-0" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>Roles</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Option 1</DropdownMenuItem>
-              <DropdownMenuItem>Option 2</DropdownMenuItem>
-              <DropdownMenuItem>Option 3</DropdownMenuItem>
-              <DropdownMenuItem>Option 4</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Select onValueChange={(e) => setRole(e)}>
+            <SelectTrigger className="w-full rounded-md border border-accent-blue p-3 text-center text-xs text-accent-blue outline-none sm:h-8 sm:w-36 sm:p-0 sm:text-[16px]">
+              <SelectValue placeholder="Select a Role" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="student">Student</SelectItem>
+              <SelectItem value="tutor">Tutor</SelectItem>
+              <SelectItem value="admin">Admin</SelectItem>
+              <SelectItem value="super-admin">Super Admin</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
     </div>

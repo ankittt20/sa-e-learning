@@ -24,7 +24,7 @@ import { Button } from "@/components/ui/button";
 import { addCourseSchema } from "@/lib/validations";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-// import { createCourse } from "@/actions/tutor.actions";
+import { createCourse } from "@/actions/tutor.actions";
 
 const CourseDetail = () => {
   const [categories, setCategories] = useState<categoriesInterface[]>();
@@ -49,7 +49,8 @@ const CourseDetail = () => {
 
   const onSubmit = async (data: z.infer<typeof addCourseSchema>) => {
     console.log(data);
-    // const addCourse = await createCourse(data);
+    const addCourse = await createCourse(data);
+    alert(addCourse.msg);
   };
 
   if (error) return <div>{error}</div>;
@@ -97,7 +98,10 @@ const CourseDetail = () => {
                 </FormControl>
                 <SelectContent className="bg-[#fff]">
                   {categories?.map((category) => (
-                    <SelectItem key={category.id} value={category.name}>
+                    <SelectItem
+                      key={category.id}
+                      value={category.id.toString()}
+                    >
                       {category.name}
                     </SelectItem>
                   ))}

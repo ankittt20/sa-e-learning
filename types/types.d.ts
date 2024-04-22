@@ -54,7 +54,7 @@ export interface registerTutorTypes {
   pincode: string;
   city: string;
   country: string;
-  canTeachDisabled?: boolean;
+  canTeachDisabled?: string;
 }
 
 export interface addTutorTypes {

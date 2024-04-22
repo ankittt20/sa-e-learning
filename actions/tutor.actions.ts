@@ -3,6 +3,8 @@ import { addTutorTypes } from "@/types/types";
 import { db } from "@/lib/prisma";
 import { hashSync } from "bcryptjs";
 import { mailService } from "@/lib/mailService";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export const addTutor = async (data: addTutorTypes) => {
   // destructuring the data
@@ -76,12 +78,19 @@ export const addTutor = async (data: addTutorTypes) => {
 
 // create course for a tutor
 export const createCourse = async (data: any) => {
+  const session = await getServerSession(authOptions);
+
+  console.log(session?.user.role);
+
+  if (session?.user.role !== "tutor") {
+    return { msg: "You are not authorized to create a course", success: false };
+  }
+
   // destructuring the data
   const {
     title,
     description,
     price,
-    tutorId,
     category,
     level,
     requirements,
@@ -89,18 +98,38 @@ export const createCourse = async (data: any) => {
     image,
   } = data;
 
+  // add the course to the category
+  const categoryExists = await db.category.findUnique({
+    where: {
+      id: +category,
+    },
+  });
+
+  if (!categoryExists) {
+    return { msg: "Category does not exist", success: false };
+  }
+
   // add the course
-  await db.course.create({
+  await db.categorisedCourse.create({
     data: {
-      name: title,
-      description,
-      price,
-      tutorId,
-      category,
-      level,
-      requirements,
-      objectives,
-      image,
+      category: {
+        connect: {
+          id: +category,
+        },
+      },
+      course: {
+        create: {
+          name: title,
+          description,
+          price,
+          level,
+          requirements,
+          objectives,
+          image,
+          tutorId: +session?.user.id,
+          verified: false,
+        },
+      },
     },
   });
 

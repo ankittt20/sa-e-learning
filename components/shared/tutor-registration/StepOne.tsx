@@ -36,7 +36,7 @@ const StepOne = ({
       pincode: "",
       city: "",
       country: "",
-      teachDisabled: false,
+      teachDisabled: "false",
       email: "",
       password: "",
       cpassword: "",
@@ -45,7 +45,11 @@ const StepOne = ({
 
   const handleSubmit = async (data: registerTutorTypes) => {
     console.log(data);
-    handleFormData(data);
+    const formData = {
+      ...data,
+      teachDisabled: data.canTeachDisabled === "true",
+    };
+    handleFormData(formData);
     onNextStep();
   };
 
@@ -286,7 +290,7 @@ const StepOne = ({
                 <RadioGroup defaultValue="false" onValueChange={field.onChange}>
                   <label className="font-semibold"></label>
                   <div className="flex">
-                    <RadioGroupItem value={"true"} className="mr-5" id="yes" />
+                    <RadioGroupItem value="true" className="mr-5" id="yes" />
                     <label className="mr-5" htmlFor="yes">
                       Yes
                     </label>

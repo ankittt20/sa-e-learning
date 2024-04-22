@@ -10,7 +10,7 @@ export const tutorRegistrationSchema = z
     pincode: z.string().min(6).max(6),
     city: z.string().min(2),
     country: z.string().min(2),
-    teachDisabled: z.boolean(),
+    teachDisabled: z.string().min(2),
     email: z.string().email(),
     password: z.string().min(6),
     cpassword: z.string().min(6),
