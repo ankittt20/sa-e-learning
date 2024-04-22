@@ -80,8 +80,6 @@ export const addTutor = async (data: addTutorTypes) => {
 export const createCourse = async (data: any) => {
   const session = await getServerSession(authOptions);
 
-  console.log(session?.user.role);
-
   if (session?.user.role !== "tutor") {
     return { msg: "You are not authorized to create a course", success: false };
   }
