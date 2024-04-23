@@ -14,7 +14,7 @@ const page = (props: Props) => {
         <Sidebar />
       </div>
       <div className="container">
-        <Header />
+        <Header title="Admin" />
         <div className="flex space-x-5">
           <div className="flex flex-col-reverse space-x-8 sm:flex-row">
             <Stats />

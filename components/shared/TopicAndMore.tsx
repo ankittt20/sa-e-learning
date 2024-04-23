@@ -7,6 +7,7 @@ interface TopicAndMoreProps {
   styles?: string;
   linkStyle?: string;
   linkContent?: string;
+  link?: string;
 }
 
 const TopicAndMore = ({
@@ -14,13 +15,14 @@ const TopicAndMore = ({
   styles,
   linkStyle,
   linkContent,
+  link,
 }: TopicAndMoreProps) => {
   return (
     <div className="flex items-center justify-between text-center">
       <h2 className={styles || "h2-bold"}>{heading}</h2>
 
       <Link
-        href="/"
+        href={link || "/"}
         className={`header-nav flex items-center justify-center gap-7 ${linkStyle}`}
       >
         {linkContent || "Browse More"}{" "}

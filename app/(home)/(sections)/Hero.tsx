@@ -1,5 +1,6 @@
 import Info from "@/components/shared/info/Info";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -16,18 +17,22 @@ export default function Hero() {
             ac leo.
           </p>
           <div className="mt-20 flex flex-col gap-9 sm:flex-row ">
-            <button className="btn rounded-[30px] px-10 py-3">
-              <p className="text-base font-bold sm:text-xl">Enroll Now</p>
-            </button>
-            <button className="btn btn-secondary rounded-[30px] px-10 py-3 drop-shadow-2xl">
-              <Info
-                image="/assets/icons/video.svg"
-                text="Play Video"
-                isImage
-                fontStyles="text-base font-bold sm:text-xl"
-                size={16}
-              />
-            </button>
+            <Link href="/login">
+              <button className="btn rounded-[30px] px-10 py-3">
+                <p className="text-base font-bold sm:text-xl">Enroll Now</p>
+              </button>
+            </Link>
+            <Link href="https://www.youtube.com/">
+              <button className="btn btn-secondary rounded-[30px] px-10 py-3 drop-shadow-2xl">
+                <Info
+                  image="/assets/icons/video.svg"
+                  text="Play Video"
+                  isImage
+                  fontStyles="text-base font-bold sm:text-xl"
+                  size={16}
+                />
+              </button>
+            </Link>
           </div>
           <div className="my-20 flex max-w-full flex-wrap gap-4 sm:gap-7">
             <Info
