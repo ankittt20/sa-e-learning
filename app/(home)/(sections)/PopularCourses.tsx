@@ -5,7 +5,7 @@ import CourseCards from "@/components/shared/cards/CourseCards";
 const PopularCourses = () => {
   return (
     <div>
-      <TopicAndMore heading="Most Popular Courses" />
+      <TopicAndMore link="/courses" heading="Most Popular Courses" />
       <div className="mt-16 flex flex-wrap items-center justify-center gap-9">
         <CourseCards />
         <CourseCards />

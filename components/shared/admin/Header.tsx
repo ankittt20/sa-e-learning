@@ -11,12 +11,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 
-type Props = {};
+type Props = {
+  title: string;
+};
 
-const Header = (props: Props) => {
+const Header = ({title}: Props) => {
   return (
     <header className="flex items-center justify-between py-14">
-      <h1 className="text-[32px] font-bold max-sm:hidden">Admin</h1>
+      <h1 className="text-[32px] font-bold max-sm:hidden">{title}</h1>
       <div className="flex items-center space-x-4">
         <Button className="size-14 rounded-md bg-primary-100 max-sm:hidden">
           <FaBell className="size-8" />

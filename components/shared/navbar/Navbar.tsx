@@ -11,8 +11,8 @@ const Navbar = async () => {
   return (
     <nav>
       <div className="flex items-center justify-between pt-10">
-        <h3 className="text-3xl font-bold">SAelearning</h3>
-        <ul className="flex gap-20 max-sm:hidden">
+        <h3 className="text-3xl font-bold pr-2">SAelearning</h3>
+        <ul className="flex gap-20 max-sm:hidden pr-2">
           {navLinks.map((link) => {
             return (
               <li key={link.id}>

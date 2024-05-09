@@ -15,9 +15,10 @@ interface Props {
   labels: string[];
   hideControls?: boolean;
   isMobile?: boolean;
+  data?: any;
 }
 
-const DataTable = async ({ labels, hideControls, isMobile }: Props) => {
+const DataTable = async ({ labels, hideControls, isMobile, data }: Props) => {
   const showTags = labels.includes("Tags");
 
   const allUsers = await getAllMembers();

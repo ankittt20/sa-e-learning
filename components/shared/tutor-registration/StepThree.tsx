@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { addTutor } from "@/actions/tutor.actions";
 import { Button } from "@/components/ui/button";
+import TutorProfile from "./TutorProfile";
 
 const StepThree = ({
   onPrevStep,
@@ -49,8 +50,10 @@ const StepThree = ({
 
   return (
     <div>
-      <div>
-        <div></div>
+      <div className="space-y-5">
+        <div>
+          <TutorProfile data={data} />
+        </div>
         <div className="flex justify-between">
           <Button
             className="rounded-3xl bg-accent-blue px-8 text-sm font-bold text-primary-100"

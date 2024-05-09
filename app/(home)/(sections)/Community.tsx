@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import React from "react";
 
 const Community = () => {
@@ -11,9 +12,11 @@ const Community = () => {
         odio ultrices nisi egetmetus. Vulputate condimentum tincidunt quis
         maecenas nibh
       </p>
-      <Button className="rounded-2xl bg-accent-blue px-12 py-6 text-[20px] font-bold text-primary-100">
-        Join Now
-      </Button>
+      <Link href="/login">
+        <Button className="rounded-2xl bg-accent-blue px-12 py-6 text-[20px] font-bold text-primary-100">
+          Join Now
+        </Button>
+      </Link>
     </div>
   );
 };

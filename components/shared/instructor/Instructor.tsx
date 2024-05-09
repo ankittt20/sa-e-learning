@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 type Props = {};
@@ -32,11 +33,13 @@ const Instructor = (props: Props) => {
             quis maecenas nibh
           </p>
           <div className="flex justify-center items-center sm:justify-start">
-            <Button className="h-[56px] w-[266px] rounded-2xl bg-accent-blue p-[10px] sm:h-[71px] sm:w-[254px]">
-              <p className="font-bold text-primary-100 sm:text-[20px]">
-                Become an instructor
-              </p>
-            </Button>
+            <Link href="/login">
+              <Button className="h-[56px] w-[266px] rounded-2xl bg-accent-blue p-[10px] sm:h-[71px] sm:w-[254px]">
+                <p className="font-bold text-primary-100 sm:text-[20px]">
+                  Become an instructor
+                </p>
+              </Button>
+            </Link>
           </div>
         </div>
 
