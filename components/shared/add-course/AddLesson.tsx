@@ -124,8 +124,10 @@ const AddLesson = ({ moduleId }: { moduleId: number }) => {
     try {
       setIsLoading(true);
       const res = await addLesson(formData);
-      if (res.success) alert("Lesson added successfully");
-      else alert("Error adding lesson");
+      if (res.success) {
+        alert("Lesson added successfully");
+        window.location.reload();
+      } else alert("Error adding lesson");
     } catch (err) {
       console.log(err);
     } finally {

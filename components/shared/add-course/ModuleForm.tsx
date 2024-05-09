@@ -32,6 +32,7 @@ const ModuleForm = ({ courseId }: { courseId: string | null }) => {
     if (res.success) {
       form.reset();
       alert(res.msg);
+      window.location.reload();
     }
   };
 
