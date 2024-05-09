@@ -30,3 +30,17 @@ export const addCourseSchema = z.object({
   objectives: z.string().min(5),
   image: z.string().url(),
 });
+
+export const moduleSchema = z.object({
+  title: z.string().min(3).max(255),
+  description: z.string().min(5).max(5000),
+  publish: z.boolean().optional(),
+});
+
+export const LessonTitleSchema = z.object({
+  title: z.string().min(3).max(255),
+});
+
+export const LessonDescriptionSchema = z.object({
+  description: z.string().min(5).max(5000),
+});

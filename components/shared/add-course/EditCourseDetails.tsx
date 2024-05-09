@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useSearchParams } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -24,11 +25,15 @@ import { Button } from "@/components/ui/button";
 import { addCourseSchema } from "@/lib/validations";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { createCourse } from "@/actions/tutor.actions";
+import { createCourse, getCourseById } from "@/actions/tutor.actions";
 
 const CourseDetail = () => {
   const [categories, setCategories] = useState<categoriesInterface[]>();
   const [error, setError] = useState("");
+  const [course, setCourse] = useState<any>();
+  const [showCourseDetails, setShowCourseDetails] = useState(false);
+  const searchParams = useSearchParams();
+  const courseId = searchParams.get("course-id");
 
   const form = useForm<z.infer<typeof addCourseSchema>>({
     resolver: zodResolver(addCourseSchema),
@@ -47,12 +52,43 @@ const CourseDetail = () => {
     getCategories();
   }, []);
 
+  useEffect(() => {
+    const fetchCourseById = async () => {
+      // get course by id
+      if (courseId) {
+        const res = await getCourseById(+courseId);
+        setCourse(res.course);
+      }
+    };
+    fetchCourseById();
+  }, [courseId]);
+
   const onSubmit = async (data: z.infer<typeof addCourseSchema>) => {
     const addCourse = await createCourse(data);
     alert(addCourse.msg);
   };
 
   if (error) return <div>{error}</div>;
+
+  if (!showCourseDetails) {
+    return (
+      <div className="flex flex-col space-y-5">
+        <h3 className="text-xl font-semibold">{course && course.name}</h3>
+        <p className="line-clamp-2 opacity-70">
+          {course && course.description}
+        </p>
+        <div className="flex space-x-12">
+          <p
+            className="cursor-pointer text-accent-blue"
+            onClick={() => setShowCourseDetails(true)}
+          >
+            Edit Course Details
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">

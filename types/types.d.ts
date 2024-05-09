@@ -100,3 +100,55 @@ export interface categoriesInterface {
   name: string;
   type: number;
 }
+
+export interface addCoursesInterface {
+  title: string;
+  description: string;
+  category: string;
+  price: number;
+  image: string;
+  level: string;
+  requirements: string;
+  objectives: string;
+}
+export interface getCoursesInterface {
+  id: number;
+  title?: string;
+  description?: string;
+  category?: number;
+  price?: number;
+  tutor?: number;
+  image?: string;
+  createdAt?: Date;
+  level?: string;
+  requirements?: string;
+  objectives?: string;
+  isVerified?: boolean;
+}
+
+export interface getCourseModulesInterface {
+  id: number;
+  name: string | null;
+  description: string | null;
+  courseId: number;
+  createdAt: Date;
+  published: boolean;
+}
+
+export interface getModuleLessonsInterface {
+  id: number;
+  name: string | null;
+  description: string | null;
+  courseSectionsId: number;
+  createdAt: Date;
+  type: string;
+}
+
+export interface LessonDetailsInterface {
+  lessonTitle: string;
+  lessonDescription: string;
+  lessonType: string;
+  titleError: string;
+  descriptionError: string;
+  lessonFile: string;
+}

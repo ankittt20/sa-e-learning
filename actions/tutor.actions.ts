@@ -1,5 +1,5 @@
 "use server";
-import { addTutorTypes } from "@/types/types";
+import { addCoursesInterface, addTutorTypes } from "@/types/types";
 import { db } from "@/lib/prisma";
 import { hashSync } from "bcryptjs";
 import { mailService } from "@/lib/mailService";
@@ -77,7 +77,7 @@ export const addTutor = async (data: addTutorTypes) => {
 };
 
 // create course for a tutor
-export const createCourse = async (data: any) => {
+export const createCourse = async (data: addCoursesInterface) => {
   const session = await getServerSession(authOptions);
 
   if (session?.user.role !== "tutor") {
@@ -137,27 +137,72 @@ export const createCourse = async (data: any) => {
 // add sections to the course
 export const addSection = async (data: any) => {
   // destructuring the data
-  const { name, courseId } = data;
+  const { name, courseId, description } = data;
 
   try {
     // add the section
     await db.courseSections.create({
       data: {
         name,
+        description,
         courseId,
       },
     });
 
     return { msg: "Section created successfully", success: true };
   } catch (err) {
+    console.log(err);
     return { msg: "Error creating section", success: false };
+  }
+};
+
+// get all modules of the course by course id
+export const getCourseModules = async (courseId: number) => {
+  try {
+    if (courseId === 0) return { msg: "Course not found", success: false };
+    // get all the sections of the course
+    const sections = await db.courseSections.findMany({
+      where: {
+        courseId,
+      },
+    });
+
+    return { sections, success: true };
+  } catch (err) {
+    console.log(err);
+    return { msg: "Error fetching sections", success: false };
+  }
+};
+
+// change state of module publication
+export const changeModulePublication = async (
+  moduleId: number,
+  publication: boolean
+) => {
+  try {
+    // update the publication status of the module
+    await db.courseSections.update({
+      where: {
+        id: moduleId,
+      },
+      data: {
+        published: publication,
+      },
+    });
+    return { msg: "Module publication status changed", success: true };
+  } catch (err) {
+    return { msg: "Error changing module publication status", success: false };
   }
 };
 
 // add lessons to the section
 export const addLesson = async (data: any) => {
   // destructuring the data
-  const { name, courseSectionsId, videoUrl, description } = data;
+  const { name, courseSectionsId, videoUrl, description, courseType } = data;
+  const courseTypeEnum =
+    courseType === "video" ? "VIDEO" : courseType === "text" ? "TEXT" : "AUDIO";
+
+  console.log(courseSectionsId);
 
   try {
     // add the lesson
@@ -167,11 +212,67 @@ export const addLesson = async (data: any) => {
         courseSectionsId,
         videoUrl,
         description,
+        type: courseTypeEnum,
       },
     });
 
     return { msg: "Lesson created successfully", success: true };
   } catch (err) {
+    console.log(err);
     return { msg: "Error creating lesson", success: false };
+  }
+};
+
+// get all lessons of the module
+export const getModuleLessons = async (moduleId: number) => {
+  try {
+    // get all lessons of the module
+    const lessons = await db.lesson.findMany({
+      where: {
+        courseSectionsId: moduleId,
+      },
+    });
+
+    return { lessons, success: true };
+  } catch (err) {
+    return { msg: "Error fetching lessons", success: false };
+  }
+};
+
+// get all courses of logged in tutor
+export const getTutorCourses = async () => {
+  const session = await getServerSession(authOptions);
+
+  if (session?.user.role !== "tutor") {
+    return { msg: "You are not authorized to view courses", success: false };
+  }
+
+  try {
+    // get all courses of the tutor
+    const courses = await db.course.findMany({
+      where: {
+        tutorId: +session?.user.id,
+      },
+    });
+
+    return { courses, success: true };
+  } catch (err) {
+    return { msg: "Error fetching courses", success: false };
+  }
+};
+
+// get course by id
+export const getCourseById = async (courseId: number) => {
+  try {
+    // get the course by id
+    const course = await db.course.findUnique({
+      where: {
+        id: courseId,
+      },
+    });
+
+    return { course, success: true };
+  } catch (err) {
+    return { msg: "Error fetching course", success: false };
   }
 };

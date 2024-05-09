@@ -91,6 +91,7 @@ model course{
   requirements String?
   objectives String?
   certificate certificate?
+  createdAt DateTime @default(now())
 }
 
 model category{
@@ -123,9 +124,18 @@ model studentCourse{
 model courseSections{
   id       Int      @id @default(autoincrement())
   name     String?   @db.VarChar(255)
+  description String? @db.VarChar(5000)
+  createdAt DateTime @default(now())
   courseId Int
+  published Boolean @default(false)
   course course @relation(fields: [courseId], references: [id])
   lessons lesson[]
+}
+
+enum lessonType {
+  VIDEO
+  TEXT
+  AUDIO
 }
 
 model lesson{
@@ -135,6 +145,8 @@ model lesson{
   videoUrl String?
   courseSectionsId Int
   courseSections courseSections @relation(fields: [courseSectionsId], references: [id])
+  createdAt DateTime @default(now())
+  type String
 }
 
 model discount{
