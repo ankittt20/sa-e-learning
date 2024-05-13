@@ -26,7 +26,7 @@ const AdminCard = ({ admin }: { admin: adminInterface }) => {
           </p>
         </div>
       </div>
-      <CUD />
+      <CUD selectedItemId={0} />
     </div>
   );
 };
