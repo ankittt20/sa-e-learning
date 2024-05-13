@@ -83,7 +83,7 @@ const DataTable = async ({ labels, hideControls, isMobile, data }: Props) => {
                     isMobile && "hidden"
                   }`}
                 >
-                  <CUD />
+                  <CUD selectedItemId={0} />
                 </TableCell>
               </TableRow>
             );
