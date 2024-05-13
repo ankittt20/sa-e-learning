@@ -19,7 +19,7 @@ type Props = {};
 
 const page = (props: Props) => {
   return (
-    <div className="flex pb-12 sm:pb-20 w-full bg-no-repeat sm:bg-[url('/assets/images/navborder.svg')]">
+    <div className="flex w-full bg-no-repeat pb-12 sm:bg-[url('/assets/images/navborder.svg')] sm:pb-20">
       <div className="h-full w-[224px] bg-[#F3F1FC] max-sm:hidden">
         <Sidebar />
       </div>

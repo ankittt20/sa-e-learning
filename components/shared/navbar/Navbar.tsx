@@ -9,10 +9,10 @@ import { getServerSession } from "next-auth";
 const Navbar = async () => {
   const session = await getServerSession(authOptions);
   return (
-    <nav>
+    <nav className="container">
       <div className="flex items-center justify-between pt-10">
-        <h3 className="text-3xl font-bold pr-2">SAelearning</h3>
-        <ul className="flex gap-20 max-sm:hidden pr-2">
+        <h3 className="pr-2 text-3xl font-bold">SAelearning</h3>
+        <ul className="flex gap-20 pr-2 max-sm:hidden">
           {navLinks.map((link) => {
             return (
               <li key={link.id}>

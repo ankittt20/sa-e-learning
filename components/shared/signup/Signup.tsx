@@ -41,11 +41,11 @@ const Signup = (props: Props) => {
 
   return (
     <div>
-      <div className="bg-[#F8BC12] h-64 p-7 max-sm:hidden">
+      <div className="h-64 bg-[#F8BC12] p-7 max-sm:hidden">
         <h3 className="text-3xl font-bold">
           <a href="/">SAelearning</a>
         </h3>
-        <h3 className="flex justify-center mt-24 text-4xl font-bold">
+        <h3 className="mt-24 flex justify-center text-4xl font-bold">
           Sign Up
         </h3>
         <Image
@@ -53,18 +53,18 @@ const Signup = (props: Props) => {
           alt="Signup"
           width={500}
           height={500}
-          className="absolute top-0 right-80 h-64 w-56"
+          className="absolute right-80 top-0 h-64 w-56"
         />
       </div>
       <div>
-        <h3 className="pl-7 mb-10 text-2xl font-bold sm:hidden">Sign Up</h3>
+        <h3 className="mb-10 pl-7 text-2xl font-bold sm:hidden">Sign Up</h3>
       </div>
       <div className="flex justify-center sm:py-16">
         <form onSubmit={handleSubmit}>
-          <div className="sm:flex sm:space-x-10 mb-4">
+          <div className="mb-4 sm:flex sm:space-x-10">
             <div className="mb-4 sm:mb-0">
               <label
-                className="block text-gray-700 text-[12px] sm:text-[16px] font-semibold mb-2"
+                className="text-gray-700 mb-2 block text-[12px] font-semibold sm:text-[16px]"
                 htmlFor="name"
               >
                 Full Name
@@ -73,13 +73,13 @@ const Signup = (props: Props) => {
                 type="name"
                 id="name"
                 name="name"
-                className="w-80 shadow appearance-none border border-[#BBC8D4] rounded py-2 px-3 placeholder:text-[#BBC8D4] leading-tight focus:outline-none focus:shadow-outline"
+                className="focus:shadow-outline w-80 appearance-none rounded border border-[#BBC8D4] px-3 py-2 leading-tight shadow placeholder:text-[#BBC8D4] focus:outline-none"
                 placeholder="Enter your Full Name"
               />
             </div>
             <div>
               <label
-                className="block text-gray-700 text-[12px] sm:text-[16px] font-semibold mb-2"
+                className="text-gray-700 mb-2 block text-[12px] font-semibold sm:text-[16px]"
                 htmlFor="email"
               >
                 Email
@@ -88,16 +88,16 @@ const Signup = (props: Props) => {
                 type="email"
                 id="email"
                 name="email"
-                className="w-80 shadow appearance-none border border-[#BBC8D4] rounded py-2 px-3 placeholder:text-[#BBC8D4] leading-tight focus:outline-none focus:shadow-outline"
+                className="focus:shadow-outline w-80 appearance-none rounded border border-[#BBC8D4] px-3 py-2 leading-tight shadow placeholder:text-[#BBC8D4] focus:outline-none"
                 placeholder="Enter your Email"
               />
             </div>
           </div>
 
-          <div className="sm:flex sm:space-x-10 mb-4">
+          <div className="mb-4 sm:flex sm:space-x-10">
             <div className="mb-4 sm:mb-0">
               <label
-                className="block text-gray-700 text-[12px] sm:text-[16px] font-semibold mb-2"
+                className="text-gray-700 mb-2 block text-[12px] font-semibold sm:text-[16px]"
                 htmlFor="password"
               >
                 Password
@@ -106,13 +106,13 @@ const Signup = (props: Props) => {
                 type="password"
                 id="password"
                 name="password"
-                className="w-80 shadow appearance-none border border-[#BBC8D4] rounded py-2 px-3 placeholder:text-[#BBC8D4] leading-tight focus:outline-none focus:shadow-outline"
+                className="focus:shadow-outline w-80 appearance-none rounded border border-[#BBC8D4] px-3 py-2 leading-tight shadow placeholder:text-[#BBC8D4] focus:outline-none"
                 placeholder="Enter your Password"
               />
             </div>
             <div>
               <label
-                className="block text-gray-700 text-[12px] sm:text-[16px] font-semibold mb-2"
+                className="text-gray-700 mb-2 block text-[12px] font-semibold sm:text-[16px]"
                 htmlFor="gender"
               >
                 Select your Gender
@@ -120,7 +120,7 @@ const Signup = (props: Props) => {
               <select
                 id="gender"
                 name="gender"
-                className="w-80 shadow appearance-none border border-[#BBC8D4] rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                className="focus:shadow-outline w-80 appearance-none rounded border border-[#BBC8D4] px-3 py-2 leading-tight shadow focus:outline-none"
               >
                 <option autoFocus selected disabled>
                   Select Gender
@@ -132,10 +132,10 @@ const Signup = (props: Props) => {
             </div>
           </div>
 
-          <div className="sm:flex sm:space-x-10 mb-5">
+          <div className="mb-5 sm:flex sm:space-x-10">
             <div>
               <label
-                className="block text-gray-700 text-[12px] sm:text-[16px] font-semibold mb-2"
+                className="text-gray-700 mb-2 block text-[12px] font-semibold sm:text-[16px]"
                 htmlFor="category"
               >
                 Category
@@ -143,7 +143,7 @@ const Signup = (props: Props) => {
               <select
                 id="category"
                 name="category"
-                className="w-80 shadow appearance-none border border-[#BBC8D4] rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                className="focus:shadow-outline w-80 appearance-none rounded border border-[#BBC8D4] px-3 py-2 leading-tight shadow focus:outline-none"
               >
                 <option autoFocus selected disabled>
                   Select Category
@@ -155,26 +155,26 @@ const Signup = (props: Props) => {
             </div>
           </div>
 
-          <div className="flex space-x-2 mb-10">
+          <div className="mb-10 flex space-x-2">
             <input type="checkbox" required />
-            <label className="text-[#6D7D8B] text-sm">
+            <label className="text-sm text-[#6D7D8B]">
               I accept all terms and conditions.
             </label>
           </div>
 
           <Button
             type="submit"
-            className="btn w-full rounded-[30px] mb-4 text-[12px] sm:text-[16px] font-bold"
+            className="btn mb-4 w-full rounded-[30px] text-[12px] font-bold sm:text-[16px]"
           >
             Sign Up
           </Button>
         </form>
       </div>
 
-      <div className="flex justify-center sm:absolute top-10 right-20 mt-4 mb-10">
+      <div className="right-20 top-10 mb-10 mt-4 flex justify-center sm:absolute">
         <DropdownMenu>
-          <DropdownMenuTrigger className="bg-accent-blue text-primary-100 w-80 sm:w-36 sm:h-8 rounded-md text-xs p-3 sm:p-0 border-[1px] border-accent-blue outline-none text-center">
-            Select a Role <FaChevronDown className="inline ml-3 sm:ml-2" />
+          <DropdownMenuTrigger className="w-80 rounded-md border-DEFAULT border-accent-blue bg-accent-blue p-3 text-center text-xs text-primary-100 outline-none sm:h-8 sm:w-36 sm:p-0">
+            Select a Role <FaChevronDown className="ml-3 inline sm:ml-2" />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuLabel>Roles</DropdownMenuLabel>

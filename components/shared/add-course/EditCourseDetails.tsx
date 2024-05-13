@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useSearchParams } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -18,22 +19,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { v4 } from "uuid";
 import { getAllCategories } from "@/actions/generalFunctions.actions";
 import { categoriesInterface } from "@/types/types";
 import { Button } from "@/components/ui/button";
 import { addCourseSchema } from "@/lib/validations";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { createCourse } from "@/actions/tutor.actions";
-import { uploadFile } from "@/lib/fileUpload";
-import { redirect } from "next/navigation";
+import { createCourse, getCourseById } from "@/actions/tutor.actions";
 
 const CourseDetail = () => {
   const [categories, setCategories] = useState<categoriesInterface[]>();
   const [error, setError] = useState("");
+  const [course, setCourse] = useState<any>();
+  const [showCourseDetails, setShowCourseDetails] = useState(false);
   const [filePath, setFilePath] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const courseId = searchParams.get("course-id");
 
   const form = useForm<z.infer<typeof addCourseSchema>>({
     resolver: zodResolver(addCourseSchema),
@@ -52,38 +53,46 @@ const CourseDetail = () => {
     getCategories();
   }, []);
 
-  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("clicked");
-    if (e.target.files) {
-      setIsLoading(true);
-      const file = e?.target?.files[0];
-      const path = `course-images/${file.name}-${v4()}`;
-      const fileUrl = await uploadFile(file, path, "image");
-      if (fileUrl) {
-        setFilePath(fileUrl);
-        setIsLoading(false);
-      } else setFilePath("");
-    }
-  };
+  useEffect(() => {
+    const fetchCourseById = async () => {
+      // get course by id
+      if (courseId) {
+        const res = await getCourseById(+courseId);
+        setCourse(res.course);
+      }
+    };
+    fetchCourseById();
+  }, [courseId]);
 
   const onSubmit = async (data: z.infer<typeof addCourseSchema>) => {
-    try {
-      setIsLoading(true);
-      console.log(data);
-      const newCourse = await createCourse({ ...data, image: filePath });
-      alert(newCourse.msg);
-      redirect(`/edit-course?course-id=${newCourse.courseId}`);
-    } catch (e: any) {
-      console.log("Something went wrong");
-    } finally {
-      setIsLoading(false);
-    }
+    const addCourse = await createCourse({ ...data, image: filePath });
+    alert(addCourse.msg);
   };
 
   if (error) return <div>{error}</div>;
+
+  if (!showCourseDetails) {
+    return (
+      <div className="flex flex-col space-y-5">
+        <h3 className="text-xl font-semibold">{course && course.name}</h3>
+        <p className="line-clamp-2 opacity-70">
+          {course && course.description}
+        </p>
+        <div className="flex space-x-12">
+          <p
+            className="cursor-pointer text-accent-blue"
+            onClick={() => setShowCourseDetails(true)}
+          >
+            Edit Course Details
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6 ">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
         <FormField
           control={form.control}
           name="title"
@@ -218,17 +227,8 @@ const CourseDetail = () => {
             </FormItem>
           )}
         />
-        <Input
-          placeholder="Image for the course"
-          type="file"
-          onChange={handleImageChange}
-          required
-        />
-        <Button
-          type="submit"
-          className="bg-accent-blue px-5 text-primary-100"
-          disabled={isLoading}
-        >
+        <Input placeholder="Image for the course" type="file" required />
+        <Button type="submit" className="bg-accent-blue px-5 text-primary-100">
           Submit
         </Button>
       </form>

@@ -8,9 +8,11 @@ import CourseCardInfo from "@/components/shared/cards/CourseCardInfo";
 import Pagination from "@/components/shared/Pagination";
 import LanguagesCaraousel from "./LanguagesCaraousel";
 
-type Props = {};
+type Props = {
+  courses: any;
+};
 
-const Courses = (props: Props) => {
+const Courses = ({ courses }: Props) => {
   return (
     <div className="my-28">
       <div>
@@ -37,15 +39,10 @@ const Courses = (props: Props) => {
           <SideFilter />
           <div>
             <div className="grid grid-cols-1 items-center justify-center gap-4 sm:grid-cols-3">
-              <CourseCardInfo />
-              <CourseCardInfo />
-              <CourseCardInfo />
-              <CourseCardInfo />
-              <CourseCardInfo />
-              <CourseCardInfo />
-              <CourseCardInfo />
-              <CourseCardInfo />
-              <CourseCardInfo />
+              {courses &&
+                courses.map((course: any) => (
+                  <CourseCardInfo key={course.id} course={course} />
+                ))}
             </div>
             <Pagination />
           </div>
