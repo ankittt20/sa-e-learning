@@ -32,6 +32,7 @@ const CourseDetail = () => {
   const [error, setError] = useState("");
   const [course, setCourse] = useState<any>();
   const [showCourseDetails, setShowCourseDetails] = useState(false);
+  const [filePath, setFilePath] = useState("");
   const searchParams = useSearchParams();
   const courseId = searchParams.get("course-id");
 
@@ -64,7 +65,7 @@ const CourseDetail = () => {
   }, [courseId]);
 
   const onSubmit = async (data: z.infer<typeof addCourseSchema>) => {
-    const addCourse = await createCourse(data);
+    const addCourse = await createCourse({ ...data, image: filePath });
     alert(addCourse.msg);
   };
 
@@ -226,23 +227,7 @@ const CourseDetail = () => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="image"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Add Image for the course </FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Image for the course"
-                  {...field}
-                  type="file"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <Input placeholder="Image for the course" type="file" required />
         <Button type="submit" className="bg-accent-blue px-5 text-primary-100">
           Submit
         </Button>

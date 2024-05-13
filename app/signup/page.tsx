@@ -7,7 +7,7 @@ type Props = {};
 const page = (props: Props) => {
   return (
     <>
-      <div className="flex conatiner p-7 justify-between sm:hidden">
+      <div className="container flex justify-between p-7 sm:hidden">
         <h3 className="text-xl font-bold">SAelearning</h3>
         <MobileNav />
       </div>

@@ -43,6 +43,8 @@ const AddLesson = ({ moduleId }: { moduleId: number }) => {
         return { ...state, descriptionError: action.payload };
       case "SET_LESSON_FILE":
         return { ...state, lessonFile: action.payload };
+      case "SET_IS_PREVIEW":
+        return { ...state, isPreview: action.payload };
       default:
         return state;
     }
@@ -53,6 +55,7 @@ const AddLesson = ({ moduleId }: { moduleId: number }) => {
     useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [showLessonCard, setShowLessonCard] = useState(false);
+  const [isPreview, setIsPreview] = useState(false);
 
   const [lessonState, dispatch] = useReducer<
     React.Reducer<LessonDetailsInterface, action>
@@ -112,13 +115,13 @@ const AddLesson = ({ moduleId }: { moduleId: number }) => {
   };
 
   const addLessonHandler = async () => {
-    console.log(moduleId);
     const formData = {
       name: lessonState.lessonTitle,
       courseSectionsId: +moduleId,
       videoUrl: lessonState.lessonFile,
       description: lessonState.lessonDescription,
       courseType: lessonState.lessonType,
+      isPreview,
     };
 
     try {
@@ -249,6 +252,22 @@ const AddLesson = ({ moduleId }: { moduleId: number }) => {
         <form>
           <Input type="file" id="file" name="file" onChange={handleUpload} />
         </form>
+      </div>
+
+      <div>
+        <div>
+          <label htmlFor="isPreview">Allow Preview Lesson</label>
+          <input
+            type="checkbox"
+            id="isPreview"
+            name="isPreview"
+            onChange={() =>
+              setIsPreview((prev) => {
+                return !prev;
+              })
+            }
+          />
+        </div>
       </div>
 
       <div className="space-y-5">

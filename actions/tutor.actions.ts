@@ -108,7 +108,7 @@ export const createCourse = async (data: addCoursesInterface) => {
   }
 
   // add the course
-  await db.categorisedCourse.create({
+  const newCourse = await db.categorisedCourse.create({
     data: {
       category: {
         connect: {
@@ -131,7 +131,11 @@ export const createCourse = async (data: addCoursesInterface) => {
     },
   });
 
-  return { msg: "Course created successfully", success: true };
+  return {
+    msg: "Course created successfully",
+    success: true,
+    courseId: newCourse.courseId,
+  };
 };
 
 // add sections to the course
@@ -198,11 +202,16 @@ export const changeModulePublication = async (
 // add lessons to the section
 export const addLesson = async (data: any) => {
   // destructuring the data
-  const { name, courseSectionsId, videoUrl, description, courseType } = data;
+  const {
+    name,
+    courseSectionsId,
+    videoUrl,
+    description,
+    courseType,
+    isPreview,
+  } = data;
   const courseTypeEnum =
     courseType === "video" ? "VIDEO" : courseType === "text" ? "TEXT" : "AUDIO";
-
-  console.log(courseSectionsId);
 
   try {
     // add the lesson
@@ -213,6 +222,7 @@ export const addLesson = async (data: any) => {
         videoUrl,
         description,
         type: courseTypeEnum,
+        isPreview,
       },
     });
 
@@ -235,7 +245,8 @@ export const getModuleLessons = async (moduleId: number) => {
 
     return { lessons, success: true };
   } catch (err) {
-    return { msg: "Error fetching lessons", success: false };
+    console.log(err);
+    return { msg: "Error fetching lessons", success: false, lessons: [] };
   }
 };
 

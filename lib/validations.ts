@@ -28,7 +28,6 @@ export const addCourseSchema = z.object({
   level: z.string().min(1),
   requirements: z.string().min(5),
   objectives: z.string().min(5),
-  image: z.string().url(),
 });
 
 export const moduleSchema = z.object({

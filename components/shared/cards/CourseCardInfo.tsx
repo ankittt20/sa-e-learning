@@ -2,8 +2,13 @@ import Image from "next/image";
 import React from "react";
 import Info from "../info/Info";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-const CourseCardInfo = () => {
+interface courseProps {
+  course: any;
+}
+
+const CourseCardInfo = ({ course }: courseProps) => {
   return (
     <div className="relative max-w-[282px] rounded-xl bg-[#F3F1FC]">
       <div className="">
@@ -16,7 +21,7 @@ const CourseCardInfo = () => {
         />
         <div>
           <h5 className="absolute left-[24px] top-[28px] text-[10px] font-bold uppercase text-primary-100">
-            Programming
+            {course.category[0].category.name}
           </h5>
           <div className="absolute right-[12px] top-[12px] flex justify-between rounded-full bg-primary-100 p-2">
             <Image
@@ -28,9 +33,7 @@ const CourseCardInfo = () => {
           </div>
         </div>
         <div className="mt-3 px-4 pb-3">
-          <p className="text-left text-lg text-[#333333]">
-            System Administration and IT Infrastructure Services
-          </p>
+          <p className="text-left text-lg text-[#333333]">{course.name}</p>
           <div className="mt-5 rounded-xl bg-[#fff] px-4 py-3">
             <div className="flex justify-between border-b border-[#EFDED5] pb-3">
               <Info
@@ -56,19 +59,23 @@ const CourseCardInfo = () => {
                 alt="User"
               />
               <div>
-                <p className="text-[#333333]">Drivani Kumar </p>
+                <p className="text-[#333333]">{course.tutor.name} </p>
                 <p className="text-[10px] text-[rgba(51,51,51,0.5)]">
-                  Programmer
+                  {course.tutor.speciality || ""}
                 </p>
               </div>
             </div>
           </div>
           <div className="mb-10 mt-4 flex items-center justify-between">
-            <div className="mt-3 w-[50px] rounded-lg bg-primary-100 px-4 py-1">
-              <p>$19</p>
+            <div className="mt-3  rounded-lg bg-primary-100 px-4 py-1">
+              <p className="text-nowrap">Rs {course.price}</p>
             </div>
             <Button className="rounded-lg bg-accent-blue">
-              <p className="text-sm font-bold text-primary-100">Get Started</p>
+              <Link href={`/courses/${course.id}`}>
+                <p className="text-sm font-bold text-primary-100">
+                  Get Started
+                </p>
+              </Link>
             </Button>
           </div>
         </div>

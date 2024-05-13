@@ -18,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { v4 } from "uuid";
 import { getAllCategories } from "@/actions/generalFunctions.actions";
 import { categoriesInterface } from "@/types/types";
 import { Button } from "@/components/ui/button";
@@ -25,10 +26,14 @@ import { addCourseSchema } from "@/lib/validations";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { createCourse } from "@/actions/tutor.actions";
+import { uploadFile } from "@/lib/fileUpload";
+import { redirect } from "next/navigation";
 
 const CourseDetail = () => {
   const [categories, setCategories] = useState<categoriesInterface[]>();
   const [error, setError] = useState("");
+  const [filePath, setFilePath] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof addCourseSchema>>({
     resolver: zodResolver(addCourseSchema),
@@ -47,15 +52,38 @@ const CourseDetail = () => {
     getCategories();
   }, []);
 
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("clicked");
+    if (e.target.files) {
+      setIsLoading(true);
+      const file = e?.target?.files[0];
+      const path = `course-images/${file.name}-${v4()}`;
+      const fileUrl = await uploadFile(file, path, "image");
+      if (fileUrl) {
+        setFilePath(fileUrl);
+        setIsLoading(false);
+      } else setFilePath("");
+    }
+  };
+
   const onSubmit = async (data: z.infer<typeof addCourseSchema>) => {
-    const addCourse = await createCourse(data);
-    alert(addCourse.msg);
+    try {
+      setIsLoading(true);
+      console.log(data);
+      const newCourse = await createCourse({ ...data, image: filePath });
+      alert(newCourse.msg);
+      redirect(`/edit-course?course-id=${newCourse.courseId}`);
+    } catch (e: any) {
+      console.log("Something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (error) return <div>{error}</div>;
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6 ">
         <FormField
           control={form.control}
           name="title"
@@ -190,24 +218,17 @@ const CourseDetail = () => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="image"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Add Image for the course </FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Image for the course"
-                  {...field}
-                  type="file"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+        <Input
+          placeholder="Image for the course"
+          type="file"
+          onChange={handleImageChange}
+          required
         />
-        <Button type="submit" className="bg-accent-blue px-5 text-primary-100">
+        <Button
+          type="submit"
+          className="bg-accent-blue px-5 text-primary-100"
+          disabled={isLoading}
+        >
           Submit
         </Button>
       </form>
