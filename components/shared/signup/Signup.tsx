@@ -19,7 +19,7 @@ const Signup = (props: Props) => {
   const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Prevent default form submission behavior
+    event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
     const formDataJSON = Object.fromEntries(formData.entries());
