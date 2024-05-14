@@ -25,7 +25,7 @@ const page = async (props: Props) => {
         <Sidebar />
       </div>
       <div className="container">
-        <Header showSearch heading="Dashboard" />
+        <Header session={session.user} showSearch heading="Dashboard" />
         <div className="flex flex-col-reverse space-x-8 sm:flex-row">
           <div className="space-y-10">
             <Studying />
@@ -33,7 +33,7 @@ const page = async (props: Props) => {
             <FamousCourses />
           </div>
           <div className="flex grow flex-col max-sm:items-center max-sm:justify-center">
-            <Profile />
+            <Profile user={session?.user} />
             <Progress />
             <Scheduled />
           </div>

@@ -23,24 +23,20 @@ const Login = (props: Props) => {
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault();
 
-    try {
-      const signInData = await signIn("credentials", {
-        email,
-        password,
-        role,
-        callbackUrl: "/dashboard",
-      });
+    const signInData = await signIn("credentials", {
+      email,
+      password,
+      role,
+      callbackUrl: "/dashboard",
+      redirect: false,
+    });
 
-      if (!signInData?.ok) {
-        setError(true);
-      } else {
-        router.refresh();
-        router.replace("/dashboard");
-      }
-    } catch (error) {
+    if (!signInData?.ok) {
       setError(true);
+    } else {
+      router.push("/dashboard");
     }
   };
 
@@ -143,11 +139,11 @@ const Login = (props: Props) => {
         </div>
 
         <div className="right-20 top-10 my-4 sm:absolute">
-          <Select onValueChange={(e) => setRole(e)}>
+          <Select required onValueChange={(e) => setRole(e)}>
             <SelectTrigger className="w-full rounded-md border border-accent-blue p-3 text-center text-xs text-accent-blue outline-none sm:h-8 sm:w-36 sm:p-0 sm:text-[16px]">
               <SelectValue placeholder="Select a Role" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-primary-100">
               <SelectItem value="student">Student</SelectItem>
               <SelectItem value="tutor">Tutor</SelectItem>
               <SelectItem value="admin">Admin</SelectItem>

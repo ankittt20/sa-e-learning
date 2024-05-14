@@ -148,9 +148,9 @@ const Signup = (props: Props) => {
                 <option autoFocus selected disabled>
                   Select Category
                 </option>
-                <option value="Student">Student</option>
-                <option value="Tutor">Tutor</option>
-                <option value="Other">Other</option>
+                <option value="student">Student</option>
+                <option value="tutor">Tutor</option>
+                <option value="other">Other</option>
               </select>
             </div>
           </div>
@@ -169,22 +169,6 @@ const Signup = (props: Props) => {
             Sign Up
           </Button>
         </form>
-      </div>
-
-      <div className="right-20 top-10 mb-10 mt-4 flex justify-center sm:absolute">
-        <DropdownMenu>
-          <DropdownMenuTrigger className="w-80 rounded-md border-DEFAULT border-accent-blue bg-accent-blue p-3 text-center text-xs text-primary-100 outline-none sm:h-8 sm:w-36 sm:p-0">
-            Select a Role <FaChevronDown className="ml-3 inline sm:ml-2" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>Roles</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Option 1</DropdownMenuItem>
-            <DropdownMenuItem>Option 2</DropdownMenuItem>
-            <DropdownMenuItem>Option 3</DropdownMenuItem>
-            <DropdownMenuItem>Option 4</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
     </div>
   );
