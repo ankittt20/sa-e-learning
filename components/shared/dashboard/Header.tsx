@@ -51,7 +51,7 @@ const Header = ({ showSearch, heading, session }: Props) => {
                   width={28}
                   height={28}
                 />
-                <p>{session.name}</p>
+                <p>{session?.user?.name}</p>
               </div>
               <FaChevronDown />
             </DropdownMenuTrigger>
