@@ -26,6 +26,8 @@ model User {
   profilePicture String?
   articleComments articleComment[]
   certificates certificate[]
+  cart cart?
+  wishlist wishlist?
   createdAt DateTime @default(now())
 
 }
@@ -91,6 +93,8 @@ model course{
   requirements String?
   objectives String?
   certificate certificate?
+  cartProducts cartProducts[]
+  wishlistProducts wishlistProducts[]
   createdAt DateTime @default(now())
 }
 
@@ -199,4 +203,40 @@ model certificate{
   issuedAt DateTime?
   certificateUrl String?
   verified Boolean @default(false)
+}
+
+model cart{
+  id       Int      @id @default(autoincrement())
+  userId Int        @unique
+  user User @relation(fields: [userId], references: [id])
+  cartProducts cartProducts[]
+  createdAt DateTime @default(now())
+
+}
+
+model cartProducts{
+  cartId Int
+  courseId Int
+  cart cart @relation(fields: [cartId], references: [id])
+  course course @relation(fields: [courseId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@id([cartId, courseId])
+}
+
+model wishlist{
+  id       Int      @id @default(autoincrement())
+  userId Int        @unique
+  user User @relation(fields: [userId], references: [id])
+  wishlistProducts wishlistProducts[]
+  createdAt DateTime @default(now())
+}
+
+model wishlistProducts{
+  wishlistId Int
+  courseId Int
+  wishlist wishlist @relation(fields: [wishlistId], references: [id])
+  course course @relation(fields: [courseId], references: [id])
+  createdAt DateTime @default(now())
+  @@id([wishlistId, courseId])
 }
