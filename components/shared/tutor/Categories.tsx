@@ -39,7 +39,7 @@ const Categories = (props: Props) => {
                 <FaCheckSquare />
                 <p className="text-[#292638] text-xs font-medium">{category}</p>
               </div>
-              <CUD />
+              <CUD selectedItemId={0} />
             </div>
           ))}
         </div>

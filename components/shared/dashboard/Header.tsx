@@ -14,9 +14,10 @@ import Image from "next/image";
 type Props = {
   showSearch?: boolean;
   heading: string;
+  session?: any;
 };
 
-const Header = ({ showSearch, heading }: Props) => {
+const Header = ({ showSearch, heading, session }: Props) => {
   const flexValue = showSearch
     ? "items-center justify-between"
     : "items-center justify-between";
@@ -42,7 +43,7 @@ const Header = ({ showSearch, heading }: Props) => {
         </Button>
         <div className="flex h-14 items-center rounded-md bg-primary-100 px-3 max-sm:hidden">
           <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center space-x-6">
+            <DropdownMenuTrigger className="flex items-center space-x-6 outline-none">
               <div className="flex items-center space-x-3 p-1">
                 <Image
                   src="/assets/icons/fahmi.svg"
@@ -50,17 +51,25 @@ const Header = ({ showSearch, heading }: Props) => {
                   width={28}
                   height={28}
                 />
-                <p>Sakshi Shrivastav</p>
+                <p>{session?.user?.name}</p>
               </div>
               <FaChevronDown />
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent className="bg-primary-100">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Billing</DropdownMenuItem>
-              <DropdownMenuItem>Team</DropdownMenuItem>
-              <DropdownMenuItem>Subscription</DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
+                Profile
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
+                Billing
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
+                Team
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
+                Subscription
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

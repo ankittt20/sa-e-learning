@@ -4,11 +4,41 @@ import AddModule from "@/components/shared/add-course/AddModule";
 import EditCourseDetails from "@/components/shared/add-course/EditCourseDetails";
 import ModuleLessons from "@/components/shared/add-course/ModuleLessons";
 import MobileNav from "@/components/shared/navbar/MobileNav";
+import { Suspense } from "react";
 import React, { useState } from "react";
 
 type Props = {};
 
-const EditCourse = (props: Props) => {
+function LoadingSpinner() {
+  return (
+    <div className="spinner-container">
+      <div className="spinner"></div>
+      <style jsx>{`
+        .spinner-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+        }
+        .spinner {
+          border: 4px solid rgba(0, 0, 0, 0.1);
+          border-left-color: #1a73e8;
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+          animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+const page = (props: Props) => {
   const [selectedModule, setSelectedModule] = useState(1);
 
   const setModule = (id: number) => {
@@ -17,7 +47,7 @@ const EditCourse = (props: Props) => {
   };
 
   return (
-    <>
+    <Suspense fallback={<LoadingSpinner />}>
       <div className="container flex justify-between p-7 sm:hidden">
         <h3 className="text-xl font-bold">
           <a href="/">SAelearning</a>
@@ -57,8 +87,8 @@ const EditCourse = (props: Props) => {
           <AddLesson moduleId={selectedModule} />
         </div>
       </div>
-    </>
+    </Suspense>
   );
 };
 
-export default EditCourse;
+export default page;

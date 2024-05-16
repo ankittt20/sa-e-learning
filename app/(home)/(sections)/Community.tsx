@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -12,6 +13,7 @@ const Community = () => {
         odio ultrices nisi egetmetus. Vulputate condimentum tincidunt quis
         maecenas nibh
       </p>
+      <Image src="/assets/images/join-community.svg" alt="Join Community" width={600} height={600} className="w-full" />
       <Link href="/login">
         <Button className="rounded-2xl bg-accent-blue px-12 py-6 text-[20px] font-bold text-primary-100">
           Join Now

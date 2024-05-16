@@ -23,7 +23,7 @@ const StudentCard = ({ name, joining }: Props) => {
           <p className="text-xs text-[#7C7A84]">{joining}</p>
         </div>
       </div>
-      <CUD />
+      <CUD selectedItemId={0} />
     </div>
   );
 };

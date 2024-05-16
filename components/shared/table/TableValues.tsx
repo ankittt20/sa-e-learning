@@ -92,7 +92,7 @@ const TableValues = ({ item, hideControls, isMobile }: Props) => {
       <TableCell
         className={`${hideControls && "hidden"} ${isMobile && "hidden"}`}
       >
-        <CUD />
+        <CUD selectedItemId={0} />
       </TableCell>
     </>
   );

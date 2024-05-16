@@ -9,9 +9,11 @@ import {
 import Image from "next/image";
 import DashboardInfo from "./DashboardInfo";
 
-type Props = {};
+type Props = {
+  user?: any;
+};
 
-const Profile = (props: Props) => {
+const Profile = ({ user }: Props) => {
   return (
     <>
       <Card className="relative w-[327px] rounded-xl border-0 bg-primary-100 p-0 sm:w-[317px]">
@@ -32,10 +34,10 @@ const Profile = (props: Props) => {
         </CardHeader>
         <div className="mt-12 flex flex-col items-center justify-center">
           <CardTitle className="text-center text-[15px] font-semibold text-[#202226]">
-            Leslie Alexander
+            {user?.name}
           </CardTitle>
-          <CardDescription className="text-center text-xs text-[#838383]">
-            Leslie Alexander
+          <CardDescription className="text-center text-xs text-[#838383] capitalize">
+            {user?.role}
           </CardDescription>
         </div>
         <CardContent className="mt-4 flex items-center justify-center gap-3">

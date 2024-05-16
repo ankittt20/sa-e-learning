@@ -21,7 +21,7 @@ const Card = ({ subject, name }: { subject: string; name: string }) => {
           <p className="text-xs text-[#7C7A84]">{name}</p>
         </div>
       </div>
-      <CUD />
+      <CUD selectedItemId={0} />
     </div>
   );
 };

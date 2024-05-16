@@ -11,7 +11,7 @@ const Card = () => {
         <p className="text-[#7c7a84]">Programming</p>
         <p>8th Feb 2024</p>
       </div>
-      <CUD />
+      <CUD selectedItemId={0} />
     </div>
   );
 };

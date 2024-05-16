@@ -23,7 +23,7 @@ const TutorCard = ({name, qualification}: Props) => {
           <p className="text-xs text-[#7C7A84]">{qualification}</p>
         </div>
       </div>
-      <CUD />
+      <CUD selectedItemId={0} />
     </div>
   );
 };

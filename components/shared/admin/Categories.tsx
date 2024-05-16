@@ -41,7 +41,7 @@ const Categories = (props: Props) => {
                   {category}
                 </p>
               </div>
-              <CUD />
+              <CUD selectedItemId={0} />
             </div>
           ))}
         </div>

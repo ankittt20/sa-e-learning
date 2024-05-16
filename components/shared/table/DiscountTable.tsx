@@ -113,7 +113,7 @@ const DiscountTable = async ({ labels }: Props) => {
                   </div>
                 </TableCell>
                 <TableCell>
-                  <CUD />
+                  <CUD selectedItemId={0} />
                 </TableCell>
               </TableRow>
             );

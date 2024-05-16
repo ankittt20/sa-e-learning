@@ -58,7 +58,7 @@ export const authOptions: AuthOptions = {
           }
 
           if (credentials.role === "tutor") {
-            const existingTutor = await db.tutor.findUnique({
+            const existingTutor = await db.user.findUnique({
               where: {
                 email: credentials?.email,
               },
@@ -88,7 +88,7 @@ export const authOptions: AuthOptions = {
           }
 
           if (credentials.role === "admin") {
-            const existingAdmin = await db.admin.findUnique({
+            const existingAdmin = await db.user.findUnique({
               where: {
                 email: credentials?.email,
               },
@@ -118,7 +118,7 @@ export const authOptions: AuthOptions = {
           }
 
           if (credentials.role === "super-admin") {
-            const existingSuperAdmin = await db.superAdmin.findUnique({
+            const existingSuperAdmin = await db.user.findUnique({
               where: {
                 email: credentials?.email,
               },
@@ -170,6 +170,7 @@ export const authOptions: AuthOptions = {
     async session({ session, token }) {
       if (session.user) {
         session.user.id = String(token.id);
+        session.user.name = String(token.name);
         session.user.email = String(token.email);
         session.user.role = String(token.role);
       }
