@@ -3,18 +3,25 @@ import Feedback from "@/components/shared/admin/Feedback";
 import Header from "@/components/shared/admin/Header";
 import Sidebar from "@/components/shared/admin/Sidebar";
 import Stats from "@/components/shared/admin/Stats";
-import React from "react";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
 type Props = {};
 
-const page = (props: Props) => {
+const page = async (props: Props) => {
+  const session = await getServerSession(authOptions);
+
+  if (session?.user?.role !== "admin") {
+    redirect("/login");
+  }
   return (
     <div className="flex w-full bg-no-repeat sm:bg-[url('/assets/images/navborder.svg')]">
       <div className="h-full w-[224px] bg-[#F3F1FC] max-sm:hidden">
         <Sidebar />
       </div>
       <div className="container">
-        <Header title="Admin" />
+        <Header user={session?.user} title="Admin" />
         <div className="flex space-x-5">
           <div className="flex flex-col-reverse space-x-8 sm:flex-row">
             <Stats />

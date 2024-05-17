@@ -13,9 +13,10 @@ import Image from "next/image";
 
 type Props = {
   title: string;
+  user?: any;
 };
 
-const Header = ({title}: Props) => {
+const Header = ({ title, user }: Props) => {
   return (
     <header className="flex items-center justify-between py-14">
       <h1 className="text-[32px] font-bold max-sm:hidden">{title}</h1>
@@ -33,7 +34,7 @@ const Header = ({title}: Props) => {
                   width={28}
                   height={28}
                 />
-                <p>Sakshi Shrivastav</p>
+                <p>{user?.name}</p>
               </div>
               <FaChevronDown />
             </DropdownMenuTrigger>

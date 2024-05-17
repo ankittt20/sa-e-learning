@@ -251,6 +251,17 @@ export const verifyArticle = async (
   }
 };
 
+// get all courses
+export const getCourses = async () => {
+  try {
+    const courses = await db.course.findMany();
+
+    return { courses, success: true };
+  } catch (err) {
+    return { msg: "An error occurred", success: false };
+  }
+};
+
 // verify tutor course
 export const verifyTutorCourse = async (
   courseId: number,
