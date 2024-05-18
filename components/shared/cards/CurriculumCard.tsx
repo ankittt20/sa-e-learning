@@ -8,12 +8,14 @@ import {
 } from "@/components/ui/accordion";
 import { getModuleLessons } from "@/actions/tutor.actions";
 import LessonCard from "./LessonCard";
+import CurrentVideo from "../course/CurrentVideo";
 
 interface CurriculumCardProps {
   title: string;
   duration: string;
   id: number;
   count: number;
+  isActive?: boolean;
 }
 
 const CurriculumCard = ({
@@ -21,6 +23,7 @@ const CurriculumCard = ({
   duration,
   id,
   count,
+  isActive,
 }: CurriculumCardProps) => {
   const [lessons, setLessons] = useState<any[]>([]);
 
@@ -56,15 +59,33 @@ const CurriculumCard = ({
         </AccordionTrigger>
         <AccordionContent>
           {lessons.length > 0 ? (
-            lessons.map((lesson) => (
-              <div key={lesson.id} className="flex items-center gap-5">
-                <LessonCard
-                  name={lesson.name}
-                  type={lesson.type}
-                  duration={lesson.duration}
-                />
-              </div>
-            ))
+            lessons.map((lesson, idx) => {
+              if (isActive) {
+                return (
+                  <CurrentVideo
+                    title={lesson.name}
+                    description={lesson?.description || ""}
+                    duration="04:32"
+                    number={idx + 1}
+                    extraClasses="bg-active border-b-[5px] border-accent-blue"
+                    key={lesson.id}
+                    id={lesson.id}
+                    type={lesson.type}
+                  />
+                );
+              } else {
+                return (
+                  <div key={lesson.id} className="flex items-center gap-5">
+                    <LessonCard
+                      name={lesson.name}
+                      type={lesson.type}
+                      duration={lesson.duration}
+                      isPreview={lesson.isPreview}
+                    />
+                  </div>
+                );
+              }
+            })
           ) : (
             <p className="ml-1">No lessons found</p>
           )}

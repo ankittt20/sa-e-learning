@@ -23,7 +23,6 @@ const CourseDetails = () => {
     try {
       // get the course by id
       const course = await getCourseById(+courseId);
-      console.log(course);
       setCourse(course?.course);
     } catch (err) {
       console.log(err);

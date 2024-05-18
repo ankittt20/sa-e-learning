@@ -4,8 +4,15 @@ import { Rating } from "../Rating";
 import Info from "@/components/Info";
 import CartController from "@/components/cart/CartController";
 import { Separator } from "@/components/ui/separator";
+import { getTotalCourseLessonCount } from "@/actions/course.action";
 
-const CartCard = () => {
+interface CartCardProps {
+  product: any;
+}
+
+const CartCard = async ({ product }: CartCardProps) => {
+  const courseLessonCount = await getTotalCourseLessonCount(product.id);
+
   return (
     <article className="flex flex-col">
       <div className="flex flex-wrap justify-between gap-9">
@@ -17,27 +24,31 @@ const CartCard = () => {
             height={100}
           />
           <div className="flex flex-col gap-2 ">
-            <h3 className="text-semibold">TypeScript</h3>
-            <p className="text-sm font-medium">By: Stephen Girder</p>
+            <h3 className="text-semibold">{product?.name}</h3>
+            <p className="text-sm font-medium">By: {product?.tutor?.name}</p>
             <div className="flex items-center gap-3">
               <p className="text-sm font-medium">
-                <span className="text-[#000]">4.7</span>
+                <span className="text-[#000]">
+                  {product?.rating || "No ratings to show"}
+                </span>
               </p>
               <Rating />
             </div>
             <div className="flex items-center gap-4 max-sm:hidden">
               <p className="text-sm">27.5 Hours</p>
-              <Info infoMsg="339 lectures" />
-              <Info infoMsg="All levels" />
+              <Info
+                infoMsg={`${courseLessonCount.totalLessonCount} lectures`}
+              />
+              <Info infoMsg={product.level} />
             </div>
           </div>
         </div>
         <div className="flex items-start gap-4">
           <div>
-            <CartController />
+            <CartController courseId={+product.id} />
           </div>
           <div className="py-1">
-            <p className="text-bold text-accent-blue">$12.99</p>
+            <p className="text-bold text-accent-blue">{`Rs. ${product?.price}`}</p>
           </div>
         </div>
       </div>

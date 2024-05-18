@@ -10,6 +10,8 @@ export const addCourseToCart = async (courseId: number) => {
     const session = await getServerSession(authOptions);
     const userId = session?.user.id;
 
+    console.log("userId", userId);
+
     if (!userId) {
       return {
         msg: "You are not authorized to add course to cart",
@@ -21,29 +23,49 @@ export const addCourseToCart = async (courseId: number) => {
     const isCourseInCart = await db.cart.findFirst({
       where: {
         userId: +userId,
-        cartProducts: {
-          some: {
-            courseId,
-          },
-        },
       },
     });
 
     if (isCourseInCart) {
-      return { msg: "Course is already in the cart", success: false };
-    }
+      // update the cart
+      const isCourseAlreadyInCart = await db.cartProducts.findFirst({
+        where: {
+          cartId: isCourseInCart.id,
+          courseId,
+        },
+      });
 
-    // add the course to the cart
-    await db.cart.create({
-      data: {
-        userId: +userId,
-        cartProducts: {
-          create: {
-            courseId,
+      if (isCourseAlreadyInCart) {
+        return { msg: "Course is already in the cart", success: false };
+      }
+
+      await db.cartProducts.create({
+        data: {
+          cartId: isCourseInCart.id,
+          courseId,
+        },
+      });
+    } else {
+      // add the course to the cart
+      const newCart = await db.cart.create({
+        data: {
+          userId: +userId,
+        },
+      });
+
+      await db.cart.update({
+        where: {
+          id: newCart.id,
+        },
+        data: {
+          cartProducts: {
+            create: {
+              courseId,
+            },
           },
         },
-      },
-    });
+      });
+    }
 
     return { msg: "Course added to cart successfully", success: true };
   } catch (err) {
@@ -70,11 +92,6 @@ export const removeCourseFromCart = async (courseId: number) => {
     const isCourseInCart = await db.cart.findFirst({
       where: {
         userId: +userId,
-        cartProducts: {
-          some: {
-            courseId,
-          },
-        },
       },
     });
 
@@ -192,5 +209,58 @@ export const removeCourseFromWishlist = async (courseId: number) => {
   } catch (err) {
     console.log(err);
     return { msg: "Error fetching course", success: false };
+  }
+};
+
+// fetch user cart
+export const getUserCart = async () => {
+  try {
+    // get the loggedIn userId
+    const session = await getServerSession(authOptions);
+    const userId = session?.user.id;
+
+    if (!userId) {
+      return {
+        msg: "You are not authorized to fetch cart",
+        success: false,
+      };
+    }
+
+    // get the user cart
+    const cart = await db.cart.findFirst({
+      where: {
+        userId: +userId,
+      },
+      include: {
+        cartProducts: {
+          include: {
+            course: {
+              select: {
+                id: true,
+                name: true,
+                price: true,
+                image: true,
+                level: true,
+                rating: true,
+                tutor: {
+                  select: {
+                    name: true,
+                    id: true,
+                  },
+                },
+              },
+            },
+          },
+          where: {
+            savedForLater: false,
+          },
+        },
+      },
+    });
+
+    return { cart, success: true };
+  } catch (err) {
+    console.log(err);
+    return { msg: "Error fetching cart", success: false };
   }
 };

@@ -1,42 +1,46 @@
-import React from "react";
-import CurrentVideo from "./CurrentVideo";
+import React, { useContext, useEffect } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import SocialMedia from "../SocialMedia";
 import { Rating } from "../Rating";
+import CurriculumCard from "../cards/CurriculumCard";
+import { CourseContext } from "@/store/course/CourseContext";
 
-const CourseOverview = () => {
+interface CourseOverviewProps {
+  lessonCount: number;
+  course: any;
+  handleLessonSelect: (id: number) => void;
+}
+
+const CourseOverview = ({
+  lessonCount,
+  course,
+  handleLessonSelect,
+}: CourseOverviewProps) => {
+  // initialize course context
+  const { selectedCourseLessonId } = useContext(CourseContext);
+
+  useEffect(() => {
+    handleLessonSelect(selectedCourseLessonId);
+  }, [selectedCourseLessonId, handleLessonSelect]);
+
   return (
     <div className="mt-6">
-      <p className="text-bold-lg-xl">17 Lessons (1h 43m)</p>
+      <p className="text-bold-lg-xl">{lessonCount} Lessons (1h 43m)</p>
       <div>
-        <CurrentVideo
-          title="Introduction"
-          description="UI/UX Design for beginners"
-          duration="04:32"
-          number={1}
-          extraClasses="bg-active border-b-[5px] border-accent-blue"
-        />
-        <CurrentVideo
-          title="Chapter 1 - Notes"
-          description="UI/UX Design for beginners"
-          duration="01:00"
-          number={2}
-          isNotes
-        />
-        <CurrentVideo
-          title="Chapter 2 - Shortcuts in Figma"
-          description="UI/UX Design for beginners"
-          duration="01:00"
-          number={3}
-        />
-        <CurrentVideo
-          title="Chapter 2 - Shortcuts in Figma"
-          description="UI/UX Design for beginners"
-          duration="01:00"
-          number={4}
-        />
+        {course?.sections?.map((section: any, idx: number) => {
+          return (
+            <CurriculumCard
+              title={section.name}
+              duration={"35min"}
+              count={idx + 1}
+              key={section.id}
+              id={section.id}
+              isActive={true}
+            />
+          );
+        })}
         <div className="flex-center">
           <Button className="mt-3 flex gap-3 rounded-lg border border-accent-blue p-4 text-accent-blue">
             <p className="text-lg font-bold">View More</p>
@@ -44,7 +48,7 @@ const CourseOverview = () => {
           </Button>
         </div>
       </div>
-      <div className="mt-8 w-[60%]">
+      <div className="mt-8 w-3/5">
         <h4 className="text-bold-lg-xl text-accent-pink">Instructor</h4>
         <div className="flex-between mt-5 flex-wrap gap-3 max-sm:items-center">
           <Image
@@ -56,10 +60,10 @@ const CourseOverview = () => {
           />
           <div>
             <p className="text-bold-lg-xl max-sm:text-lg max-sm:font-semibold">
-              Ruth Clowes (MBA)
+              {course?.tutor?.name || ""}
             </p>
             <p className="text-medium-lg-2 text-[rgba(51,51,51,0.5)]">
-              Designer
+              {course?.tutor?.speciality || ""}
             </p>
           </div>
           <div>

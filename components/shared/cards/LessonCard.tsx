@@ -7,12 +7,16 @@ interface LessonCardProps {
   name: string;
   type: string;
   duration: string | null;
+  isPreview: boolean;
 }
 
-const LessonCard = ({ name, type, duration }: LessonCardProps) => {
+const LessonCard = ({ name, type, duration, isPreview }: LessonCardProps) => {
   return (
     <div className="mb-2 w-full cursor-pointer rounded-md p-5 hover:bg-accent-secondary">
-      <p className="text-lg font-semibold">{name}</p>
+      <div className="flex items-center gap-6">
+        <p className="text-lg font-semibold">{name}</p>
+        <span className="text-sm text-[#33333]">{isPreview && "Preview"}</span>
+      </div>
       <div className="mt-2 flex items-center gap-3">
         {type === "VIDEO" ? (
           <FaDisplay className="text-lg" />

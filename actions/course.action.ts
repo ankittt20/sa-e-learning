@@ -30,7 +30,18 @@ export const getCourseById = async (courseId: number) => {
         id: courseId,
       },
       include: {
-        tutor: true,
+        tutor: {
+          select: {
+            id: true,
+            name: true,
+            speciality: true,
+            profilePicture: true,
+            fbUrl: true,
+            instagramUrl: true,
+            linkedInUrl: true,
+            about: true,
+          },
+        },
         category: {
           select: {
             category: true,
@@ -44,5 +55,36 @@ export const getCourseById = async (courseId: number) => {
   } catch (err) {
     console.log(err);
     return { msg: "Error fetching course", success: false };
+  }
+};
+
+export const getTotalCourseLessonCount = async (courseId: number) => {
+  try {
+    const course = await db.course.findUnique({
+      where: {
+        id: courseId,
+      },
+      include: {
+        sections: {
+          select: {
+            lessons: true,
+          },
+        },
+      },
+    });
+
+    let totalLessonCount = 0;
+    course?.sections.forEach((section) => {
+      totalLessonCount += section.lessons.length;
+    });
+
+    return { totalLessonCount, success: true };
+  } catch (err) {
+    console.log(err);
+    return {
+      msg: "Error fetching total lesson count",
+      success: false,
+      totalLessonCount: 0,
+    };
   }
 };

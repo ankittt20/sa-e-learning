@@ -1,14 +1,45 @@
+"use client";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { FaPlayCircle } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
-import React from "react";
 import { Button } from "@/components/ui/button";
+import { getTotalCourseLessonCount } from "@/actions/course.action";
+import { addCourseToCart } from "@/actions/user.actions";
 
 interface CourseInfoProps {
   course: any;
 }
 
 const CourseInfo = ({ course }: CourseInfoProps) => {
+  const [lessonCount, setLessonCount] = useState(0);
+
+  const fetchTotalLessonCount = useCallback(async (courseId: number) => {
+    try {
+      const data = await getTotalCourseLessonCount(courseId);
+      if (data.success) {
+        setLessonCount(data.totalLessonCount);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchTotalLessonCount(course.id);
+  }, [course.id, fetchTotalLessonCount]);
+
+  const handleAddCourseToCart = async () => {
+    try {
+      const data = await addCourseToCart(+course.id);
+      if (data.success) {
+        alert("Course added to cart successfully");
+      } else alert("Course is already in the cart");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="bg-[#F3F1FC] p-8">
       <div className="relative">
@@ -67,7 +98,7 @@ const CourseInfo = ({ course }: CourseInfoProps) => {
             </div>
             <div className="flex items-center justify-between border-t border-[#EFDED5] pt-3">
               <h6 className="text-xs font-bold uppercase">Lessons</h6>
-              <span>5</span>
+              <span>{lessonCount}</span>
             </div>
             <div className="flex items-center justify-between border-t border-[#EFDED5] pt-3">
               <h6 className="text-xs font-bold uppercase">Levels</h6>
@@ -95,8 +126,11 @@ const CourseInfo = ({ course }: CourseInfoProps) => {
             </p>
           </div>
         </div>
-        <Button className="mt-6 w-full rounded-2xl bg-accent-blue py-6 text-primary-100">
-          <p className="text-lg font-bold">Buy Now</p>
+        <Button
+          className="mt-6 w-full rounded-2xl bg-accent-blue py-6 text-primary-100"
+          onClick={handleAddCourseToCart}
+        >
+          <p className="text-lg font-bold">Add to Cart</p>
         </Button>
         <div className="mt-6 flex items-center justify-between px-5">
           <p className="text-[10px] font-semibold underline underline-offset-2 sm:text-xs">

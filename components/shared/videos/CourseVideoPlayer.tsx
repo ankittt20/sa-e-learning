@@ -8,7 +8,11 @@ import { MdOpenInFull } from "react-icons/md";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 
-const CourseVideoPlayer = () => {
+interface Props {
+  lesson: any;
+}
+
+const CourseVideoPlayer = ({ lesson }: Props) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleVideoPlay = () => {

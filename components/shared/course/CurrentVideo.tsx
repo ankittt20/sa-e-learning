@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaRegThumbsUp, FaPlayCircle } from "react-icons/fa";
+import { MdAudiotrack } from "react-icons/md";
 import { CgNotes } from "react-icons/cg";
+import { CourseContext } from "@/store/course/CourseContext";
 
 interface Props {
   title: string;
@@ -9,6 +11,8 @@ interface Props {
   number: number;
   isNotes?: boolean;
   extraClasses?: string;
+  id: number;
+  type: string;
 }
 
 const CurrentVideo = ({
@@ -18,9 +22,20 @@ const CurrentVideo = ({
   number,
   isNotes,
   extraClasses,
+  id,
+  type,
 }: Props) => {
+  const { toggleSelectedCourseLesson } = useContext(CourseContext);
+
+  const handleLessonClick = (id: number) => {
+    toggleSelectedCourseLesson(id);
+  };
+
   return (
-    <div className={`${extraClasses} mt-4 flex rounded-md px-8 py-4`}>
+    <div
+      className={`${extraClasses} mt-4 flex rounded-md px-8 py-4`}
+      onClick={handleLessonClick.bind(null, id)}
+    >
       <div className="flex-between w-full">
         <div className="flex items-center gap-3">
           <div className="flex-center size-16 rounded-full bg-accent-blue p-3 max-sm:size-3">
@@ -44,10 +59,16 @@ const CurrentVideo = ({
             height="33px"
             className="size-3 sm:size-6"
           />
-          {isNotes ? (
+          {type === "TEXT" ? (
             <CgNotes width="33px" height="33px" className="size-3 sm:size-6" />
-          ) : (
+          ) : type === "VIDEO" ? (
             <FaPlayCircle
+              width="33px"
+              height="33px"
+              className="size-3 sm:size-6"
+            />
+          ) : (
+            <MdAudiotrack
               width="33px"
               height="33px"
               className="size-3 sm:size-6"
