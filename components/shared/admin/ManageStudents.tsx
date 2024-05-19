@@ -1,10 +1,23 @@
-import React from "react";
+"use client"
+import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import StudentCard from "./StudentCard";
+import { format } from "date-fns";
+import { getStudents } from "@/actions/admin.actions";
 
 type Props = {};
 
 const ManageStudents = (props: Props) => {
+  const [students, setStudents] = useState<any>();
+
+  useEffect(() => {
+    const fetchStudents = async () => {
+      const res = await getStudents();
+      setStudents(res.students);
+    };
+    fetchStudents();
+  }, []);
+
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -14,9 +27,16 @@ const ManageStudents = (props: Props) => {
         </div>
       </div>
       <div>
-        <StudentCard name="Akshay Kumar" joining="Joined - 15 Jan 2024" />
-        <StudentCard name="Prajakta" joining="Joined - 15 Jan 2024" />
-        <StudentCard name="Harsh Gupta" joining="Joined - 15 Jan 2024" />
+        {students &&
+          students.map((student: any) => {
+            return (
+              <StudentCard
+                name={student?.name}
+                key={student.id}
+                joining={format(new Date(student?.createdAt), "dd MMM yyyy")}
+              />
+            );
+          })}
       </div>
     </div>
   );

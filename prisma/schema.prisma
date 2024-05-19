@@ -197,8 +197,20 @@ model articleComment{
   createdAt DateTime?
 }
 
+model session{
+  id       Int      @id @default(autoincrement())
+  name     String?   @db.VarChar(255)
+  date DateTime?
+  startTime DateTime?
+  endTime DateTime?
+  status String?
+  createdAt DateTime @default(now())
+}
+
 model certificate{
   id       Int      @id @default(autoincrement())
+  certificateName    String?   @db.VarChar(255)
+  qualification String? @db.VarChar(255)
   courseId Int  @unique
   studentId Int
   course course @relation(fields: [courseId], references: [id])

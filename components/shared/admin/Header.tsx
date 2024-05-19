@@ -26,7 +26,7 @@ const Header = ({ title, user }: Props) => {
         </Button>
         <div className="flex h-14 items-center rounded-md bg-primary-100 px-3 max-sm:hidden">
           <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center space-x-6">
+            <DropdownMenuTrigger className="flex items-center space-x-6 outline-none">
               <div className="flex items-center space-x-3 p-1">
                 <Image
                   src="/assets/icons/fahmi.svg"

@@ -1,10 +1,23 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import TutorCard from "./TutorCard";
+import { getTutors } from "@/actions/admin.actions";
+import { format } from "date-fns";
 
 type Props = {};
 
 const ManageTutor = (props: Props) => {
+  const [tutors, setTutors] = useState<any>();
+
+  useEffect(() => {
+    const fetchTutors = async () => {
+      const res = await getTutors();
+      setTutors(res.tutors);
+    };
+    fetchTutors();
+  }, []);
+
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -14,9 +27,19 @@ const ManageTutor = (props: Props) => {
         </div>
       </div>
       <div>
-        <TutorCard name="Akshay Kumar" qualification="MBA" />
-        <TutorCard name="Prajakta" qualification="PhD" />
-        <TutorCard name="Harsh Gupta" qualification="B.Tech, M.Tech" />
+        {tutors &&
+          tutors.map((tutor: any) => {
+            return (
+              <TutorCard
+                name={tutor?.name}
+                key={tutor.id}
+                joined={format(
+                  new Date(tutor?.createdAt),
+                  "dd MMM yyyy"
+                )}
+              />
+            );
+          })}
       </div>
     </div>
   );

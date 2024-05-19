@@ -1,17 +1,52 @@
-import React from 'react'
-import { FaSearch } from 'react-icons/fa'
+"use client";
+import React, { useEffect, useState } from "react";
+import { getSessions } from "@/actions/admin.actions";
+import { format } from "date-fns";
 
-type Props = {}
+type Props = {};
 
-const ManageSessions = (props: Props) => {
+const SessionCard = (props: { session?: any }) => {
+  const { session } = props;
   return (
-    <div className="flex justify-between items-center">
-      <h1 className="text-lg font-semibold">Manage Session & Articles</h1>
-      <div className="flex justify-center items-center bg-accent-blue text-primary-100 h-7 w-7 rounded-sm">
-        <FaSearch />
+    <div className="flex-between mt-3 rounded-lg bg-primary-100 p-3 drop-shadow">
+      <div className="w-1/4">
+        <p className="text-sm font-medium text-[#292638]">{session?.name}</p>
+      </div>
+      <div>
+        <p className="text-sm font-medium text-[#292638]">Session Time</p>
+        <p className="text-xs text-[#7C7A84]">{format(new Date(session?.startTime), "hh:m")} - {format(new Date(session?.endTime), "hh:m")}</p>
+      </div>
+      <div>
+        <p className="text-sm font-medium text-[#292638]">Session Date</p>
+        <p className="text-xs text-[#7C7A84] capitalize">
+          {format(new Date(session?.startTime), "dd MMM yyyy")}
+        </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ManageSessions
+const ManageSessions = (props: Props) => {
+  const [sessions, setSessions] = useState<any>();
+
+  useEffect(() => {
+    const fetchSessions = async () => {
+      const res = await getSessions();
+      setSessions(res?.sessions);
+    };
+    fetchSessions();
+  }, []);
+
+  return (
+    <div className="space-y-2">
+      <h1 className="text-lg font-semibold">Manage Sessions</h1>
+      <div>
+        {sessions?.map((session: any) => (
+          <SessionCard key={session.id} session={session} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default ManageSessions;

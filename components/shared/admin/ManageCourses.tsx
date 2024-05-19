@@ -10,17 +10,21 @@ const CourseCard = (props: { course?: any }) => {
   const { course } = props;
   return (
     <div className="flex-between mt-3 rounded-lg bg-primary-100 p-3 drop-shadow">
-      <div>
+      <div className="w-1/4">
         <p className="text-sm font-medium text-[#292638]">{course?.title}</p>
         <p className="text-xs text-[#7C7A84] truncate">{course?.description}</p>
       </div>
       <div>
-        <p className="text-sm font-medium text-[#292638]">
-          {format(new Date(course?.createdAt), "dd-MM-yyyy HH:mm")}
-        </p>
+        <p className="text-sm font-medium text-[#292638]">$ {course?.price}</p>
         <p className="text-xs text-[#7C7A84] capitalize">{course?.level}</p>
       </div>
       <div>
+        <p className="text-sm font-medium text-[#292638]">Created On</p>
+        <p className="text-xs text-[#7C7A84] capitalize">
+          {format(new Date(course?.createdAt), "dd MMM yyyy")}
+        </p>
+      </div>
+      <div className="w-[15%] text-right">
         <button
           onClick={async () => {
             await verifyTutorCourse(course?.id, !course.isVerified);

@@ -1,10 +1,22 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import OffersCard from "./OffersCard";
+import { getDiscounts } from "@/actions/admin.actions";
+import { format } from "date-fns";
 
 type Props = {};
 
 const ManageOffers = (props: Props) => {
+  const [discounts, setDiscounts] = useState<any>();
+
+  useEffect(() => {
+    const fetchDiscounts = async () => {
+      const res = await getDiscounts();
+      setDiscounts(res.discounts);
+    };
+    fetchDiscounts();
+  }, []);
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -14,9 +26,14 @@ const ManageOffers = (props: Props) => {
         </div>
       </div>
       <div>
-        <OffersCard offer="HAPPY40" created="Created On - 06 Feb 2024" />
-        <OffersCard offer="HAPPY40" created="Created On - 06 Feb 2024" />
-        <OffersCard offer="HAPPY40" created="Created On - 06 Feb 2024" />
+        {discounts &&
+          discounts.map((discount: any) => (
+            <OffersCard
+              key={discount.id}
+              offer={discount?.name}
+              expiry={format(new Date(discount?.expiryDate), "dd MMM yyyy")}
+            />
+          ))}
       </div>
     </div>
   );
