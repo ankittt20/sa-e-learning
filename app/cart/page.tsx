@@ -1,4 +1,4 @@
-import { getUserCart } from "@/actions/user.actions";
+import { getSavedForLaterProducts, getUserCart } from "@/actions/user.actions";
 import CartTotal from "@/components/cart/CartTotal";
 import { getServerSession } from "next-auth";
 import CartCard from "@/components/shared/cards/CartCard";
@@ -8,6 +8,7 @@ import { authOptions } from "@/lib/auth";
 
 const page = async () => {
   const coursesInCart = await getUserCart();
+  const coursesSavedForLater = await getSavedForLaterProducts();
 
   // get the logged in user
   const session = await getServerSession(authOptions);
@@ -33,8 +34,26 @@ const page = async () => {
             <CartCard
               key={`${product.cartId}-${product.courseId}`}
               product={product.course}
+              isSavedForLater={false}
             />
           ))}
+          <Separator className="my-4 bg-[#D1D7DC]" />
+          <div>
+            <h3 className="h3-bold-extra">Saved for later</h3>
+            <div className="mt-5">
+              {coursesSavedForLater &&
+                coursesSavedForLater?.savedForLaterProducts?.map(
+                  (product: any) => (
+                    <CartCard
+                      key={`${product.cartId}-${product.courseId}`}
+                      product={product.course}
+                      isSavedForLater={true}
+                    />
+                  )
+                )}
+              <Separator className="my-4 bg-[#D1D7DC]" />
+            </div>
+          </div>
         </div>
         <CartTotal courses={coursesInCart} user={session?.user} />
       </div>

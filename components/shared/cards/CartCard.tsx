@@ -8,9 +8,10 @@ import { getTotalCourseLessonCount } from "@/actions/course.action";
 
 interface CartCardProps {
   product: any;
+  isSavedForLater: boolean;
 }
 
-const CartCard = async ({ product }: CartCardProps) => {
+const CartCard = async ({ product, isSavedForLater }: CartCardProps) => {
   const courseLessonCount = await getTotalCourseLessonCount(product.id);
 
   return (
@@ -45,7 +46,10 @@ const CartCard = async ({ product }: CartCardProps) => {
         </div>
         <div className="flex items-start gap-4">
           <div>
-            <CartController courseId={+product.id} />
+            <CartController
+              courseId={+product.id}
+              isSavedForLater={isSavedForLater}
+            />
           </div>
           <div className="py-1">
             <p className="text-bold text-accent-blue">{`Rs. ${product?.price}`}</p>

@@ -29,7 +29,6 @@ model User {
   cart cart?
   wishlist wishlist?
   orders orderInvoice[]
-  transactions transaction[]
   createdAt DateTime @default(now())
 
 }
@@ -263,9 +262,6 @@ model orderInvoice{
   userId Int
   user User @relation(fields: [userId], references: [id])
   products orderedCourses[]
-  totalAmount Decimal?
-  paymentMethod String?
-  paymentStatus String?
   transaction transaction @relation(fields: [id], references: [id])
   createdAt DateTime @default(now())
 }
@@ -281,13 +277,9 @@ model orderedCourses{
 
 model transaction{
   id       Int      @id @default(autoincrement())
-  userId Int
-  user User @relation(fields: [userId], references: [id])
   amount Decimal?
   transactionId String
-  paymentStatus String
   orderInvoice orderInvoice?
-  transactionType String?
   transactionStatus String?
   createdAt DateTime @default(now())
 }

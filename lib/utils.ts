@@ -42,5 +42,6 @@ export const pfValidSignature = (
     ).replace(/%20/g, "+")}`;
   }
   const signature = createHash("md5").update(pfParamString).digest("hex");
-  return pfData.signature === signature;
+  console.log("generated signature", signature);
+  return pfData.get("signature") === signature;
 };
