@@ -300,6 +300,17 @@ export const verifyArticle = async (
   }
 };
 
+// get all sessions
+export const getSessions = async () => {
+  try {
+    const sessions = await db?.session?.findMany();
+
+    return { sessions, success: true };
+  } catch (err) {
+    return { msg: "An error occurred", success: false };
+  }
+};
+
 // get all courses
 export const getCourses = async () => {
   try {
