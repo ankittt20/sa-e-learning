@@ -6,8 +6,8 @@ import Growth from "./Growth";
 import ManageTutors from "./ManageTutors";
 import ManageStudents from "./ManageStudents";
 import ManageCourses from "./ManageCourses";
+import ManageArticles from "./ManageArticles";
 import ManageSessions from "./ManageSessions";
-import ManageUploads from "./ManageUploads";
 import ManageCertificates from "./ManageCertificates";
 import ManageOffers from "./ManageOffers";
 
@@ -48,10 +48,10 @@ const Stats = (props: Props) => {
             />
           </div>
         </div>
-        <div className="flex space-x-5">
+        {/* <div className="flex space-x-5">
           <Courses />
           <Growth />
-        </div>
+        </div> */}
         <div className="flex space-x-10">
           <ManageTutors />
           <ManageStudents />
@@ -59,11 +59,11 @@ const Stats = (props: Props) => {
         <div>
           <ManageCourses />
         </div>
-        <div className="flex space-x-5">
+        <div className="space-y-8">
+          <ManageArticles />
           <ManageSessions />
-          <ManageUploads />
         </div>
-        <div className="flex space-x-10">
+        <div className="flex space-x-10 pb-8 sm:pb-16">
           <ManageCertificates />
           <ManageOffers />
         </div>

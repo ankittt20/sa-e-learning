@@ -1,10 +1,22 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import CertificatesCard from "./CertificatesCard";
+import { getCertificates } from "@/actions/admin.actions";
 
 type Props = {};
 
 const ManageCertificates = (props: Props) => {
+  const [certificates, setCertificates] = useState<any>();
+
+  useEffect(() => {
+    const fetchCertificates = async () => {
+      const res = await getCertificates();
+      setCertificates(res.certificates);
+    };
+    fetchCertificates();
+  }, []);
+
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -14,15 +26,16 @@ const ManageCertificates = (props: Props) => {
         </div>
       </div>
       <div>
-        <CertificatesCard
-          certificate="IT Solutions Certificate"
-          qualification="B.Tech, MBA"
-        />
-        <CertificatesCard certificate="Python Basic" qualification="PhD" />
-        <CertificatesCard
-          certificate="JavaScript - Intermediate"
-          qualification="B.Tech, M.Tech"
-        />
+        {certificates &&
+          certificates.map((certificate: any) => {
+            return (
+              <CertificatesCard
+                certificate={certificate?.certificateName}
+                key={certificate.id}
+                qualification={certificate?.qualification}
+              />
+            );
+          })}
       </div>
     </div>
   );

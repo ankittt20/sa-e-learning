@@ -37,6 +37,33 @@ export const getTutorPerformance = async (tutorId: number) => {
   }
 };
 
+// get all tutors
+
+export const getTutors = async () => {
+  try {
+    const tutors = await db.tutor.findMany();
+
+    return { tutors, success: true };
+  } catch (err) {
+    return { msg: "An error occurred", success: false };
+  }
+};
+
+// get all students
+export const getStudents = async () => {
+  try {
+    const students = await db.user.findMany({
+      where: {
+        category: "student" || "Student",
+      },
+    });
+
+    return { students, success: true };
+  } catch (err) {
+    return { msg: "An error occurred", success: false };
+  }
+};
+
 // add new category
 export const addCategory = async (name: string, type: number) => {
   try {
@@ -122,6 +149,17 @@ export const deleteCategory = async (id: number) => {
     });
 
     return { msg: "Category deleted successfully", success: true };
+  } catch (err) {
+    return { msg: "An error occurred", success: false };
+  }
+};
+
+// get all articles
+export const getArticles = async () => {
+  try {
+    const articles = await db.article.findMany();
+
+    return { articles, success: true };
   } catch (err) {
     return { msg: "An error occurred", success: false };
   }
@@ -251,6 +289,17 @@ export const verifyArticle = async (
   }
 };
 
+// get all sessions
+export const getSessions = async () => {
+  try {
+    const sessions = await db.session.findMany();
+
+    return { sessions, success: true };
+  } catch (err) {
+    return { msg: "An error occurred", success: false };
+  }
+};
+
 // get all courses
 export const getCourses = async () => {
   try {
@@ -295,8 +344,21 @@ export const verifyTutorCourse = async (
   }
 };
 
+// get all certificates
+export const getCertificates = async () => {
+  try {
+    const certificates = await db.certificate.findMany();
+
+    return { certificates, success: true };
+  } catch (err) {
+    return { msg: "An error occurred", success: false };
+  }
+};
+
 // add certificate
 export const addCertificate = async (
+  certificateName: string,
+  qualification: string,
   certificateUrl: string,
   studentId: number,
   courseId: number,
@@ -307,6 +369,8 @@ export const addCertificate = async (
     // create a new certificate
     await db.certificate.create({
       data: {
+        certificateName,
+        qualification,
         certificateUrl,
         studentId,
         courseId,
@@ -343,6 +407,17 @@ export const deleteCertificate = async (id: number) => {
     });
 
     return { msg: "Certificate deleted successfully", success: true };
+  } catch (err) {
+    return { msg: "An error occurred", success: false };
+  }
+};
+
+// get all offers & discounts
+export const getDiscounts = async () => {
+  try {
+    const discounts = await db.discount.findMany();
+
+    return { discounts, success: true };
   } catch (err) {
     return { msg: "An error occurred", success: false };
   }

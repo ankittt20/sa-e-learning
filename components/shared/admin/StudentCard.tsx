@@ -20,7 +20,7 @@ const StudentCard = ({ name, joining }: Props) => {
         />
         <div>
           <p className="text-sm font-medium text-[#292638]">{name}</p>
-          <p className="text-xs text-[#7C7A84]">{joining}</p>
+          <p className="text-xs text-[#7C7A84]">Joined - {joining}</p>
         </div>
       </div>
       <CUD selectedItemId={0} />
