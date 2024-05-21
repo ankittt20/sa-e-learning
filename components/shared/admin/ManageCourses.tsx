@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { verifyTutorCourse, getCourses } from "@/actions/admin.actions";
 import { getCoursesInterface } from "@/types/types";
 import { format } from "date-fns";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Props = {};
 
@@ -71,9 +72,17 @@ const ManageCourses = (props: Props) => {
     <div className="space-y-2">
       <h1 className="text-lg font-semibold">Manage Courses</h1>
       <div>
-        {courses?.map((course) => (
-          <CourseCard key={course.id} course={course} />
-        ))}
+        {courses &&
+          courses?.map((course) => (
+            <CourseCard key={course.id} course={course} />
+          ))}
+        {!courses && (
+          <div className="space-y-2">
+            <Skeleton className="w-full h-12 rounded-md bg-dark-100/5" />
+            <Skeleton className="w-full h-12 rounded-md bg-dark-100/5" />
+            <Skeleton className="w-full h-12 rounded-md bg-dark-100/5" />
+          </div>
+        )}
       </div>
     </div>
   );

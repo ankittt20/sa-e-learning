@@ -1,22 +1,41 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import CUD from "../actions/CUD";
 import { FaCheckSquare } from "react-icons/fa";
+import {
+  getCategories,
+  deleteCategory,
+  addCategory,
+} from "@/actions/admin.actions";
 
-const categories = [
-  "LANGUAGE",
-  "DESIGNING",
-  "PROGRAMMING",
-  "IT SERVICES",
-  "CYBER SECURITY",
-  "CLOUD",
-  "ML",
-  "SQL",
-  "AI",
-];
+// const categories = [
+//   "LANGUAGE",
+//   "DESIGNING",
+//   "PROGRAMMING",
+//   "IT SERVICES",
+//   "CYBER SECURITY",
+//   "CLOUD",
+//   "ML",
+//   "SQL",
+//   "AI",
+// ];
 
 type Props = {};
 
 const Categories = (props: Props) => {
+  const [categories, setCategories] = useState<any>();
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const { categories, success } = await getCategories();
+
+      if (success) {
+        setCategories(categories);
+      }
+    };
+
+    fetchCategories();
+  }, []);
   return (
     <div>
       <div className="flex items-center justify-between">
@@ -33,15 +52,17 @@ const Categories = (props: Props) => {
           </div>
         </div>
         <div className="px-2 space-y-2">
-          {categories.map((category, index) => (
-            <div key={index} className="flex justify-between">
+          {categories?.map((category: any) => (
+            <div key={category?.id} className="flex justify-between">
               <div className="flex items-center space-x-2">
-                <FaCheckSquare />
-                <p className="text-[#292638] text-xs font-medium">
-                  {category}
+                <p className="text-[#292638] text-xs font-medium uppercase tracking-wide">
+                  {category?.name}
                 </p>
               </div>
-              <CUD selectedItemId={0} />
+              <CUD
+                selectedItemId={category.id}
+                handleDeleteClick={() => deleteCategory(category.id)}
+              />
             </div>
           ))}
         </div>

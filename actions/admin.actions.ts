@@ -64,6 +64,17 @@ export const getStudents = async () => {
   }
 };
 
+// get all categories
+export const getCategories = async () => {
+  try {
+    const categories = await db.category.findMany();
+
+    return { categories, success: true };
+  } catch (err) {
+    return { msg: "An error occurred", success: false };
+  }
+};
+
 // add new category
 export const addCategory = async (name: string, type: number) => {
   try {
