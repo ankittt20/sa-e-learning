@@ -1,15 +1,42 @@
 "use client";
 import React from "react";
 import { Button } from "../ui/button";
-import { removeCourseFromCart } from "@/actions/user.actions";
+import {
+  markCartProductsSavedForLater,
+  removeCourseFromCart,
+  removeSavedForLaterProducts,
+} from "@/actions/user.actions";
 
 interface CartControllerProps {
   courseId: number;
+  isSavedForLater: boolean;
 }
 
-const CartController = ({ courseId }: CartControllerProps) => {
+const CartController = ({ courseId, isSavedForLater }: CartControllerProps) => {
   const removeProductFromCart = async () => {
     const res = await removeCourseFromCart(courseId);
+    if (res.success) {
+      alert(res.msg);
+      window.location.reload();
+    } else {
+      alert(res.msg);
+    }
+  };
+
+  const markCourseForLater = async () => {
+    // mark course for later
+    const res = await markCartProductsSavedForLater(courseId);
+    if (res.success) {
+      alert(res.msg);
+      window.location.reload();
+    } else {
+      alert(res.msg);
+    }
+  };
+
+  const unmarkCourseForLater = async () => {
+    // unmark course from later
+    const res = await removeSavedForLaterProducts(courseId);
     if (res.success) {
       alert(res.msg);
       window.location.reload();
@@ -26,7 +53,12 @@ const CartController = ({ courseId }: CartControllerProps) => {
       >
         Remove
       </Button>
-      <Button className="text-lg text-accent-blue">Save for Later</Button>
+      <Button
+        className="text-lg text-accent-blue"
+        onClick={isSavedForLater ? markCourseForLater : unmarkCourseForLater}
+      >
+        {isSavedForLater ? "Move to Cart" : "Save for Later"}
+      </Button>
       <Button className="text-lg text-accent-blue">Move to Wishlist</Button>
     </div>
   );

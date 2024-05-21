@@ -311,3 +311,145 @@ export const addCourseToStudentCourses = async (courseId: any, userId: any) => {
     return { msg: "Error adding course to student courses", success: false };
   }
 };
+
+export const markCartProductsSavedForLater = async (courseId: number) => {
+  try {
+    // get the loggedIn userId
+    const session = await getServerSession(authOptions);
+    const userId = session?.user.id;
+
+    if (!userId) {
+      return {
+        msg: "You are not authorized to mark products saved for later",
+        success: false,
+      };
+    }
+
+    // check if the course is in the cart
+    const isCourseInCart = await db.cart.findFirst({
+      where: {
+        userId: +userId,
+      },
+    });
+
+    if (!isCourseInCart) {
+      return { msg: "Course is not in the cart", success: false };
+    }
+
+    // mark the products saved for later
+    await db.cartProducts.updateMany({
+      where: {
+        cartId: isCourseInCart.id,
+        courseId,
+      },
+      data: {
+        savedForLater: true,
+      },
+    });
+
+    return {
+      msg: "Products marked saved for later successfully",
+      success: true,
+    };
+  } catch (err) {
+    console.log(err);
+    return { msg: "Error marking products saved for later", success: false };
+  }
+};
+
+export const getSavedForLaterProducts = async () => {
+  try {
+    // get the loggedIn userId
+    const session = await getServerSession(authOptions);
+    const userId = session?.user.id;
+
+    if (!userId) {
+      return {
+        msg: "You are not authorized to fetch saved for later products",
+        success: false,
+      };
+    }
+
+    // get the saved for later products
+    const savedForLaterProducts = await db.cartProducts.findMany({
+      where: {
+        cart: {
+          userId: +userId,
+        },
+        savedForLater: true,
+      },
+      include: {
+        course: {
+          select: {
+            id: true,
+            name: true,
+            price: true,
+            image: true,
+            level: true,
+            rating: true,
+            tutor: {
+              select: {
+                name: true,
+                id: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return { savedForLaterProducts, success: true };
+  } catch (err) {
+    console.log(err);
+    return {
+      msg: "Error fetching saved for later products",
+      success: false,
+      savedForLaterProducts: [],
+    };
+  }
+};
+
+export const removeSavedForLaterProducts = async (courseId: number) => {
+  try {
+    // get the loggedIn userId
+    const session = await getServerSession(authOptions);
+    const userId = session?.user.id;
+
+    if (!userId) {
+      return {
+        msg: "You are not authorized to remove saved for later products",
+        success: false,
+      };
+    }
+
+    // check if the course is in the cart
+    const isCourseInCart = await db.cart.findFirst({
+      where: {
+        userId: +userId,
+      },
+    });
+
+    if (!isCourseInCart) {
+      return { msg: "Course is not in the cart", success: false };
+    }
+
+    // remove the course from the cart
+    await db.cartProducts.updateMany({
+      where: {
+        cartId: isCourseInCart.id,
+        courseId,
+      },
+      data: {
+        savedForLater: false,
+      },
+    });
+
+    return {
+      msg: "Saved for later products removed successfully",
+      success: true,
+    };
+  } catch (err) {
+    console.log(err);
+    return { msg: "Error removing saved for later products", success: false };
+  }
+};
