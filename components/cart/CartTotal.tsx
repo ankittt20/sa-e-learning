@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Separator } from "../ui/separator";
 import Promotions from "./Promotions";
 import { makePayment } from "@/actions/payments.action";
+import { v4 } from "uuid";
 // import { v4 } from "uuid";
 
 interface CartTotalProps {
@@ -13,24 +14,35 @@ interface CartTotalProps {
 const CartTotal = ({ courses, user }: CartTotalProps) => {
   const [cartTotal, setCartTotal] = useState(0);
   const [paymentLink, setPaymentLink] = useState("");
+  const [productName, setProductName] = useState("");
+
+  // concat course names to form product name
+  useEffect(() => {
+    const productNames = courses.cart.cartProducts.map(
+      (product: any) => product.course.id
+    );
+    setProductName(productNames.join("$"));
+  }, [courses]);
 
   const generatePaymentLink = useCallback(async () => {
     const data = {
       merchant_id: "10033735",
       merchant_key: "6e5on1l1ixuwq",
-      return_url: "https://sa-e-learning.vercel.app/dashboard",
-      cancel_url: "https://sa-e-learning.vercel.app/cancel",
-      notify_url: "https://sa-e-learning.vercel.app/api/payments",
+      return_url: "https://25f2-223-177-225-110.ngrok-free.app/dashboard",
+      cancel_url: "https://25f2-223-177-225-110.ngrok-free.app/cancel",
+      notify_url: "https://25f2-223-177-225-110.ngrok-free.app/api/payments",
       name_first: user?.name.split(" ")[0],
       name_last: user?.name.split(" ")[1],
       email_address: "www.aditi17@gmail.com",
       amount: cartTotal,
-      item_name: "order#123",
+      item_name: v4(),
+      custom_str1: productName,
+      custom_str2: user?.id,
     };
     if (cartTotal === 0) return;
     const res = await makePayment(data);
     setPaymentLink(res);
-  }, [user, cartTotal]);
+  }, [user, cartTotal, productName]);
 
   useEffect(() => {
     generatePaymentLink();

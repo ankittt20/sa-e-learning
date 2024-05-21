@@ -264,3 +264,50 @@ export const getUserCart = async () => {
     return { msg: "Error fetching cart", success: false };
   }
 };
+
+export const addCourseToStudentCourses = async (courseId: any, userId: any) => {
+  const mappedData = courseId.split("$").map((id: string) => {
+    return {
+      courseId: +id,
+      studentId: +userId,
+    };
+  });
+
+  try {
+    // add course to student courses
+    await db.studentCourse.createMany({
+      data: mappedData,
+    });
+
+    // check if the course is in the cart
+    const isCourseInCart = await db.cart.findFirst({
+      where: {
+        userId: +userId,
+      },
+    });
+
+    if (!isCourseInCart) {
+      return { msg: "Course is not in the cart", success: false };
+    }
+
+    // remove the course from the cart
+    await db.cartProducts.deleteMany({
+      where: {
+        cartId: isCourseInCart.id,
+        courseId: {
+          in: mappedData.map(
+            (data: { courseId: number; userId: number }) => data.courseId
+          ),
+        },
+      },
+    });
+
+    return {
+      msg: "Course added to student courses successfully",
+      success: true,
+    };
+  } catch (err) {
+    console.log(err);
+    return { msg: "Error adding course to student courses", success: false };
+  }
+};
