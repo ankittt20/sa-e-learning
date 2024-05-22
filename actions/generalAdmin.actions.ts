@@ -6,7 +6,6 @@ export const addDiscountCode = async (
   code: string,
   discount: number,
   expiryDate: Date,
-  purpose: string
 ) => {
   try {
     // check if the code already exists
@@ -26,7 +25,6 @@ export const addDiscountCode = async (
         code,
         discount,
         expiryDate,
-        purpose,
       },
     });
 
@@ -65,7 +63,6 @@ export const updateDiscountCode = async (
         code,
         discount,
         expiryDate,
-        purpose,
       },
     });
 
