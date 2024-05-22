@@ -160,10 +160,8 @@ model lesson{
 model discount{
   id       Int      @id @default(autoincrement())
   code     String   @unique @db.VarChar(255)
-  name     String?   @db.VarChar(255)
   discount Decimal?
   expiryDate DateTime?
-  purpose String?
 }
 
 model permissions{

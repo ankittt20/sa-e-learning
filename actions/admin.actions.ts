@@ -431,3 +431,52 @@ export const getDiscounts = async () => {
     return { msg: "An error occurred", success: false };
   }
 };
+
+// add offer
+export const addOffer = async (
+  code: string,
+  discount: number,
+  expiryDate: Date
+) => {
+  try {
+    // create a new offer
+    await db.discount.create({
+      data: {
+        code,
+        discount,
+        expiryDate,
+      },
+    });
+
+    return { msg: "Offer Created Successfully", success: true };
+  } catch (err) {
+    return { msg: "An Error Occurred", success: false };
+  }
+};
+
+// delete offer
+export const deleteOffer = async (id: number) => {
+  try {
+    // check if the offer exists
+    const offer = await db.discount.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!offer) {
+      return { msg: "Offer Not Found", success: false };
+    }
+
+    // delete the offer
+    await db.discount.delete({
+      where: {
+        id,
+      },
+    });
+
+    return { msg: "Offer Deleted Successfully", success: true };
+  } catch (err) {
+    return { msg: "An Error Occurred", success: false };
+  }
+};

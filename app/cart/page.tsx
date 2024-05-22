@@ -1,5 +1,5 @@
 import { getSavedForLaterProducts, getUserCart } from "@/actions/user.actions";
-import CartTotal from "@/components/cart/CartTotal";
+import CartTotal from "@/components/shared/cart/CartTotal";
 import { getServerSession } from "next-auth";
 import CartCard from "@/components/shared/cards/CartCard";
 import { Separator } from "@/components/ui/separator";
@@ -18,13 +18,13 @@ const page = async () => {
 
   const cartItemMessage =
     itemsInCart === 0
-      ? "Your cart is empty"
+      ? "Your Cart is Empty"
       : itemsInCart === 1
       ? `1 item in cart`
       : `${itemsInCart} Items in Cart`;
 
   return (
-    <div>
+    <div className="pb-8 sm:pb-16">
       <h3 className="h3-bold-extra">Shopping Cart</h3>
       <p className="text-semibold mt-9">{cartItemMessage}</p>
       <Separator className="my-4 bg-[#D1D7DC]" />

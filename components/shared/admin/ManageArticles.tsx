@@ -25,7 +25,7 @@ const ManageArticles = (props: Props) => {
           <FaSearch />
         </div>
       </div>
-      <div>
+      <div className="max-h-60 pb-2 overflow-y-scroll no-scrollbar">
         <table className="w-full">
           <thead>
             <tr className="text-sm text-left">

@@ -71,7 +71,7 @@ const ManageCourses = (props: Props) => {
   return (
     <div className="space-y-2">
       <h1 className="text-lg font-semibold">Manage Courses</h1>
-      <div>
+      <div className="max-h-60 pb-2 overflow-y-scroll no-scrollbar">
         {courses &&
           courses?.map((course) => (
             <CourseCard key={course.id} course={course} />

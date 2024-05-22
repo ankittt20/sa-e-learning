@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { Rating } from "../Rating";
 import Info from "@/components/Info";
-import CartController from "@/components/cart/CartController";
+import CartController from "@/components/shared/cart/CartController";
 import { Separator } from "@/components/ui/separator";
 import { getTotalCourseLessonCount } from "@/actions/course.action";
 
