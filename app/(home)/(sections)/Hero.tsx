@@ -7,7 +7,7 @@ export default function Hero() {
     <div className="relative mt-[236px]">
       <div className="flex flex-col-reverse items-center justify-center max-sm:px-5 max-sm:text-center sm:flex-row sm:justify-between">
         <div>
-          <h1 className="h1-bold max-w-[596px]">
+          <h1 className="my-3 sm:my-0 h1-bold max-w-[596px]">
             Dive into a world of{" "}
             <span className="text-[#F762A2]">learning excellence</span>
           </h1>
