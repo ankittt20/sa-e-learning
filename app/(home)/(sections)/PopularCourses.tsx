@@ -2,15 +2,15 @@
 import React, { useEffect, useState } from "react";
 import TopicAndMore from "@/components/shared/TopicAndMore";
 import CourseCards from "@/components/shared/cards/CourseCards";
-import { getAllCourses } from "@/actions/course.action";
+import { getPopularCourses } from "@/actions/course.action";
 
 const PopularCourses = () => {
   const [courses, setCourses] = useState<any>();
 
   useEffect(() => {
     const fetchCourses = async () => {
-      const res = await getAllCourses();
-      setCourses(res.courses);
+      const res = await getPopularCourses();
+      setCourses(res.popularCourses);
     };
     fetchCourses();
   }, []);

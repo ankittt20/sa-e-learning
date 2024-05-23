@@ -29,6 +29,8 @@ model User {
   cart cart?
   wishlist wishlist?
   orders orderInvoice[]
+  progression progressions[]
+  rating review[]
   createdAt DateTime @default(now())
 
 }
@@ -77,7 +79,7 @@ model tutor{
 }
 
 model course{
-  id       Int      @id @default(autoincrement())
+  id       Int      @id @default(autoincrement()) @unique
   name     String?   @db.VarChar(255)
   description String? @db.VarChar(50000)
   price Int?
@@ -86,7 +88,7 @@ model course{
   category categorisedCourse[]
   student studentCourse[]
   sections courseSections[]
-  rating Int?
+  rating review[]
   image String?
   isPublished Boolean @default(false)
   verified Boolean @default(false)
@@ -100,6 +102,17 @@ model course{
   createdAt DateTime @default(now())
 }
 
+model review{
+  id       Int      @id @default(autoincrement())
+  courseId Int
+  userId Int
+  rating Int?
+  review String? @db.VarChar(5000)
+  course course @relation(fields: [courseId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+
+}
 model category{
   id       Int      @id @default(autoincrement())
   name     String   @unique @db.VarChar(255)
@@ -155,6 +168,19 @@ model lesson{
   type String
   isPreview Boolean @default(false)
   duration String?
+  progressions progressions[]
+}
+
+model progressions{
+  id       Int      @id @default(autoincrement())
+  studentId Int
+  student User @relation(fields: [studentId], references: [id])
+  lessonId Int 
+  lesson lesson @relation(fields: [lessonId], references: [id])
+  progress String?
+  completed Boolean @default(false)
+  createdAt DateTime @default(now())
+
 }
 
 model discount{

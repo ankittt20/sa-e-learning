@@ -15,7 +15,7 @@ type Props = {};
 const MyCourses = (props: Props) => {
   return (
     <>
-      <div className="font-poppins">
+      <div className="mt-9 font-poppins">
         <div className="flex items-center justify-between">
           <h1 className="text-lg font-semibold">My Course</h1>
           <div>
