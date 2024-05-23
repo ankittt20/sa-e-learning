@@ -64,6 +64,17 @@ export const getStudents = async () => {
   }
 };
 
+// get all categories
+export const getCategories = async () => {
+  try {
+    const categories = await db.category.findMany();
+
+    return { categories, success: true };
+  } catch (err) {
+    return { msg: "An error occurred", success: false };
+  }
+};
+
 // add new category
 export const addCategory = async (name: string, type: number) => {
   try {
@@ -289,6 +300,17 @@ export const verifyArticle = async (
   }
 };
 
+// get all sessions
+export const getSessions = async () => {
+  try {
+    const sessions = await db?.session?.findMany();
+
+    return { sessions, success: true };
+  } catch (err) {
+    return { msg: "An error occurred", success: false };
+  }
+};
+
 // get all courses
 export const getCourses = async () => {
   try {
@@ -407,5 +429,54 @@ export const getDiscounts = async () => {
     return { discounts, success: true };
   } catch (err) {
     return { msg: "An error occurred", success: false };
+  }
+};
+
+// add offer
+export const addOffer = async (
+  code: string,
+  discount: number,
+  expiryDate: Date
+) => {
+  try {
+    // create a new offer
+    await db.discount.create({
+      data: {
+        code,
+        discount,
+        expiryDate,
+      },
+    });
+
+    return { msg: "Offer Created Successfully", success: true };
+  } catch (err) {
+    return { msg: "An Error Occurred", success: false };
+  }
+};
+
+// delete offer
+export const deleteOffer = async (id: number) => {
+  try {
+    // check if the offer exists
+    const offer = await db.discount.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!offer) {
+      return { msg: "Offer Not Found", success: false };
+    }
+
+    // delete the offer
+    await db.discount.delete({
+      where: {
+        id,
+      },
+    });
+
+    return { msg: "Offer Deleted Successfully", success: true };
+  } catch (err) {
+    return { msg: "An Error Occurred", success: false };
   }
 };

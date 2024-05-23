@@ -34,6 +34,21 @@ const config: Config = {
     plugins: [
       require("tailwindcss-animate"),
       require("@tailwindcss/typography"),
+      function ({ addUtilities }: { addUtilities: any }) {
+        const newUtilities = {
+          '.no-scrollbar': {
+            /* Hide scrollbar for Webkit browsers */
+            '-webkit-overflow-scrolling': 'touch',
+            '-ms-overflow-style': 'none',
+            'scrollbar-width': 'none',
+          },
+          '.no-scrollbar::-webkit-scrollbar': {
+            display: 'none',
+          },
+        };
+  
+        addUtilities(newUtilities);
+      },
     ],
     extend: {
       keyframes: {

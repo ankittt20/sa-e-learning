@@ -8,6 +8,7 @@ interface Props {
   handleEditClick?: (id: number) => void;
   handleDeleteClick?: () => void;
   selectedItemId: number;
+  notVisible?: boolean;
 }
 
 const CUD = ({
@@ -15,11 +16,14 @@ const CUD = ({
   handleEditClick,
   handleDeleteClick,
   selectedItemId,
+  notVisible,
 }: Props) => {
   return (
     <div className="flex items-center gap-3">
       <IoIosAddCircle
-        className="size-6 cursor-pointer text-accent-blue"
+        className={`size-6 cursor-pointer text-accent-blue ${
+          notVisible ? "hidden" : ""
+        }`}
         onClick={handleAddClick}
       />
       <FaEdit

@@ -1,10 +1,9 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
-import { Separator } from "../ui/separator";
+import { Separator } from "../../ui/separator";
 import Promotions from "./Promotions";
 import { makePayment } from "@/actions/payments.action";
 import { v4 } from "uuid";
-// import { v4 } from "uuid";
 
 interface CartTotalProps {
   courses: any;
@@ -15,13 +14,14 @@ const CartTotal = ({ courses, user }: CartTotalProps) => {
   const [cartTotal, setCartTotal] = useState(0);
   const [paymentLink, setPaymentLink] = useState("");
   const [productName, setProductName] = useState("");
+  const [discountAmount, setDiscountAmount] = useState(0);
 
   // concat course names to form product name
   useEffect(() => {
-    const productNames = courses.cart.cartProducts.map(
+    const productNames = courses?.cart?.cartProducts.map(
       (product: any) => product.course.id
     );
-    setProductName(productNames.join("$"));
+    setProductName(productNames?.join("$"));
   }, [courses]);
 
   const generatePaymentLink = useCallback(async () => {
@@ -50,7 +50,7 @@ const CartTotal = ({ courses, user }: CartTotalProps) => {
 
   const getCartTotal = useCallback(
     () =>
-      courses.cart.cartProducts.reduce((acc: number, product: any) => {
+      courses.cart?.cartProducts.reduce((acc: number, product: any) => {
         return acc + product.course.price;
       }, 0),
     [courses]
@@ -60,17 +60,31 @@ const CartTotal = ({ courses, user }: CartTotalProps) => {
     setCartTotal(getCartTotal);
   }, [courses, getCartTotal]);
 
+  const applyDiscount = (discountValue: number) => {
+    setDiscountAmount(discountValue);
+  };
+
   return (
     <div className="flex flex-col">
       <h6 className="text-bold text-[#6A6F73]">Total:</h6>
       <div className="flex flex-col gap-1">
-        <span className="text-3xl text-bold text-{#000}">Rs {cartTotal}</span>
-        <h6 className="text-bold text-[#6A6F73] line-through">Rs 2000</h6>
-        <span className="text-semibold text-[#000]">86% Off</span>
+        <span className="text-3xl text-bold text-{#000}">
+          Rs {cartTotal - (cartTotal * discountAmount) / 100}
+        </span>
+        {discountAmount > 0 && (
+          <>
+            <h6 className="text-bold text-[#6A6F73] line-through">
+              Rs {(cartTotal * discountAmount) / 100}
+            </h6>
+            <span className="text-semibold text-[#000]">
+              {discountAmount}% Off
+            </span>
+          </>
+        )}
       </div>
       <div dangerouslySetInnerHTML={{ __html: paymentLink }}></div>
       <Separator className="my-4 bg-[#D1D7DC]" />
-      <Promotions />
+      <Promotions applyDiscount={applyDiscount} />
     </div>
   );
 };
