@@ -79,7 +79,7 @@ model tutor{
 }
 
 model course{
-  id       Int      @id @default(autoincrement())
+  id       Int      @id @default(autoincrement()) @unique
   name     String?   @db.VarChar(255)
   description String? @db.VarChar(50000)
   price Int?

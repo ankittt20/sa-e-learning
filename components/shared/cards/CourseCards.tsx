@@ -13,15 +13,15 @@ import { FaStar } from "react-icons/fa";
 
 const CourseCards = (course: any) => {
   return (
-    <Card className="flex max-w-[268px] flex-col justify-start rounded-[10px] border border-solid border-[#fff] bg-primary-100 p-3 drop-shadow-2xl hover:drop-shadow-md cursor-pointer transition-all duration-300">
+    <Card className="flex max-w-[268px] cursor-pointer flex-col justify-start rounded-[10px] border border-solid border-[#fff] bg-primary-100 p-3 drop-shadow-2xl transition-all duration-300 hover:drop-shadow-md">
       <Image
         src={course?.image}
         width={500}
         height={500}
         alt="Course"
-        className="w-full h-auto"
+        className="h-auto w-full"
       />
-      <CardHeader className="flex flex-row justify-between items-center px-0">
+      <CardHeader className="flex flex-row items-center justify-between px-0">
         <Badge className="flex gap-2 rounded-none border-0 bg-accent-secondary px-2">
           <Image
             src="/assets/icons/circle.svg"
@@ -41,7 +41,7 @@ const CourseCards = (course: any) => {
         </div>
       </CardHeader>
       <CardContent className="px-0">
-        <CardTitle className="text-xs font-bold sm:text-base capitalize">
+        <CardTitle className="text-xs font-bold capitalize sm:text-base">
           {course?.name}
         </CardTitle>
         <CardDescription className="mt-3 text-[10px] sm:text-xs">

@@ -119,3 +119,26 @@ export const getPopularCourses = async () => {
     };
   }
 };
+
+// calculate the average rating of a course
+export const getCourseRating = async (courseId: number) => {
+  try {
+    const avgRating = await db.review.aggregate({
+      where: {
+        courseId,
+      },
+      _avg: {
+        rating: true,
+      },
+    });
+
+    return { avgRating, success: true };
+  } catch (err) {
+    console.log(err);
+    return {
+      msg: "Error fetching course rating",
+      success: false,
+      avgRating: 0,
+    };
+  }
+};
