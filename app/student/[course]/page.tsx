@@ -13,6 +13,7 @@ import {
   getCourseById,
   getTotalCourseLessonCount,
 } from "@/actions/course.action";
+import CreateReviewModal from "@/components/shared/reviews/CreateReviewModal";
 
 const StudentCourseDetail = () => {
   const { course } = useParams();
@@ -57,9 +58,7 @@ const StudentCourseDetail = () => {
                       {courseDetails?.tutor?.speciality || ""}
                     </p>
                     <div className="size-2 rounded-full bg-[#D9D9D9]"></div>
-                    <p className="text-semibold text-accent-blue max-sm:text-xs max-sm:font-bold">
-                      Follow
-                    </p>
+                    <CreateReviewModal course={course} />
                   </div>
                   <div className="mt-6">
                     <Tabs

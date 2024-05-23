@@ -453,3 +453,95 @@ export const removeSavedForLaterProducts = async (courseId: number) => {
     return { msg: "Error removing saved for later products", success: false };
   }
 };
+
+export const getUserCourses = async (userId: number) => {
+  try {
+    // get the user courses
+    const userCourses = await db.studentCourse.findMany({
+      where: {
+        studentId: userId,
+      },
+      include: {
+        course: {
+          select: {
+            id: true,
+            name: true,
+            price: true,
+            image: true,
+            level: true,
+            rating: true,
+            tutor: {
+              select: {
+                name: true,
+                id: true,
+              },
+            },
+            category: {
+              select: {
+                category: true,
+                id: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return { userCourses, success: true };
+  } catch (err) {
+    console.log(err);
+    return {
+      msg: "Error fetching user courses",
+      success: false,
+      userCourses: [],
+    };
+  }
+};
+
+// submit user review for a course
+export const submitUserReview = async (data: {
+  rating: number;
+  review: string;
+  courseId: number;
+}) => {
+  const { courseId, rating, review } = data;
+  try {
+    // get the loggedIn userId
+    const session = await getServerSession(authOptions);
+    const userId = session?.user.id;
+
+    if (!userId) {
+      return {
+        msg: "You are not authorized to submit review",
+        success: false,
+      };
+    }
+
+    // check if the user has already reviewed the course
+    const isUserAlreadyReviewed = await db.review.findFirst({
+      where: {
+        userId: +userId,
+        courseId,
+      },
+    });
+
+    if (isUserAlreadyReviewed) {
+      return { msg: "You have already reviewed the course", success: false };
+    }
+
+    // submit the review
+    await db.review.create({
+      data: {
+        userId: +userId,
+        courseId,
+        rating,
+        review,
+      },
+    });
+
+    return { msg: "Review submitted successfully", success: true };
+  } catch (err) {
+    console.log(err);
+    return { msg: "Error submitting review", success: false };
+  }
+};

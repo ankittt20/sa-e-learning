@@ -88,3 +88,34 @@ export const getTotalCourseLessonCount = async (courseId: number) => {
     };
   }
 };
+
+export const getPopularCourses = async () => {
+  try {
+    const popularCourses = await db.course.findMany({
+      include: {
+        _count: {
+          select: {
+            student: true,
+          },
+        },
+      },
+      orderBy: {
+        student: {
+          _count: "desc",
+        },
+      },
+    });
+    return {
+      popularCourses,
+      success: true,
+      msg: "Popular courses fetched successfully",
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      msg: "Error fetching popular courses",
+      success: false,
+      popularCourses: [],
+    };
+  }
+};

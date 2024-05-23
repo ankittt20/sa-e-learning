@@ -46,7 +46,7 @@ const CurriculumCard = ({
   return (
     <Accordion type="multiple">
       <AccordionItem value={title}>
-        <AccordionTrigger className="mb-3 w-fit items-center rounded bg-[#FEF1F0] p-4">
+        <AccordionTrigger className="mb-3 w-[200px] items-center rounded bg-[#FEF1F0] p-4 text-xs sm:w-fit sm:text-lg">
           <div className="flex cursor-pointer">
             <div className="flex items-center gap-5">
               <span>{count}.</span>

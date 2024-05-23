@@ -28,7 +28,7 @@ const page = async (props: Props) => {
         <Header session={session.user} showSearch heading="Dashboard" />
         <div className="flex flex-col-reverse space-x-8 sm:flex-row">
           <div className="space-y-10">
-            <Studying />
+            <Studying userId={session?.user?.id} />
             <MyCourses />
             <FamousCourses />
           </div>
