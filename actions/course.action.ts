@@ -12,6 +12,11 @@ export const getAllCourses = async () => {
             category: true,
           },
         },
+        _count: {
+          select: {
+            student: true,
+          },
+        },
       },
     });
     return { courses, success: true, msg: "Courses fetched successfully" };
@@ -48,6 +53,16 @@ export const getCourseById = async (courseId: number) => {
           },
         },
         sections: true,
+        rating: {
+          select: {
+            rating: true,
+          },
+        },
+        _count: {
+          select: {
+            student: true,
+          },
+        },
       },
     });
 
@@ -140,5 +155,29 @@ export const getCourseRating = async (courseId: number) => {
       success: false,
       avgRating: 0,
     };
+  }
+};
+
+export const getCourseReviews = async (courseId: number) => {
+  try {
+    const reviews = await db.review.findMany({
+      where: {
+        courseId,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            profilePicture: true,
+          },
+        },
+      },
+    });
+
+    return { reviews, success: true };
+  } catch (err) {
+    console.log(err);
+    return { msg: "Error fetching reviews", success: false, reviews: [] };
   }
 };

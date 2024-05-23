@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -11,8 +11,20 @@ import { Button } from "@/components/ui/button";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { Badge } from "@/components/ui/badge";
 import UserCourseReview from "../reviews/UserCourseReview";
+import { getCourseReviews } from "@/actions/course.action";
 
-const CourseReview = () => {
+const CourseReview = ({ courseId }: { courseId: string | string[] }) => {
+  const [reviews, setReviews] = useState<any[]>([]);
+
+  const getReviews = useCallback(async () => {
+    const reviewInfo = await getCourseReviews(+courseId);
+    setReviews(reviewInfo.reviews);
+  }, [courseId]);
+
+  useEffect(() => {
+    getReviews();
+  }, [getReviews]);
+
   return (
     <div className="my-6">
       <div className="flex-between">
@@ -81,11 +93,9 @@ const CourseReview = () => {
           </div>
         </div>
         <div className="flex flex-col gap-4">
-          <UserCourseReview />
-          <UserCourseReview />
-          <UserCourseReview />
-          <UserCourseReview />
-          <UserCourseReview />
+          {reviews.map((review, idx) => (
+            <UserCourseReview key={idx} review={review} />
+          ))}
         </div>
       </div>
     </div>
