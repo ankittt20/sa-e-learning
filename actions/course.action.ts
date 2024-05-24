@@ -158,7 +158,7 @@ export const getCourseRating = async (courseId: number) => {
   }
 };
 
-export const getCourseReviews = async (courseId: number) => {
+export const getCourseReviews = async (courseId: number, order: string) => {
   try {
     const reviews = await db.review.findMany({
       where: {
@@ -172,6 +172,9 @@ export const getCourseReviews = async (courseId: number) => {
             profilePicture: true,
           },
         },
+      },
+      orderBy: {
+        createdAt: order === "asc" ? "asc" : "desc",
       },
     });
 

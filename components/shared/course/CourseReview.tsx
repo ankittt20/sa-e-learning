@@ -15,11 +15,29 @@ import { getCourseReviews } from "@/actions/course.action";
 
 const CourseReview = ({ courseId }: { courseId: string | string[] }) => {
   const [reviews, setReviews] = useState<any[]>([]);
+  const [reviewOrder, setReviewOrder] = useState<"asc" | "desc">("desc");
+  const [stars, setStars] = useState({
+    fiveStar: 0,
+    fourStar: 0,
+    threeStar: 0,
+    twoStar: 0,
+    oneStar: 0,
+  });
 
   const getReviews = useCallback(async () => {
-    const reviewInfo = await getCourseReviews(+courseId);
+    const reviewInfo = await getCourseReviews(+courseId, reviewOrder);
+    reviewInfo.reviews.forEach((rev) => {
+      return setStars((prev) => ({
+        ...prev,
+        fiveStar: rev.rating === 5 ? prev.fiveStar + 1 : prev.fiveStar,
+        fourStar: rev.rating === 4 ? prev.fourStar + 1 : prev.fourStar,
+        threeStar: rev.rating === 3 ? prev.threeStar + 1 : prev.threeStar,
+        twoStar: rev.rating === 2 ? prev.twoStar + 1 : prev.twoStar,
+        oneStar: rev.rating === 1 ? prev.oneStar + 1 : prev.oneStar,
+      }));
+    });
     setReviews(reviewInfo.reviews);
-  }, [courseId]);
+  }, [courseId, reviewOrder]);
 
   useEffect(() => {
     getReviews();
@@ -30,17 +48,18 @@ const CourseReview = ({ courseId }: { courseId: string | string[] }) => {
       <div className="flex-between">
         <div className="flex items-center gap-3">
           <h6 className="text-bold">Reviews</h6>
-          <span className="mt-[2px] text-[20px]">42 reviews</span>
+          <span className="mt-[2px] text-[20px]">{reviews.length} reviews</span>
         </div>
         <div>
-          <Select>
+          <Select
+            onValueChange={(value) => setReviewOrder(value as "asc" | "desc")}
+          >
             <SelectTrigger className="h-fit w-[272px] rounded-[30px] bg-primary-100 font-bold focus:border-none max-sm:hidden sm:max-w-[325px]">
               <SelectValue placeholder="Sort by: Most Recent" />
             </SelectTrigger>
             <SelectContent className="rounded-lg border-[#DADADA] bg-primary-100">
-              <SelectItem value="light">Light</SelectItem>
-              <SelectItem value="dark">Dark</SelectItem>
-              <SelectItem value="system">System</SelectItem>
+              <SelectItem value="desc">Most Recent</SelectItem>
+              <SelectItem value="asc">Oldest to Newest</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -51,10 +70,26 @@ const CourseReview = ({ courseId }: { courseId: string | string[] }) => {
             Expectations Met?
           </h6>
           <div className="mt-4">
-            <ProgressInfo info="Exceeded" value={69} />
-            <ProgressInfo info="Yes" value={26} />
-            <ProgressInfo info="Somewhat" value={0} />
-            <ProgressInfo info="No" value={5} />
+            <ProgressInfo
+              info="Exceeded"
+              value={(stars.fiveStar / reviews.length) * 100}
+            />
+            <ProgressInfo
+              info="Yes"
+              value={(stars.fourStar / reviews.length) * 100}
+            />
+            <ProgressInfo
+              info="Somewhat"
+              value={(stars.threeStar / reviews.length) * 100}
+            />
+            <ProgressInfo
+              info="No"
+              value={(stars.twoStar / reviews.length) * 100}
+            />
+            <ProgressInfo
+              info="Not at all"
+              value={(stars.oneStar / reviews.length) * 100}
+            />
           </div>
           <Button className="mt-6 w-full bg-[#728AE7] py-5">
             <p className="text-bold text-primary-100">Leave a review</p>
