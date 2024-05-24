@@ -9,7 +9,7 @@ import { getServerSession } from "next-auth";
 const Navbar = async () => {
   const session = await getServerSession(authOptions);
   return (
-    <nav className="container">
+    <nav>
       <div className="flex items-center justify-between pt-10">
         <h3 className="pr-2 text-3xl font-bold">SAelearning</h3>
         <ul className="flex gap-20 pr-2 max-sm:hidden">
@@ -30,7 +30,7 @@ const Navbar = async () => {
             </a>
           </Button>
         )}
-        <MobileNav />
+        <MobileNav user={session?.user} />
       </div>
     </nav>
   );

@@ -15,6 +15,8 @@ const PopularCourses = () => {
     fetchCourses();
   }, []);
 
+  console.log(courses);
+
   const popularCourses = courses
     ?.sort((a: any, b: any) => b.rating - a.rating)
     .slice(0, 8);

@@ -10,6 +10,11 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import { navLinks } from "@/constants/links";
+import { signOut } from "next-auth/react";
+
+type Props = {
+  user?: any;
+};
 
 const NavContent = () => {
   return (
@@ -27,7 +32,7 @@ const NavContent = () => {
   );
 };
 
-const MobileNav = () => {
+const MobileNav = ({ user }: Props) => {
   return (
     <Sheet>
       <SheetTrigger>
@@ -49,11 +54,25 @@ const MobileNav = () => {
           </SheetClose>
           <div className="flex flex-col gap-3">
             <SheetClose asChild>
-              <Link href="/sign-in">
-                <Button className="btn mt-7 rounded-[30px] px-5 py-3">
-                  <p className="text-lg font-bold">Register</p>
+              {user ? (
+                <Button
+                  onClick={() =>
+                    signOut({
+                      redirect: true,
+                      callbackUrl: "/",
+                    })
+                  }
+                  className="mt-5 btn rounded-md text-sm shadow-sm hover:shadow-md"
+                >
+                  Sign Out
                 </Button>
-              </Link>
+              ) : (
+                <Button className="mt-5 btn rounded-full text-sm shadow-sm hover:shadow-md">
+                  <a href="/login" className="text-lg font-semibold">
+                    Register/Login
+                  </a>
+                </Button>
+              )}
             </SheetClose>
           </div>
         </div>
