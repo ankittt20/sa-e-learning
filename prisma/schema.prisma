@@ -117,6 +117,8 @@ model category{
   id       Int      @id @default(autoincrement())
   name     String   @unique @db.VarChar(255)
   course categorisedCourse[]
+  icon String?
+  createdAt DateTime @default(now())
   type Int
 }
 

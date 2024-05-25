@@ -76,7 +76,11 @@ export const getCategories = async () => {
 };
 
 // add new category
-export const addCategory = async (name: string, type: number) => {
+export const addCategory = async (
+  name: string,
+  icon: string,
+  type: number = 0
+) => {
   try {
     // check if the category already exists
     const category = await db.category.findUnique({
@@ -94,11 +98,13 @@ export const addCategory = async (name: string, type: number) => {
       data: {
         name,
         type,
+        icon,
       },
     });
 
     return { msg: "Category created successfully", success: true };
   } catch (err) {
+    console.log(err);
     return { msg: "An error occurred", success: false };
   }
 };
