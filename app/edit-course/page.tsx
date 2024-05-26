@@ -4,8 +4,7 @@ import AddModule from "@/components/shared/add-course/AddModule";
 import EditCourseDetails from "@/components/shared/add-course/EditCourseDetails";
 import ModuleLessons from "@/components/shared/add-course/ModuleLessons";
 import MobileNav from "@/components/shared/navbar/MobileNav";
-import { Suspense } from "react";
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 
 type Props = {};
 
@@ -38,8 +37,8 @@ function LoadingSpinner() {
   );
 }
 
-const page = (props: Props) => {
-  const [selectedModule, setSelectedModule] = useState(1);
+const EditCourse = (props: Props) => {
+  const [selectedModule, setSelectedModule] = useState(0);
 
   const setModule = (id: number) => {
     console.log(id);
@@ -69,7 +68,10 @@ const page = (props: Props) => {
 
             <EditCourseDetails />
           </div>
-          <AddModule handleModuleSelect={setModule} />
+          <AddModule
+            handleModuleSelect={setModule}
+            selectedModule={selectedModule}
+          />
         </div>
 
         <div className="space-y-5">
@@ -91,4 +93,4 @@ const page = (props: Props) => {
   );
 };
 
-export default page;
+export default EditCourse;

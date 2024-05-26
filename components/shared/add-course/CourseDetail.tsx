@@ -27,13 +27,14 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { createCourse } from "@/actions/tutor.actions";
 import { uploadFile } from "@/lib/fileUpload";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const CourseDetail = () => {
   const [categories, setCategories] = useState<categoriesInterface[]>();
   const [error, setError] = useState("");
   const [filePath, setFilePath] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof addCourseSchema>>({
     resolver: zodResolver(addCourseSchema),
@@ -53,7 +54,6 @@ const CourseDetail = () => {
   }, []);
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("clicked");
     if (e.target.files) {
       setIsLoading(true);
       const file = e?.target?.files[0];
@@ -72,7 +72,7 @@ const CourseDetail = () => {
       console.log(data);
       const newCourse = await createCourse({ ...data, image: filePath });
       alert(newCourse.msg);
-      redirect(`/edit-course?course-id=${newCourse.courseId}`);
+      router.push(`/edit-course?course-id=${newCourse.courseId}`);
     } catch (e: any) {
       console.log("Something went wrong");
     } finally {

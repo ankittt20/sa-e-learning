@@ -111,6 +111,7 @@ model category {
   name   String              @unique @db.VarChar(255)
   type   Int
   course categorisedCourse[]
+  type Int
 }
 
 model categorisedCourse {
