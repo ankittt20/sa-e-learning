@@ -20,7 +20,7 @@ const ManageStudents = (props: Props) => {
   }, []);
 
   return (
-    <div className="w-1/2">
+    <div className="sm:w-1/2">
       <div className="flex justify-between items-center">
         <h1 className="text-lg font-semibold">Manage Students</h1>
         <div className="flex justify-center items-center bg-accent-blue text-primary-100 h-7 w-7 rounded-sm">

@@ -20,7 +20,7 @@ const ManageOffers = (props: Props) => {
   }, []);
 
   return (
-    <div className="w-1/2">
+    <div className="sm:w-1/2">
       <div className="flex justify-between items-center">
         <h1 className="text-lg font-semibold">Manage Offers & Discounts</h1>
         <AddDiscount />

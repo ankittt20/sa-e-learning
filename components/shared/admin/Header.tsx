@@ -18,7 +18,7 @@ type Props = {
 
 const Header = ({ title, user }: Props) => {
   return (
-    <header className="flex items-center justify-between py-14">
+    <header className="flex items-center justify-between sm:py-14">
       <h1 className="text-[32px] font-bold max-sm:hidden">{title}</h1>
       <div className="flex items-center space-x-4">
         <Button className="size-14 rounded-md bg-primary-100 max-sm:hidden">

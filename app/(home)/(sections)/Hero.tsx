@@ -4,8 +4,8 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <div className="relative mt-[236px]">
-      <div className="flex flex-col-reverse items-center justify-center max-sm:px-5 max-sm:text-center sm:flex-row sm:justify-between">
+    <div className="relative pt-28 sm:pt-0">
+      <div className="flex flex-col-reverse items-center justify-center max-sm:text-center sm:flex-row sm:justify-between">
         <div>
           <h1 className="my-3 sm:my-0 h1-bold max-w-[596px]">
             Dive into a world of{" "}
@@ -16,9 +16,9 @@ export default function Hero() {
             tincidunt lobortis velit enim. Pellentesque tempor urna nunc pretium
             ac leo.
           </p>
-          <div className="mt-20 flex flex-col gap-9 sm:flex-row ">
+          <div className="mt-5 sm:mt-20 flex flex-col gap-9 sm:flex-row">
             <Link href="/login">
-              <button className="btn rounded-[30px] px-10 py-3">
+              <button className="btn rounded-[30px] px-10 py-3 drop-shadow-2xl">
                 <p className="text-base font-bold sm:text-xl">Enroll Now</p>
               </button>
             </Link>
@@ -34,7 +34,7 @@ export default function Hero() {
               </button>
             </Link>
           </div>
-          <div className="my-20 flex max-w-full flex-wrap gap-4 sm:gap-7">
+          <div className="my-0 mt-10 sm:my-20 flex max-w-full flex-wrap gap-5 justify-center sm:gap-7">
             <Info
               image="/assets/icons/circle-blue.svg"
               text="Get certificate"
@@ -44,7 +44,7 @@ export default function Hero() {
             />
             <Info
               image="/assets/icons/circle-yellow.svg"
-              text="Get certificate"
+              text="Get Certificate"
               isImage
               fontStyles="text-[15px] font-semibold sm:text-xl"
               size={24}
@@ -111,7 +111,6 @@ export default function Hero() {
         width={70}
         height={73}
         alt="Notes"
-        // eslint-disable-next-line tailwindcss/enforces-negative-arbitrary-values
         className="absolute -top-[90px] right-0"
       />
       <Image
@@ -119,7 +118,6 @@ export default function Hero() {
         width={69}
         height={59}
         alt="Paperplane"
-        // eslint-disable-next-line tailwindcss/enforces-negative-arbitrary-values
         className="absolute -top-[100px] right-[30%]"
       />
     </div>
