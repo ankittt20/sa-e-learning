@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { LessonDetailsInterface } from "@/types/types";
 import { uploadFile } from "@/lib/fileUpload";
 import { useSearchParams } from "next/navigation";
-import { addLesson } from "@/actions/tutor.actions";
+import { addLesson, getLessonDuration } from "@/actions/tutor.actions";
 
 const AddLesson = ({ moduleId }: { moduleId: number }) => {
   const searchParams = useSearchParams();
@@ -18,7 +18,6 @@ const AddLesson = ({ moduleId }: { moduleId: number }) => {
     lessonTitle: "",
     lessonDescription: "",
     lessonType: "",
-
     titleError: "",
     descriptionError: "",
     lessonFile: "",
@@ -56,6 +55,7 @@ const AddLesson = ({ moduleId }: { moduleId: number }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showLessonCard, setShowLessonCard] = useState(false);
   const [isPreview, setIsPreview] = useState(false);
+  const [lessonDuration, setLessonDuration] = useState(0);
 
   const [lessonState, dispatch] = useReducer<
     React.Reducer<LessonDetailsInterface, action>
@@ -106,6 +106,8 @@ const AddLesson = ({ moduleId }: { moduleId: number }) => {
         );
         if (filePath) {
           dispatch({ type: "SET_LESSON_FILE", payload: filePath });
+          const duration = await getLessonDuration(filePath);
+          setLessonDuration(duration.duration);
           setIsLoading(false);
         }
       }
@@ -122,6 +124,7 @@ const AddLesson = ({ moduleId }: { moduleId: number }) => {
       description: lessonState.lessonDescription,
       courseType: lessonState.lessonType,
       isPreview,
+      duration: lessonDuration,
     };
 
     try {

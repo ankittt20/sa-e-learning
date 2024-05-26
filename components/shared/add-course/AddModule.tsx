@@ -6,9 +6,10 @@ import { useSearchParams } from "next/navigation";
 
 type Props = {
   handleModuleSelect: (id: number) => void;
+  selectedModule: number;
 };
 
-const AddModule = ({ handleModuleSelect }: Props) => {
+const AddModule = ({ handleModuleSelect, selectedModule }: Props) => {
   const searchParams = useSearchParams();
   const courseId = searchParams.get("course-id");
   const [showModuleForm, setShowModuleForm] = useState(false);
@@ -29,7 +30,11 @@ const AddModule = ({ handleModuleSelect }: Props) => {
         </p>
       </div>
       {showModuleForm && <ModuleForm courseId={courseId} />}
-      <ListModules courseId={courseId} selectModule={handleModuleSelect} />
+      <ListModules
+        courseId={courseId}
+        selectModule={handleModuleSelect}
+        selectedModule={selectedModule}
+      />
     </div>
   );
 };

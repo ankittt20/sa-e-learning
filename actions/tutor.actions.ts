@@ -5,6 +5,9 @@ import { hashSync } from "bcryptjs";
 import { mailService } from "@/lib/mailService";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import axios from "axios";
+import { PassThrough } from "stream";
+import ffmpeg from "fluent-ffmpeg";
 
 export const addTutor = async (data: addTutorTypes) => {
   // destructuring the data
@@ -178,6 +181,29 @@ export const getCourseModules = async (courseId: number) => {
   }
 };
 
+// get the length of the uploaded lesson
+export const getLessonDuration = async (videoUrl: string) => {
+  // get the duration of the video
+
+  try {
+    const response = await axios.get(videoUrl, { responseType: "stream" });
+    const stream = new PassThrough();
+    response.data.pipe(stream);
+    const metadata: any = await new Promise((resolve, reject) => {
+      ffmpeg(stream).ffprobe((err, metadata) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(metadata);
+      });
+    });
+    return { duration: metadata.format.duration, success: true };
+  } catch (err) {
+    console.log(err);
+    return { msg: "Error fetching video duration", success: false };
+  }
+};
+
 // change state of module publication
 export const changeModulePublication = async (
   moduleId: number,
@@ -209,6 +235,7 @@ export const addLesson = async (data: any) => {
     description,
     courseType,
     isPreview,
+    duration,
   } = data;
   const courseTypeEnum =
     courseType === "video" ? "VIDEO" : courseType === "text" ? "TEXT" : "AUDIO";
@@ -223,6 +250,7 @@ export const addLesson = async (data: any) => {
         description,
         type: courseTypeEnum,
         isPreview,
+        duration,
       },
     });
 
