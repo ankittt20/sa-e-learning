@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useContext } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -9,13 +9,13 @@ import {
 import { getModuleLessons } from "@/actions/tutor.actions";
 import LessonCard from "./LessonCard";
 import CurrentVideo from "../course/CurrentVideo";
+import { CourseContext } from "@/store/course/CourseContext";
 
 interface CurriculumCardProps {
   title: string;
   duration: string;
   id: number;
   count: number;
-  isActive?: boolean;
 }
 
 const CurriculumCard = ({
@@ -23,9 +23,10 @@ const CurriculumCard = ({
   duration,
   id,
   count,
-  isActive,
 }: CurriculumCardProps) => {
   const [lessons, setLessons] = useState<any[]>([]);
+
+  const { selectedCourseLessonId } = useContext(CourseContext);
 
   // fetch all lessons of the module
   const fetchModuleLessons = useCallback(async (moduleId: number) => {
@@ -60,7 +61,7 @@ const CurriculumCard = ({
         <AccordionContent>
           {lessons.length > 0 ? (
             lessons.map((lesson, idx) => {
-              if (isActive) {
+              if (selectedCourseLessonId === lesson.id) {
                 return (
                   <CurrentVideo
                     title={lesson.name}
@@ -71,6 +72,7 @@ const CurriculumCard = ({
                     key={lesson.id}
                     id={lesson.id}
                     type={lesson.type}
+                    lesson={lesson}
                   />
                 );
               } else {
@@ -81,6 +83,8 @@ const CurriculumCard = ({
                       type={lesson.type}
                       duration={lesson.duration}
                       isPreview={lesson.isPreview}
+                      id={lesson.id}
+                      lesson={lesson}
                     />
                   </div>
                 );

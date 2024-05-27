@@ -1,29 +1,18 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import SocialMedia from "../SocialMedia";
 import { Rating } from "../Rating";
 import CurriculumCard from "../cards/CurriculumCard";
-import { CourseContext } from "@/store/course/CourseContext";
 
 interface CourseOverviewProps {
   lessonCount: number;
   course: any;
-  handleLessonSelect: (id: number) => void;
 }
 
-const CourseOverview = ({
-  lessonCount,
-  course,
-  handleLessonSelect,
-}: CourseOverviewProps) => {
+const CourseOverview = ({ lessonCount, course }: CourseOverviewProps) => {
   // initialize course context
-  const { selectedCourseLessonId } = useContext(CourseContext);
-
-  useEffect(() => {
-    handleLessonSelect(selectedCourseLessonId);
-  }, [selectedCourseLessonId, handleLessonSelect]);
 
   return (
     <div className="mt-6">
@@ -37,7 +26,6 @@ const CourseOverview = ({
               count={idx + 1}
               key={section.id}
               id={section.id}
-              isActive={true}
             />
           );
         })}
