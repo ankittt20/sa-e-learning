@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SelectTrigger } from "@radix-ui/react-select";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 type Props = {};
 
@@ -19,6 +20,11 @@ const Login = (props: Props) => {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const [error, setError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const router = useRouter();
 
@@ -70,12 +76,13 @@ const Login = (props: Props) => {
               onChange={(e) => setEmail(e.target.value)}
               id="email"
               name="email"
-              className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-[#BBC8D4] shadow focus:outline-none"
+              autoComplete="off"
+              className="focus:shadow-outline w-full appearance-none rounded border border-[#BBC8D4] px-3 py-2 leading-tight placeholder:text-[#BBC8D4] shadow focus:outline-none"
               placeholder="wbelenskyweber@gmail.com"
             />
           </div>
 
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <label
               className="text-gray-700 mb-2 block text-[12px] font-semibold sm:text-[16px]"
               htmlFor="password"
@@ -83,14 +90,21 @@ const Login = (props: Props) => {
               Password
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-[#BBC8D4] shadow focus:outline-none"
+              className="focus:shadow-outline w-full appearance-none rounded border border-[#BBC8D4] px-3 py-2 leading-tight placeholder:text-[#BBC8D4] shadow focus:outline-none pr-10"
               placeholder="Password"
             />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute right-4 top-9 sm:top-11 text-accent-blue"
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
           </div>
           <div className="mb-4 flex justify-between">
             <div className="mb-4 flex items-center">

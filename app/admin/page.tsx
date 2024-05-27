@@ -16,6 +16,7 @@ const page = async (props: Props) => {
   if (session?.user?.role !== "admin") {
     redirect("/login");
   }
+  
   return (
     <div className="sm:flex w-full bg-no-repeat sm:bg-[url('/assets/images/navborder.svg')]">
       <AdminNav user={session?.user} />
