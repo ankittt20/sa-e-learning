@@ -98,7 +98,6 @@ export const addCategory = async (
       data: {
         name,
         type,
-        icon,
       },
     });
 
