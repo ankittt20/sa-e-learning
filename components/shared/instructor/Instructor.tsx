@@ -8,8 +8,8 @@ type Props = {};
 const Instructor = (props: Props) => {
   return (
     <div>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div className="col-span-1 space-y-9 pt-[63px] pb-0 md:col-span-1">
+      <div className="grid grid-cols-1 sm:gap-4 md:grid-cols-2">
+        <div className="col-span-1 space-y-4 sm:space-y-9 sm:pt-[63px] pb-0 md:col-span-1">
           <h1 className="p-2 text-center font-inter text-lg font-bold sm:text-left sm:text-4xl">
             Ready to become an instructor
           </h1>
@@ -34,9 +34,9 @@ const Instructor = (props: Props) => {
           </p>
           <div className="flex justify-center items-center sm:justify-start">
             <Link href="/login">
-              <Button className="h-[56px] w-[266px] rounded-2xl bg-accent-blue p-[10px] sm:h-[71px] sm:w-[254px]">
+              <Button className="h-[56px] w-[266px] rounded-lg bg-accent-blue p-[10px] sm:h-[71px] sm:w-[254px]">
                 <p className="font-bold text-primary-100 sm:text-[20px]">
-                  Become an instructor
+                  Become an Instructor
                 </p>
               </Button>
             </Link>

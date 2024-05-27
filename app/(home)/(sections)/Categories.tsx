@@ -1,7 +1,9 @@
 import TopicAndMore from "@/components/shared/TopicAndMore";
 import CategoryCards from "@/components/shared/cards/CategoryCards";
 import { categoryTypes } from "@/types/types";
+import Link from "next/link";
 import React from "react";
+import { FaArrowRight } from "react-icons/fa";
 
 const categories: categoryTypes[] = [
   {
@@ -37,8 +39,17 @@ const categories: categoryTypes[] = [
 const Categories = () => {
   return (
     <div>
-      <TopicAndMore link="/courses" heading="Browse from our Top Categories" />
-      <div className="mt-20 flex flex-wrap items-center justify-center gap-4 bg-[url('/assets/images/backgroundCategories.svg'),url('/assets/images/backgroundCategories3.svg'),url('/assets/images/backgroundCategories2.svg')]">
+      <div className="max-sm:hidden">
+        <TopicAndMore link="/categories" heading="Browser our Top Categories" />
+      </div>
+      <div className="flex justify-between text-sm font-semibold sm:hidden">
+        <p>Browser our Top Categories</p>
+        <Link href="/categories" className="text-accent-blue">
+          Browse More
+          <FaArrowRight className="inline-block ml-2" />
+        </Link>
+      </div>
+      <div className="mt-10 sm:mt-20 flex flex-wrap items-center justify-center gap-4 bg-[url('/assets/images/backgroundCategories.svg'),url('/assets/images/backgroundCategories3.svg'),url('/assets/images/backgroundCategories2.svg')]">
         {categories.map((category) => {
           return (
             <CategoryCards

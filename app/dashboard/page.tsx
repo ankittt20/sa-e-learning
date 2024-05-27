@@ -19,6 +19,14 @@ const page = async (props: Props) => {
     redirect("/login");
   }
 
+  if (session?.user?.role === "admin") {
+    redirect("/admin");
+  }
+
+  if (session?.user?.role === "super-admin") {
+    redirect("/super-admin");
+  }
+
   return (
     <div className="flex w-full bg-no-repeat sm:bg-[url('/assets/images/navborder.svg')]">
       <div className="h-full w-[224px] bg-[#F3F1FC] max-sm:hidden">

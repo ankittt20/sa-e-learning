@@ -1,8 +1,6 @@
 import React from "react";
 import ProgressTab from "./ProgressTab";
 import PerformanceTab from "./PerformanceTab";
-import Courses from "./Courses";
-import Growth from "./Growth";
 import ManageTutors from "./ManageTutors";
 import ManageStudents from "./ManageStudents";
 import ManageCourses from "./ManageCourses";
@@ -17,7 +15,7 @@ const Stats = (props: Props) => {
   return (
     <>
       <div className="space-y-8">
-        <div className="flex space-x-5">
+        <div className="sm:flex sm:space-x-5">
           <ProgressTab
             name="Students Performance"
             progress={78}
@@ -33,7 +31,7 @@ const Stats = (props: Props) => {
           <h1 className="text-2xl text-[#222222 font-poppins] font-semibold">
             Performances
           </h1>
-          <div className="flex space-x-5">
+          <div className="sm:flex sm:space-x-5">
             <PerformanceTab
               name="Subjects"
               date="August 20, 2023"
@@ -48,11 +46,7 @@ const Stats = (props: Props) => {
             />
           </div>
         </div>
-        {/* <div className="flex space-x-5">
-          <Courses />
-          <Growth />
-        </div> */}
-        <div className="flex space-x-10">
+        <div className="sm:flex sm:space-x-10">
           <ManageTutors />
           <ManageStudents />
         </div>
@@ -63,7 +57,7 @@ const Stats = (props: Props) => {
           <ManageArticles />
           <ManageSessions />
         </div>
-        <div className="flex space-x-10 pb-8 sm:pb-16">
+        <div className="sm:flex sm:space-x-10 sm:pb-16">
           <ManageCertificates />
           <ManageOffers />
         </div>

@@ -1,3 +1,4 @@
+import AdminNav from "@/components/shared/admin/AdminNav";
 import Categories from "@/components/shared/admin/Categories";
 import Feedback from "@/components/shared/admin/Feedback";
 import Header from "@/components/shared/admin/Header";
@@ -16,13 +17,14 @@ const page = async (props: Props) => {
     redirect("/login");
   }
   return (
-    <div className="flex w-full bg-no-repeat sm:bg-[url('/assets/images/navborder.svg')]">
+    <div className="sm:flex w-full bg-no-repeat sm:bg-[url('/assets/images/navborder.svg')]">
+      <AdminNav user={session?.user} />
       <div className="h-full w-[224px] bg-[#F3F1FC] max-sm:hidden">
         <Sidebar />
       </div>
       <div className="container">
         <Header user={session?.user} title="Admin" />
-        <div className="flex space-x-5">
+        <div className="sm:flex space-x-5">
           <div className="flex flex-col-reverse space-x-8 sm:flex-row">
             <Stats />
           </div>

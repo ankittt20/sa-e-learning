@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,298 +8,294 @@ datasource db {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  name     String? @db.VarChar(255)
-  email    String  @unique @db.VarChar(255)
-  password String?
-  gender   String?
-  category String?
-  grade    String?
-  availability String?
-  courses studentCourse[]
-  profilePicture String?
+  id              Int              @id @default(autoincrement())
+  name            String?          @db.VarChar(255)
+  email           String           @unique @db.VarChar(255)
+  password        String?
+  gender          String?
+  category        String?
+  profilePicture  String?
+  availability    String?
+  grade           String?
+  createdAt       DateTime         @default(now())
   articleComments articleComment[]
-  certificates certificate[]
-  cart cart?
-  wishlist wishlist?
-  orders orderInvoice[]
-  progression progressions[]
-  rating review[]
-  createdAt DateTime @default(now())
-
+  cart            cart?
+  certificates    certificate[]
+  orders          orderInvoice[]
+  progression     progressions[]
+  rating          review[]
+  courses         studentCourse[]
+  wishlist        wishlist?
 }
 
 model SuperAdmin {
-  id       Int     @id @default(autoincrement())
-  name     String? @db.VarChar(255)
-  email    String?  @unique @db.VarChar(255)
-  password String?
+  id           Int      @id @default(autoincrement())
+  name         String?  @db.VarChar(255)
+  email        String?  @unique @db.VarChar(255)
+  password     String?
   availability String?
-  createdAt DateTime @default(now())
+  createdAt    DateTime @default(now())
 }
 
-model admin{
-  id       Int      @id @default(autoincrement())
-  name     String?   @db.VarChar(255)
-  email    String?   @unique @db.VarChar(255)
-  password String?
+model admin {
+  id           Int      @id @default(autoincrement())
+  name         String?  @db.VarChar(255)
+  email        String?  @unique @db.VarChar(255)
+  password     String?
   availability String?
-  createdAt DateTime @default(now())
+  createdAt    DateTime @default(now())
 }
 
-model tutor{
-  id       Int      @id @default(autoincrement())
-  name     String?   @db.VarChar(255)
-  email    String?   @unique @db.VarChar(255)
-  password String?
-  idNumber String
-  address  String     @db.VarChar(500)
-  forDisabled Boolean @default(false)
+model tutor {
+  id             Int       @id @default(autoincrement())
+  name           String?   @db.VarChar(255)
+  email          String?   @unique @db.VarChar(255)
+  password       String?
+  idNumber       String
+  address        String    @db.VarChar(500)
+  forDisabled    Boolean   @default(false)
   profilePicture String
-  about String?        @db.VarChar(5000)
-  speciality String?
-  experience String?
-  education String?
-  rating Int?
-  fbUrl String?
-  linkedInUrl String?
-  twitterUrl String?
-  instagramUrl String?
-  availability String?
-  courses course[]
-  articles article[]
-  verified Boolean @default(false)
-  createdAt DateTime @default(now())
+  about          String?   @db.VarChar(5000)
+  speciality     String?
+  experience     String?
+  education      String?
+  rating         Int?
+  fbUrl          String?
+  linkedInUrl    String?
+  twitterUrl     String?
+  instagramUrl   String?
+  verified       Boolean   @default(false)
+  availability   String?
+  createdAt      DateTime  @default(now())
+  articles       article[]
+  courses        course[]
 }
 
-model course{
-  id       Int      @id @default(autoincrement()) @unique
-  name     String?   @db.VarChar(255)
-  description String? @db.VarChar(50000)
-  price Int?
-  tutorId Int
-  tutor tutor @relation(fields: [tutorId], references: [id])
-  category categorisedCourse[]
-  student studentCourse[]
-  sections courseSections[]
-  rating review[]
-  image String?
-  isPublished Boolean @default(false)
-  verified Boolean @default(false)
-  level String?
-  requirements String?
-  objectives String?
-  certificate certificate?
-  cartProducts cartProducts[]
+model course {
+  id               Int                 @id @unique @default(autoincrement())
+  name             String?             @db.VarChar(255)
+  description      String?             @db.VarChar(50000)
+  price            Int?
+  tutorId          Int
+  image            String?
+  isPublished      Boolean             @default(false)
+  verified         Boolean             @default(false)
+  level            String?
+  objectives       String?
+  requirements     String?
+  createdAt        DateTime            @default(now())
+  cartProducts     cartProducts[]
+  category         categorisedCourse[]
+  certificate      certificate?
+  tutor            tutor               @relation(fields: [tutorId], references: [id])
+  sections         courseSections[]
+  orders           orderedCourses[]
+  rating           review[]
+  student          studentCourse[]
   wishlistProducts wishlistProducts[]
-  orders orderedCourses[]
-  createdAt DateTime @default(now())
 }
 
-model review{
-  id       Int      @id @default(autoincrement())
-  courseId Int
-  userId Int
-  rating Int?
-  review String? @db.VarChar(5000)
-  course course @relation(fields: [courseId], references: [id])
-  user User @relation(fields: [userId], references: [id])
+model review {
+  id        Int      @id @default(autoincrement())
+  courseId  Int
+  userId    Int
+  rating    Int?
+  review    String?  @db.VarChar(5000)
   createdAt DateTime @default(now())
-
+  course    course   @relation(fields: [courseId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 }
-model category{
-  id       Int      @id @default(autoincrement())
-  name     String   @unique @db.VarChar(255)
+
+model category {
+  id     Int                 @id @default(autoincrement())
+  name   String              @unique @db.VarChar(255)
+  type   Int
   course categorisedCourse[]
-  icon String?
-  createdAt DateTime @default(now())
   type Int
 }
 
-model categorisedCourse{
-  id       Int      @id @default(autoincrement())
-  courseId Int
+model categorisedCourse {
+  id         Int      @id @default(autoincrement())
+  courseId   Int
   categoryId Int
-  course course @relation(fields: [courseId], references: [id])
-  category category @relation(fields: [categoryId], references: [id])
+  category   category @relation(fields: [categoryId], references: [id])
+  course     course   @relation(fields: [courseId], references: [id])
 }
 
-model studentCourse{
-  id       Int      @id @default(autoincrement())
-  studentId Int
-  courseId Int
-  student User @relation(fields: [studentId], references: [id])
-  course course @relation(fields: [courseId], references: [id])
-  progress Int?
-  completed Boolean @default(false)
-  startedAt DateTime?
+model studentCourse {
+  id          Int       @id @default(autoincrement())
+  studentId   Int
+  courseId    Int
+  progress    Int?
+  completed   Boolean   @default(false)
+  startedAt   DateTime?
   completedAt DateTime?
+  course      course    @relation(fields: [courseId], references: [id])
+  student     User      @relation(fields: [studentId], references: [id])
 }
 
-model courseSections{
-  id       Int      @id @default(autoincrement())
-  name     String?   @db.VarChar(255)
-  description String? @db.VarChar(5000)
+model courseSections {
+  id          Int      @id @default(autoincrement())
+  name        String?  @db.VarChar(255)
+  courseId    Int
+  description String?  @db.VarChar(5000)
+  createdAt   DateTime @default(now())
+  published   Boolean  @default(false)
+  course      course   @relation(fields: [courseId], references: [id])
+  lessons     lesson[]
+}
+
+model lesson {
+  id               Int            @id @default(autoincrement())
+  name             String?        @db.VarChar(255)
+  description      String?        @db.VarChar(5000)
+  videoUrl         String?
+  courseSectionsId Int
+  createdAt        DateTime       @default(now())
+  type             String
+  isPreview        Boolean        @default(false)
+  duration         String?
+  courseSections   courseSections @relation(fields: [courseSectionsId], references: [id])
+  progressions     progressions[]
+}
+
+model progressions {
+  id        Int      @id @default(autoincrement())
+  studentId Int
+  lessonId  Int
+  progress  String?
+  completed Boolean  @default(false)
   createdAt DateTime @default(now())
-  courseId Int
-  published Boolean @default(false)
-  course course @relation(fields: [courseId], references: [id])
-  lessons lesson[]
+  lesson    lesson   @relation(fields: [lessonId], references: [id])
+  student   User     @relation(fields: [studentId], references: [id])
+}
+
+model discount {
+  id         Int       @id @default(autoincrement())
+  code       String    @unique @db.VarChar(255)
+  discount   Decimal?
+  expiryDate DateTime?
+}
+
+model permissions {
+  id            Int     @id @default(autoincrement())
+  name          String  @unique @db.VarChar(255)
+  role          String? @db.VarChar(255)
+  permissionFor String? @db.VarChar(255)
+  status        Boolean @default(false)
+}
+
+model article {
+  id          Int              @id @default(autoincrement())
+  title       String?          @db.VarChar(255)
+  content     String?          @db.VarChar
+  authorId    Int
+  publishedAt DateTime?
+  verified    Boolean          @default(false)
+  author      tutor            @relation(fields: [authorId], references: [id])
+  comments    articleComment[]
+}
+
+model articleComment {
+  id        Int       @id @default(autoincrement())
+  articleId Int
+  userId    Int
+  content   String?   @db.VarChar(5000)
+  createdAt DateTime?
+  article   article   @relation(fields: [articleId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
+}
+
+model session {
+  id        Int       @id @default(autoincrement())
+  name      String?   @db.VarChar(255)
+  date      DateTime?
+  startTime DateTime?
+  endTime   DateTime?
+  status    String?
+  createdAt DateTime  @default(now())
+}
+
+model certificate {
+  id              Int       @id @default(autoincrement())
+  courseId        Int       @unique
+  studentId       Int
+  issuedAt        DateTime?
+  certificateUrl  String?
+  verified        Boolean   @default(false)
+  certificateName String?   @db.VarChar(255)
+  qualification   String?   @db.VarChar(255)
+  course          course    @relation(fields: [courseId], references: [id])
+  student         User      @relation(fields: [studentId], references: [id])
+}
+
+model cart {
+  id           Int            @id @default(autoincrement())
+  userId       Int            @unique
+  createdAt    DateTime       @default(now())
+  user         User           @relation(fields: [userId], references: [id])
+  cartProducts cartProducts[]
+}
+
+model cartProducts {
+  cartId        Int
+  courseId      Int
+  createdAt     DateTime @default(now())
+  savedForLater Boolean  @default(false)
+  cart          cart     @relation(fields: [cartId], references: [id])
+  course        course   @relation(fields: [courseId], references: [id])
+
+  @@id([cartId, courseId])
+}
+
+model wishlist {
+  id               Int                @id @default(autoincrement())
+  userId           Int                @unique
+  createdAt        DateTime           @default(now())
+  user             User               @relation(fields: [userId], references: [id])
+  wishlistProducts wishlistProducts[]
+}
+
+model wishlistProducts {
+  wishlistId Int
+  courseId   Int
+  createdAt  DateTime @default(now())
+  course     course   @relation(fields: [courseId], references: [id])
+  wishlist   wishlist @relation(fields: [wishlistId], references: [id])
+
+  @@id([wishlistId, courseId])
+}
+
+model orderInvoice {
+  id          Int              @id @default(autoincrement())
+  orderName   String
+  userId      Int
+  createdAt   DateTime         @default(now())
+  transaction transaction      @relation(fields: [id], references: [id])
+  user        User             @relation(fields: [userId], references: [id])
+  products    orderedCourses[]
+}
+
+model orderedCourses {
+  id           Int          @id @default(autoincrement())
+  orderId      Int
+  courseId     Int
+  createdAt    DateTime     @default(now())
+  course       course       @relation(fields: [courseId], references: [id])
+  orderInvoice orderInvoice @relation(fields: [orderId], references: [id])
+}
+
+model transaction {
+  id                Int           @id @default(autoincrement())
+  amount            Decimal?
+  transactionId     String
+  transactionStatus String?
+  createdAt         DateTime      @default(now())
+  orderInvoice      orderInvoice?
 }
 
 enum lessonType {
   VIDEO
   TEXT
   AUDIO
-}
-
-model lesson{
-  id       Int      @id @default(autoincrement())
-  name     String?   @db.VarChar(255)
-  description String? @db.VarChar(5000)
-  videoUrl String?
-  courseSectionsId Int
-  courseSections courseSections @relation(fields: [courseSectionsId], references: [id])
-  createdAt DateTime @default(now())
-  type String
-  isPreview Boolean @default(false)
-  duration String?
-  progressions progressions[]
-}
-
-model progressions{
-  id       Int      @id @default(autoincrement())
-  studentId Int
-  student User @relation(fields: [studentId], references: [id])
-  lessonId Int 
-  lesson lesson @relation(fields: [lessonId], references: [id])
-  progress String?
-  completed Boolean @default(false)
-  createdAt DateTime @default(now())
-
-}
-
-model discount{
-  id       Int      @id @default(autoincrement())
-  code     String   @unique @db.VarChar(255)
-  discount Decimal?
-  expiryDate DateTime?
-}
-
-model permissions{
-  id       Int      @id @default(autoincrement())
-  name     String   @unique @db.VarChar(255)
-  role     String? @db.VarChar(255)
-  permissionFor String? @db.VarChar(255)
-  status Boolean @default(false)
-
-}
-
-model article{
-  id       Int      @id @default(autoincrement())
-  title    String?   @db.VarChar(255)
-  content String? @db.VarChar()
-  authorId Int
-  author  tutor @relation(fields: [authorId], references: [id])
-  publishedAt DateTime?
-  verified Boolean @default(false)
-  comments articleComment[]
-}
-
-model articleComment{
-  id       Int      @id @default(autoincrement())
-  articleId Int
-  userId Int
-  content String? @db.VarChar(5000)
-  article article @relation(fields: [articleId], references: [id])
-  user User @relation(fields: [userId], references: [id])
-  createdAt DateTime?
-}
-
-model session{
-  id       Int      @id @default(autoincrement())
-  name     String?   @db.VarChar(255)
-  date DateTime?
-  startTime DateTime?
-  endTime DateTime?
-  status String?
-  createdAt DateTime @default(now())
-}
-
-model certificate{
-  id       Int      @id @default(autoincrement())
-  certificateName    String?   @db.VarChar(255)
-  qualification String? @db.VarChar(255)
-  courseId Int  @unique
-  studentId Int
-  course course @relation(fields: [courseId], references: [id])
-  student User @relation(fields: [studentId], references: [id])
-  issuedAt DateTime?
-  certificateUrl String?
-  verified Boolean @default(false)
-}
-
-model cart{
-  id       Int      @id @default(autoincrement())
-  userId   Int      @unique
-  user User @relation(fields: [userId], references: [id])
-  cartProducts cartProducts[]
-  createdAt DateTime @default(now())
-
-}
-
-model cartProducts{
-  cartId Int
-  courseId Int
-  cart cart @relation(fields: [cartId], references: [id])
-  course course @relation(fields: [courseId], references: [id])
-  savedForLater Boolean @default(false)
-  createdAt DateTime @default(now())
-
-  @@id([cartId, courseId])
-}
-
-model wishlist{
-  id       Int      @id @default(autoincrement())
-  userId Int        @unique
-  user User @relation(fields: [userId], references: [id])
-  wishlistProducts wishlistProducts[]
-  createdAt DateTime @default(now())
-}
-
-model wishlistProducts{
-  wishlistId Int
-  courseId Int
-  wishlist wishlist @relation(fields: [wishlistId], references: [id])
-  course course @relation(fields: [courseId], references: [id])
-  createdAt DateTime @default(now())
-  @@id([wishlistId, courseId])
-}
-
-model orderInvoice{
-  id       Int      @id @default(autoincrement())
-  orderName String 
-  userId Int
-  user User @relation(fields: [userId], references: [id])
-  products orderedCourses[]
-  transaction transaction @relation(fields: [id], references: [id])
-  createdAt DateTime @default(now())
-}
-
-model orderedCourses{
-  id       Int      @id @default(autoincrement())
-  orderId Int
-  courseId Int
-  orderInvoice orderInvoice @relation(fields: [orderId], references: [id])
-  course course @relation(fields: [courseId], references: [id])
-  createdAt DateTime @default(now())
-}
-
-model transaction{
-  id       Int      @id @default(autoincrement())
-  amount Decimal?
-  transactionId String
-  orderInvoice orderInvoice?
-  transactionStatus String?
-  createdAt DateTime @default(now())
 }
