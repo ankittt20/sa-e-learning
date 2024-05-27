@@ -19,11 +19,6 @@ const StudentCourseDetail = () => {
   const { course } = useParams();
   const [courseDetails, setCourseDetails] = useState<any>({});
   const [lessonCount, setLessonCount] = useState(0);
-  const [lesson, setSelectedLesson] = useState(0);
-
-  const lessonSelectHandler = useCallback((id: number) => {
-    setSelectedLesson(id);
-  }, []);
 
   const getCourseDetails = useCallback(async () => {
     const courseInfo = await getCourseById(+course);
@@ -47,7 +42,7 @@ const StudentCourseDetail = () => {
           <div className="container">
             <div className="mt-28">
               <div className="flex-center flex flex-col">
-                <CourseVideoPlayer lesson={lesson} />
+                <CourseVideoPlayer />
                 <div className="mt-7">
                   <div>
                     <p className="h3-bold-extra text-center sm:text-left">
@@ -96,7 +91,6 @@ const StudentCourseDetail = () => {
                           <CourseOverview
                             lessonCount={lessonCount}
                             course={courseDetails}
-                            handleLessonSelect={lessonSelectHandler}
                           />
                         </TabsContent>
                         <TabsContent value="faq">

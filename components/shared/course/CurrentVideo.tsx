@@ -13,6 +13,7 @@ interface Props {
   extraClasses?: string;
   id: number;
   type: string;
+  lesson: any;
 }
 
 const CurrentVideo = ({
@@ -24,12 +25,17 @@ const CurrentVideo = ({
   extraClasses,
   id,
   type,
+  lesson,
 }: Props) => {
-  const { toggleSelectedCourseLesson } = useContext(CourseContext);
+  const { toggleSelectedCourseLesson, toggleSelectedCourse } =
+    useContext(CourseContext);
 
   const handleLessonClick = (id: number) => {
     toggleSelectedCourseLesson(id);
+    toggleSelectedCourse(lesson);
   };
+
+  console.log("id", id);
 
   return (
     <div
