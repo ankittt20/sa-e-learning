@@ -17,10 +17,12 @@ type Props = {
 
 const AdminNav = ({ user }: Props) => {
   return (
-    <div className="flex px-8 sm:hidden">
-      <h3>SAelearning</h3>
-      <div>
-        <FaBell />
+    <div className="flex justify-between p-8 sm:hidden">
+      <h3 className="font-bold text-xl">
+        <a href="/">SAelearning</a>
+      </h3>
+      <div className="flex items-center space-x-4">
+        <FaBell color="#7D6DD8" size={20} />
         <Sheet>
           <SheetTrigger>
             <Image
@@ -37,10 +39,11 @@ const AdminNav = ({ user }: Props) => {
           >
             <div>
               <SheetClose asChild>
-                <div>
-                  <p>Hello</p>
-                  <p>Hello</p>
-                  <p>Hello</p>
+                <div className="flex flex-col space-y-4 pt-7">
+                  <a href="/">Home</a>
+                  <a href="/admin">Dashboard</a>
+                  <a href="/courses">Courses</a>
+                  <a href="/settings">Settings</a>
                 </div>
               </SheetClose>
               <div className="flex flex-col gap-3">
