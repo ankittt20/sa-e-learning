@@ -16,6 +16,7 @@ const page = async (props: Props) => {
   if (session?.user?.role !== "admin") {
     redirect("/login");
   }
+
   return (
     <div className="sm:flex w-full bg-no-repeat sm:bg-[url('/assets/images/navborder.svg')]">
       <AdminNav user={session?.user} />
@@ -24,11 +25,12 @@ const page = async (props: Props) => {
       </div>
       <div className="container">
         <Header user={session?.user} title="Admin" />
-        <div className="sm:flex space-x-5">
+        <h3 className="font-bold text-2xl sm:hidden pb-8">Admin</h3>
+        <div className="sm:flex sm:space-x-5">
           <div className="flex flex-col-reverse space-x-8 sm:flex-row">
             <Stats />
           </div>
-          <div className="grow flex-col space-y-8 max-sm:items-center max-sm:justify-center">
+          <div className="grow flex-col space-y-8 max-sm:py-8">
             <Categories />
             <Feedback />
           </div>

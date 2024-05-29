@@ -7,7 +7,9 @@ type Props = {};
 const Sidebar = (props: Props) => {
   return (
     <div className="flex flex-col items-center justify-center bg-[#F3F1FC] px-8 py-16 text-center">
-      <h1 className="mb-20 text-3xl font-bold">SAelearning</h1>
+      <h1 className="mb-20 text-3xl font-bold">
+        <a href="/">SAelearning</a>
+      </h1>
       <div className="flex-center flex flex-col space-y-5">
         <Button className="h-12 w-40 space-x-3 rounded-lg bg-accent-blue">
           <Image

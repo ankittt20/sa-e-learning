@@ -15,7 +15,7 @@ const Stats = (props: Props) => {
   return (
     <>
       <div className="space-y-8">
-        <div className="sm:flex sm:space-x-5">
+        <div className="sm:flex sm:space-x-5 max-sm:space-y-5">
           <ProgressTab
             name="Students Performance"
             progress={78}
@@ -28,10 +28,10 @@ const Stats = (props: Props) => {
           />
         </div>
         <div>
-          <h1 className="text-2xl text-[#222222 font-poppins] font-semibold">
+          <h1 className="text-2xl text-[#222222 font-poppins] font-semibold max-sm:pb-3">
             Performances
           </h1>
-          <div className="sm:flex sm:space-x-5">
+          <div className="sm:flex sm:space-x-5 max-sm:space-y-5">
             <PerformanceTab
               name="Subjects"
               date="August 20, 2023"
@@ -46,7 +46,7 @@ const Stats = (props: Props) => {
             />
           </div>
         </div>
-        <div className="sm:flex sm:space-x-10">
+        <div className="sm:flex sm:space-x-10 max-sm:space-y-5">
           <ManageTutors />
           <ManageStudents />
         </div>
@@ -57,7 +57,7 @@ const Stats = (props: Props) => {
           <ManageArticles />
           <ManageSessions />
         </div>
-        <div className="sm:flex sm:space-x-10 sm:pb-16">
+        <div className="sm:flex sm:space-x-10 max-sm:space-y-5 sm:pb-16">
           <ManageCertificates />
           <ManageOffers />
         </div>
