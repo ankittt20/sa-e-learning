@@ -1,3 +1,4 @@
+import { formatDuration } from "@/lib/utils";
 import { CourseContext } from "@/store/course/CourseContext";
 import React, { useContext } from "react";
 import { FaFileAlt } from "react-icons/fa";
@@ -7,7 +8,7 @@ import { MdAudiotrack } from "react-icons/md";
 interface LessonCardProps {
   name: string;
   type: string;
-  duration: string | null;
+  duration: string;
   isPreview: boolean;
   id: number;
   lesson: any;
@@ -46,7 +47,9 @@ const LessonCard = ({
         ) : (
           <FaFileAlt className="text-lg" />
         )}
-        <span className="text-sm text-[#33333]">{duration || "1 min"}</span>
+        <span className="text-sm text-[#33333]">
+          {formatDuration(+duration) || "1 min"}
+        </span>
       </div>
     </div>
   );

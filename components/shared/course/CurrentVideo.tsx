@@ -3,6 +3,7 @@ import { FaRegThumbsUp, FaPlayCircle } from "react-icons/fa";
 import { MdAudiotrack } from "react-icons/md";
 import { CgNotes } from "react-icons/cg";
 import { CourseContext } from "@/store/course/CourseContext";
+import { formatDuration } from "@/lib/utils";
 
 interface Props {
   title: string;
@@ -58,7 +59,7 @@ const CurrentVideo = ({
         </div>
         <div className="flex-center gap-4">
           <span className="text-semibold-lg-xl max-sm:text-[10px] max-sm:font-semibold">
-            {duration}
+            {formatDuration(+duration)}
           </span>
           <FaRegThumbsUp
             width="33px"
