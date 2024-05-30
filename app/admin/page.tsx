@@ -1,8 +1,8 @@
-import AdminNav from "@/components/shared/admin/AdminNav";
+import AdminNav from "@/components/shared/navbar/AdminNav";
 import Categories from "@/components/shared/admin/Categories";
 import Feedback from "@/components/shared/admin/Feedback";
 import Header from "@/components/shared/admin/Header";
-import Sidebar from "@/components/shared/admin/Sidebar";
+import Sidebar from "@/components/shared/navbar/Sidebar";
 import Stats from "@/components/shared/admin/Stats";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";

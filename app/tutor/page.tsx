@@ -1,6 +1,6 @@
 import Feedback from "@/components/shared/admin/Feedback";
 import Header from "@/components/shared/admin/Header";
-import Sidebar from "@/components/shared/admin/Sidebar";
+import Sidebar from "@/components/shared/navbar/Sidebar";
 import About from "@/components/shared/tutor/About";
 import Bookings from "@/components/shared/tutor/Bookings";
 import Categories from "@/components/shared/tutor/Categories";

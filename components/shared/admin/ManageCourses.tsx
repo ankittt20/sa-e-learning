@@ -19,13 +19,13 @@ const CourseCard = (props: { course?: any }) => {
         <p className="text-sm font-medium text-[#292638]">$ {course?.price}</p>
         <p className="text-xs text-[#7C7A84] capitalize">{course?.level}</p>
       </div>
-      <div>
+      <div className="max-sm:hidden">
         <p className="text-sm font-medium text-[#292638]">Created On</p>
         <p className="text-xs text-[#7C7A84] capitalize">
           {format(new Date(course?.createdAt), "dd MMM yyyy")}
         </p>
       </div>
-      <div className="w-[15%] text-right">
+      <div className="sm:w-[15%] text-right">
         <button
           onClick={async () => {
             await verifyTutorCourse(course?.id, !course.isVerified);

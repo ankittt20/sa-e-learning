@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { FaRegBell, FaSearch } from "react-icons/fa";
-import SideNav from "@/components/shared/navbar/SideNav";
+import SideBar from "@/components/shared/navbar/Sidebar";
 import { Button } from "@/components/ui/button";
 import FilterInput from "@/components/shared/forms/inputs/FilterInput";
 import Filter from "@/components/shared/forms/filters/Filter";
@@ -12,7 +12,7 @@ import UserMap from "@/components/shared/UserMap";
 const page = () => {
   return (
     <div className="flex gap-3">
-      <SideNav />
+      <SideBar />
       <div className="container">
         <div className="flex-between container p-5 sm:hidden">
           <h2 className="font-lalezar text-[20px]">SAelearning</h2>

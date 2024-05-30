@@ -61,7 +61,7 @@ const AdminNav = ({ user }: Props) => {
                       Sign Out
                     </Button>
                   ) : (
-                    <Button className="mt-5 btn rounded-full text-sm shadow-sm hover:shadow-md">
+                    <Button className="mt-5 btn rounded-md text-sm shadow-sm hover:shadow-md">
                       <a href="/login" className="text-lg font-semibold">
                         Register/Login
                       </a>

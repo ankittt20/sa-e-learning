@@ -1,8 +1,7 @@
 import TopicAndMore from "@/components/shared/TopicAndMore";
-import Header from "@/components/shared/dashboard/Header";
+import Header from "@/components/shared/super-admin/Header";
 import Filter from "@/components/shared/forms/filters/Filter";
 import FilterInput from "@/components/shared/forms/inputs/FilterInput";
-import SideNav from "@/components/shared/navbar/SideNav";
 import DataTable from "@/components/shared/table/DataTable";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,12 +12,11 @@ import {
   discountTableLabels,
   mebersTableLabels,
 } from "@/constants/tableHeaders";
-import React from "react";
 import Chart from "@/components/shared/charts/Chart";
-import PresentEarnings from "@/components/super-admin/PresentEarnings";
+import PresentEarnings from "@/components/shared/super-admin/PresentEarnings";
 import DiscountTable from "@/components/shared/table/DiscountTable";
-import ClassCard from "@/components/super-admin/ClassCard";
-import ClashCard from "@/components/super-admin/ClashCard";
+import ClassCard from "@/components/shared/super-admin/ClassCard";
+import ClashCard from "@/components/shared/super-admin/ClashCard";
 import Link from "next/link";
 import PermissionTableMobile from "@/components/shared/table/PermissionTableMobile";
 import DiscountTableMobile from "@/components/shared/table/DiscountTableMobile";
@@ -27,29 +25,29 @@ import UserMap from "@/components/shared/UserMap";
 import AddUserDialogue from "@/components/shared/AddUserDialogue";
 import ManageAdmin from "@/components/shared/super-admin/ManageAdmin";
 import PermissionTable from "@/components/shared/table/PermissionTable";
+import Sidebar from "@/components/shared/navbar/Sidebar";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import AdminNav from "@/components/shared/navbar/AdminNav";
 
-const page = () => {
+const page = async () => {
+  const session = await getServerSession(authOptions);
+
+  if (session?.user?.role !== "super-admin") {
+    redirect("/login");
+  }
   return (
-    <div>
-      <div className="flex gap-6 max-sm:flex-col max-sm:justify-center">
-        <SideNav />
-        <div className="container">
-          <div className="flex-between container p-5 sm:hidden">
-            <h2 className="font-lalezar text-[20px]">SAelearning</h2>
-            <div className="flex items-center gap-4">
-              <FaRegBell size={18} className="size-[18px] text-accent-blue" />
-              <Image
-                src="/assets/icons/hamburger.svg"
-                alt="menu"
-                width={18}
-                height={24}
-                className="cursor-pointer"
-              />
-            </div>
-          </div>
-          <Header heading="Super Admin" />
-          <div className="flex flex-col items-start gap-9 sm:flex-row">
-            <main className="w-full">
+    <>
+      <div className="sm:flex w-full bg-no-repeat sm:bg-[url('/assets/images/navborder.svg')]">
+        <AdminNav user={session?.user} />
+        <div className="h-full w-[224px] bg-[#F3F1FC] max-sm:hidden">
+          <Sidebar />
+        </div>
+        <div className="container sm:pb-16 sm:w-[calc(100vw-224px)]">
+          <Header user={session?.user} title="Super Admin" />
+          <div className="sm:flex sm:space-x-5">
+            <div className="sm:w-2/3">
               <div className="flex-between">
                 <h4 className="text-semibold-lg-xl max-sm:text-[20px]">
                   All Members
@@ -168,7 +166,19 @@ const page = () => {
                   <PresentEarnings />
                 </div>
               </div>
-            </main>
+              <div className="mt-12 w-full">
+                <h4 className="text-lg font-semibold text-[#292638]">
+                  Discounts and More
+                </h4>
+                <div className="mt-6 max-sm:hidden">
+                  <DiscountTable labels={discountTableLabels} />
+                </div>
+                <div className="mt-6 sm:hidden">
+                  <DiscountTableMobile />
+                </div>
+              </div>
+            </div>
+
             <div>
               <TopicAndMore
                 heading="Class Booking"
@@ -198,23 +208,13 @@ const page = () => {
               </div>
             </div>
           </div>
-          <div className="mt-12 w-full">
-            <h4 className="text-lg font-semibold text-[#292638]">
-              Discounts and More
-            </h4>
-            <div className="mt-6 max-sm:hidden">
-              <DiscountTable labels={discountTableLabels} />
-            </div>
-            <div className="mt-6 sm:hidden">
-              <DiscountTableMobile />
-            </div>
-          </div>
         </div>
       </div>
-      <div className="container mt-24 sm:hidden">
+
+      <div className="container mt-16 sm:hidden">
         <MobileFooter />
       </div>
-    </div>
+    </>
   );
 };
 

@@ -24,12 +24,11 @@ const Categories = (props: Props) => {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-9">
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center">
           <h1 className="text-[15px] font-medium">Categories</h1>
-          <AddCategory />
         </div>
-        <p className="text-xs font-semibold text-accent-blue">See all</p>
+        <AddCategory />
       </div>
       <div className="rounded-lg border border-[#EDEDED] py-5 shadow-sm">
         <div className="mb-5 flex justify-between px-2">
