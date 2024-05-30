@@ -45,3 +45,19 @@ export const pfValidSignature = (
   console.log("generated signature", signature);
   return pfData.get("signature") === signature;
 };
+
+export const formatDuration = (durationInSeconds: number) => {
+  const hours = Math.floor(durationInSeconds / 3600);
+  const minutes = Math.floor(durationInSeconds / 60);
+  const seconds = Math.floor(durationInSeconds % 60);
+
+  let formattedTime = ``;
+  if (hours > 0) {
+    formattedTime += `${hours}h `;
+  }
+  if (minutes > 0) {
+    formattedTime += `${minutes}m `;
+  }
+  formattedTime += `${seconds}s`;
+  return formattedTime;
+};

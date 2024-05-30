@@ -66,7 +66,7 @@ const CurriculumCard = ({
                   <CurrentVideo
                     title={lesson.name}
                     description={lesson?.description || ""}
-                    duration="04:32"
+                    duration={lesson.duration}
                     number={idx + 1}
                     extraClasses="bg-active border-b-[5px] border-accent-blue"
                     key={lesson.id}
@@ -81,7 +81,7 @@ const CurriculumCard = ({
                     <LessonCard
                       name={lesson.name}
                       type={lesson.type}
-                      duration={lesson.duration}
+                      duration={lesson.duration || "60"}
                       isPreview={lesson.isPreview}
                       id={lesson.id}
                       lesson={lesson}

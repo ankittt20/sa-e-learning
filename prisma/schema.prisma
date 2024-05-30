@@ -111,6 +111,8 @@ model category {
   name   String              @unique @db.VarChar(255)
   type   Int
   course categorisedCourse[]
+  icon  String?
+  createdAt DateTime @default(now())
 }
 
 model categorisedCourse {
@@ -153,7 +155,7 @@ model lesson {
   createdAt        DateTime       @default(now())
   type             String
   isPreview        Boolean        @default(false)
-  duration         String?
+  duration         Float?
   courseSections   courseSections @relation(fields: [courseSectionsId], references: [id])
   progressions     progressions[]
 }
