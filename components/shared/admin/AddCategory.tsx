@@ -25,6 +25,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { uploadFile } from "@/lib/fileUpload";
 import { addCategory } from "@/actions/admin.actions";
+import { FaPlus } from "react-icons/fa";
 
 const AddCategory = () => {
   const form = useForm<z.infer<typeof CategorySchema>>({
@@ -74,7 +75,9 @@ const AddCategory = () => {
   return (
     <Dialog>
       <DialogTrigger className="font-semibold text-accent-blue">
-        Add Category
+        <div className="flex justify-center items-center bg-accent-blue text-primary-100 h-5 w-5 rounded-sm">
+          <FaPlus size={15} />
+        </div>
       </DialogTrigger>
       <DialogContent className="bg-primary-100">
         <DialogHeader>

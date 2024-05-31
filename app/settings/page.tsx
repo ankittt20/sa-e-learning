@@ -1,4 +1,4 @@
-import Sidebar from "@/components/shared/admin/Sidebar";
+import Sidebar from "@/components/shared/navbar/Sidebar";
 import React from "react";
 
 const page = () => {

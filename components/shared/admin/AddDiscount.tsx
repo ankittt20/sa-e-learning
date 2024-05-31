@@ -23,10 +23,7 @@ const AddDiscount = (props: Props) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-      <button
-          
-          className="flex justify-center items-center bg-accent-blue text-primary-100 h-7 w-7 rounded-sm"
-        >
+        <button className="flex justify-center items-center bg-accent-blue text-primary-100 h-7 w-7 rounded-sm">
           <FaPlus />
         </button>
       </DialogTrigger>
