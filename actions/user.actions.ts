@@ -545,3 +545,35 @@ export const submitUserReview = async (data: {
     return { msg: "Error submitting review", success: false };
   }
 };
+
+// change the lesson status of the user
+export const updateLessonStatus = async (lessonId: number) => {
+  try {
+    // get the loggedIn userId
+    const session = await getServerSession(authOptions);
+    const userId = session?.user.id;
+
+    console.log("userId", userId);
+
+    if (!userId) {
+      return {
+        msg: "You are not authorized to update lesson status",
+        success: false,
+      };
+    }
+
+    // update the lesson status
+    await db.progressions.create({
+      data: {
+        studentId: +userId,
+        lessonId,
+        completed: true,
+      },
+    });
+
+    return { msg: "Lesson status updated successfully", success: true };
+  } catch (err) {
+    console.log(err);
+    return { msg: "Error updating lesson status", success: false };
+  }
+};

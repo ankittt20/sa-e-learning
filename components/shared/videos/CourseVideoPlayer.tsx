@@ -2,9 +2,18 @@
 import React, { useContext } from "react";
 import ReactPlayer from "react-player/lazy";
 import { CourseContext } from "@/store/course/CourseContext";
+import { updateLessonStatus } from "@/actions/user.actions";
 
 const CourseVideoPlayer = () => {
-  const { selectedCourse } = useContext(CourseContext);
+  const { selectedCourse, selectedCourseLessonId } = useContext(CourseContext);
+
+  const manageLessonStatus = async () => {
+    const res = await updateLessonStatus(+selectedCourseLessonId);
+
+    if (res.success) {
+      console.log("Lesson status updated successfully");
+    }
+  };
 
   return (
     <div>
@@ -16,6 +25,7 @@ const CourseVideoPlayer = () => {
             width="100%"
             height="100%"
             controls
+            onEnded={manageLessonStatus}
           />
         </div>
       )}
