@@ -563,8 +563,17 @@ export const updateLessonStatus = async (lessonId: number) => {
     }
 
     // update the lesson status
-    await db.progressions.create({
-      data: {
+    await db.progressions.upsert({
+      where: {
+        studentId_lessonId: {
+          studentId: +userId,
+          lessonId,
+        },
+      },
+      update: {
+        completed: true,
+      },
+      create: {
         studentId: +userId,
         lessonId,
         completed: true,
@@ -575,5 +584,87 @@ export const updateLessonStatus = async (lessonId: number) => {
   } catch (err) {
     console.log(err);
     return { msg: "Error updating lesson status", success: false };
+  }
+};
+
+// get the video watched duration of a lesson for a user
+export const getVideoWatchedDuration = async (lessonId: number) => {
+  try {
+    // get the loggedIn userId
+    const session = await getServerSession(authOptions);
+    const userId = session?.user.id;
+
+    if (!userId) {
+      return {
+        msg: "You are not authorized to get video watched duration",
+        success: false,
+        videoWatchedDuration: { progress: 0 },
+      };
+    }
+
+    // get the video watched duration
+    const videoWatchedDuration = await db.progressions.findFirst({
+      where: {
+        studentId: +userId,
+        lessonId,
+      },
+      select: {
+        progress: true,
+      },
+    });
+
+    return { videoWatchedDuration, success: true };
+  } catch (err) {
+    console.log(err);
+    return {
+      msg: "Error fetching video watched duration",
+      success: false,
+      videoWatchedDuration: { progress: 0 },
+    };
+  }
+};
+
+// update the video watched duration of a lesson for a user
+export const updateVideoWatchedDuration = async (
+  lessonId: number,
+  duration: number
+) => {
+  try {
+    // get the loggedIn userId
+    const session = await getServerSession(authOptions);
+    const userId = session?.user.id;
+
+    if (!userId) {
+      return {
+        msg: "You are not authorized to update video watched duration",
+        success: false,
+      };
+    }
+
+    // update the video watched duration
+    await db.progressions.upsert({
+      where: {
+        studentId_lessonId: {
+          studentId: +userId,
+          lessonId,
+        },
+      },
+      update: {
+        progress: duration,
+      },
+      create: {
+        studentId: +userId,
+        lessonId,
+        progress: duration,
+      },
+    });
+
+    return {
+      msg: "Video watched duration updated successfully",
+      success: true,
+    };
+  } catch (err) {
+    console.log(err);
+    return { msg: "Error updating video watched duration", success: false };
   }
 };

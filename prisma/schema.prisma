@@ -161,14 +161,15 @@ model lesson {
 }
 
 model progressions {
-  id        Int      @id @default(autoincrement())
   studentId Int
   lessonId  Int
-  progress  String?
+  progress  Float?
   completed Boolean  @default(false)
   createdAt DateTime @default(now())
   lesson    lesson   @relation(fields: [lessonId], references: [id])
   student   User     @relation(fields: [studentId], references: [id])
+
+  @@id([studentId, lessonId])
 }
 
 model discount {
