@@ -17,11 +17,6 @@ export const navLinks: navLinkTypes[] = [
     link: "/dashboard",
   },
   {
-    id: 4,
-    name: "Community",
-    link: "/community",
-  },
-  {
     id: 5,
     name: "More",
     link: "/more",
