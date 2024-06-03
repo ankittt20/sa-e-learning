@@ -5,7 +5,7 @@ import { db } from "@/lib/prisma";
 export const addDiscountCode = async (
   code: string,
   discount: number,
-  expiryDate: Date,
+  expiryDate: Date
 ) => {
   try {
     // check if the code already exists

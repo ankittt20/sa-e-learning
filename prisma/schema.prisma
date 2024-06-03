@@ -93,6 +93,22 @@ model course {
   rating           review[]
   student          studentCourse[]
   wishlistProducts wishlistProducts[]
+  keywords         courseKeywords[]
+}
+
+model keywords{
+  id        Int      @id @default(autoincrement())
+  name      String   @unique @db.VarChar(255)
+  createdAt DateTime @default(now())
+  courses   courseKeywords[]
+}
+
+model courseKeywords{
+  id        Int      @id @default(autoincrement())
+  courseId  Int
+  keywordId Int
+  keyword   keywords @relation(fields: [keywordId], references: [id])
+  course    course   @relation(fields: [courseId], references: [id])
 }
 
 model review {

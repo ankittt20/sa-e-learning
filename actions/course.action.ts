@@ -184,3 +184,40 @@ export const getCourseReviews = async (courseId: number, order: string) => {
     return { msg: "Error fetching reviews", success: false, reviews: [] };
   }
 };
+
+// get course by category
+export const getCoursesByCategory = async (category: number) => {
+  try {
+    const courses = await db.course.findMany({
+      where: {
+        category: {
+          some: {
+            categoryId: category,
+          },
+        },
+      },
+      include: {
+        tutor: true,
+        category: {
+          select: {
+            category: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+        _count: {
+          select: {
+            student: true,
+          },
+        },
+      },
+    });
+
+    return { courses, success: true, msg: "Courses fetched successfully" };
+  } catch (err) {
+    console.log(err);
+    return { msg: "Error fetching courses", success: false };
+  }
+};

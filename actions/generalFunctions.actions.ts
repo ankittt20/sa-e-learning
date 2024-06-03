@@ -7,6 +7,10 @@ export const getAllCategories = async () => {
     const categories = await db.category.findMany();
     return { categories, success: true, message: "" };
   } catch (err) {
-    return { message: "Could not fetch categories", success: false };
+    return {
+      message: "Could not fetch categories",
+      success: false,
+      categories: [],
+    };
   }
 };

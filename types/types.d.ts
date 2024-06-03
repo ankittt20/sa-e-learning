@@ -152,3 +152,9 @@ export interface LessonDetailsInterface {
   descriptionError: string;
   lessonFile: string;
 }
+
+export interface courseSortInterface {
+  id: number;
+  name: string;
+  value: string;
+}

@@ -74,3 +74,26 @@ export const FILTERS = [
     ],
   },
 ];
+
+export const coursesSortFilters = [
+  {
+    id: 1,
+    name: "Popular",
+    value: "popular",
+  },
+  {
+    id: 2,
+    name: "Latest",
+    value: "latest",
+  },
+  {
+    id: 3,
+    name: "Price: Low to High",
+    value: "price_asc",
+  },
+  {
+    id: 4,
+    name: "Price: High to Low",
+    value: "price_desc",
+  },
+];
