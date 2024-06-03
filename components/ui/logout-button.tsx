@@ -15,7 +15,7 @@ const LogoutButton = (props: Props) => {
             callbackUrl: "/",
           })
         }
-        className="btn rounded-full px-5 py-3 shadow-sm hover:shadow-md max-sm:hidden text-lg font-semibold"
+        className="rounded-md bg-accent-blue px-5 text-primary-100"
       >
         Sign Out
       </Button>
