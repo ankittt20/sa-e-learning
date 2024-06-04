@@ -253,3 +253,56 @@ export const sortCourses = async (sortBy: string) => {
     return { msg: "Error fetching courses", success: false };
   }
 };
+
+// search courses by title, tutor or keyword
+export const searchCourses = async (search: string) => {
+  try {
+    const courses = await db.course.findMany({
+      where: {
+        OR: [
+          {
+            name: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+          {
+            tutor: {
+              name: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+          },
+          {
+            keywords: {
+              some: {
+                keyword: {
+                  name: search,
+                },
+              },
+            },
+          },
+        ],
+      },
+      include: {
+        tutor: true,
+        category: {
+          select: {
+            category: true,
+          },
+        },
+        _count: {
+          select: {
+            student: true,
+          },
+        },
+      },
+    });
+
+    return { courses, success: true, msg: "Courses fetched successfully" };
+  } catch (err) {
+    console.log(err);
+    return { msg: "Error fetching courses", success: false };
+  }
+};

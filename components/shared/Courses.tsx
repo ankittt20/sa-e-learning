@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Filter from "@/components/shared/forms/filters/Filter";
 import FilterInput from "@/components/shared/forms/inputs/FilterInput";
 import { Button } from "@/components/ui/button";
@@ -10,12 +10,17 @@ import Pagination from "@/components/shared/Pagination";
 import LanguagesCaraousel from "./LanguagesCaraousel";
 import { coursesSortFilters } from "@/constants/filters";
 import useCategories from "@/hooks/useFetchData";
-import { getAllCourses, getCoursesByCategory } from "@/actions/course.action";
+import {
+  getAllCourses,
+  getCoursesByCategory,
+  searchCourses,
+} from "@/actions/course.action";
 
 const Courses = () => {
   const [courses, setCourses] = useState<any>([]);
   const [courseError, setError] = useState("");
   const [courseLoading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   // fetch all courses
   const fetchCourses = async () => {
@@ -90,6 +95,30 @@ const Courses = () => {
     }
   };
 
+  // update search query
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLoading(true);
+    setSearchQuery(e.target.value);
+  };
+
+  // fetch the searched query from the database
+  const handleSearch = useCallback(async () => {
+    const res = await searchCourses(searchQuery);
+    if (res.success) {
+      setCourses(res.courses);
+    } else {
+      setError(res.msg);
+    }
+    setLoading(false);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    const getData = setTimeout(() => {
+      handleSearch();
+    }, 3000);
+    return () => clearTimeout(getData);
+  }, [searchQuery, handleSearch]);
+
   if (loading) return <div>Loading...</div>;
 
   if (error) return <div>Error: {error}</div>;
@@ -122,6 +151,7 @@ const Courses = () => {
             label="Search"
             forType="search"
             placeholder="Filter by Course"
+            onChangeHandler={handleSearchChange}
           />
           <Button className="rounded-lg bg-accent-blue">
             <FaSearch size={17} color="#fff" />
@@ -136,6 +166,7 @@ const Courses = () => {
               {courseError && <div>Error: {courseError}</div>}
               {courses.length === 0 && <div>No courses found</div>}
               {courses &&
+                !courseLoading &&
                 courses.map((course: any) => (
                   <CourseCardInfo key={course.id} course={course} />
                 ))}
