@@ -18,6 +18,9 @@ export const getAllCourses = async () => {
           },
         },
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
     return { courses, success: true, msg: "Courses fetched successfully" };
   } catch (err) {
@@ -212,6 +215,35 @@ export const getCoursesByCategory = async (category: number) => {
             student: true,
           },
         },
+      },
+    });
+
+    return { courses, success: true, msg: "Courses fetched successfully" };
+  } catch (err) {
+    console.log(err);
+    return { msg: "Error fetching courses", success: false };
+  }
+};
+
+// sort courses by different parameters
+export const sortCourses = async (sortBy: string) => {
+  try {
+    const courses = await db.course.findMany({
+      include: {
+        tutor: true,
+        category: {
+          select: {
+            category: true,
+          },
+        },
+        _count: {
+          select: {
+            student: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: sortBy === "newest" ? "desc" : "asc",
       },
     });
 

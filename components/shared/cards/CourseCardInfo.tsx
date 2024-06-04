@@ -9,6 +9,8 @@ interface courseProps {
 }
 
 const CourseCardInfo = ({ course }: courseProps) => {
+  const courseStudents = course._count;
+
   return (
     <div className="relative max-w-[282px] rounded-xl bg-[#F3F1FC]">
       <div className="">
@@ -37,7 +39,7 @@ const CourseCardInfo = ({ course }: courseProps) => {
           <div className="mt-5 rounded-xl bg-[#fff] px-4 py-3">
             <div className="flex justify-between border-b border-[#EFDED5] pb-3">
               <Info
-                text="42 Users"
+                text={courseStudents.student}
                 image="/assets/icons/user.svg"
                 isImage={true}
                 size={12}

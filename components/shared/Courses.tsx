@@ -13,7 +13,6 @@ import useCategories from "@/hooks/useFetchData";
 import { getAllCourses, getCoursesByCategory } from "@/actions/course.action";
 
 const Courses = () => {
-  const [sortBy, setSortBy] = useState("");
   const [courses, setCourses] = useState<any>([]);
   const [courseError, setError] = useState("");
   const [courseLoading, setLoading] = useState(false);
@@ -48,7 +47,27 @@ const Courses = () => {
 
   // handle sort by
   const handleSortBy = (value: string) => {
-    setSortBy(value);
+    let sortedCourses: any;
+
+    if (value === "popular") {
+      sortedCourses = courses.sort((a: any, b: any) => b.rating - a.rating);
+      setCourses([...sortedCourses]);
+    }
+    if (value === "latest") {
+      sortedCourses = courses.sort(
+        (a: any, b: any) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+      setCourses([...sortedCourses]);
+    }
+    if (value === "price_asc") {
+      sortedCourses = courses.sort((a: any, b: any) => a.price - b.price);
+      setCourses([...sortedCourses]);
+    }
+    if (value === "price_desc") {
+      sortedCourses = courses.sort((a: any, b: any) => b.price - a.price);
+      setCourses([...sortedCourses]);
+    }
   };
 
   // handle filter by category
