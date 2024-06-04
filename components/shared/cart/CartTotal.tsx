@@ -28,9 +28,9 @@ const CartTotal = ({ courses, user }: CartTotalProps) => {
     const data = {
       merchant_id: "10033735",
       merchant_key: "6e5on1l1ixuwq",
-      return_url: "https://25f2-223-177-225-110.ngrok-free.app/dashboard",
-      cancel_url: "https://25f2-223-177-225-110.ngrok-free.app/cancel",
-      notify_url: "https://25f2-223-177-225-110.ngrok-free.app/api/payments",
+      return_url: "https://sa-e-learning.vercel.app/dashboard",
+      cancel_url: "https://sa-e-learning.vercel.app/cancel",
+      notify_url: "https://sa-e-learning.vercel.app/api/payments",
       name_first: user?.name.split(" ")[0],
       name_last: user?.name.split(" ")[1],
       email_address: "www.aditi17@gmail.com",
