@@ -14,6 +14,7 @@ import {
 } from "@/actions/course.action";
 import CreateReviewModal from "@/components/shared/reviews/CreateReviewModal";
 import { SessionProvider } from "next-auth/react";
+import Footer from "@/components/shared/footer/Footer";
 
 const StudentCourseDetail = () => {
   const { course } = useParams();
@@ -40,7 +41,7 @@ const StudentCourseDetail = () => {
       <CourseProvider>
         <div className="bg-no-repeat sm:bg-[url('/assets/images/navborder.svg')]">
           <div className="container">
-            <div className="mt-28">
+            <div className="my-28">
               <div className="flex-center flex flex-col">
                 <CourseVideoPlayer />
                 <div className="mt-7">
@@ -94,7 +95,7 @@ const StudentCourseDetail = () => {
                           />
                         </TabsContent>
                         <TabsContent value="faq">
-                          <FAQ />
+                          <FAQ courseId={+course} />
                         </TabsContent>
                         <TabsContent value="notes">
                           <Notes />
@@ -108,6 +109,7 @@ const StudentCourseDetail = () => {
                 </div>
               </div>
             </div>
+            <Footer />
           </div>
         </div>
       </CourseProvider>

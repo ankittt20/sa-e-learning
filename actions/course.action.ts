@@ -1,5 +1,7 @@
 "use server";
+import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
 
 // get all courses
 export const getAllCourses = async () => {
@@ -304,5 +306,72 @@ export const searchCourses = async (search: string) => {
   } catch (err) {
     console.log(err);
     return { msg: "Error fetching courses", success: false };
+  }
+};
+
+// add a new faq question to a course
+export const addCourseFAQ = async (
+  courseId: number,
+  lessonId: number,
+  data: { title: string; body: string }
+) => {
+  try {
+    // get the logged in user from nextauth
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return { msg: "User not authenticated", success: false };
+    }
+
+    const faq = await db.courseFAQ.create({
+      data: {
+        questionTitle: data.title,
+        questionBody: data.body,
+        lesson: {
+          connect: {
+            id: lessonId,
+          },
+        },
+        course: {
+          connect: {
+            id: courseId,
+          },
+        },
+        user: {
+          connect: {
+            id: +session?.user?.id,
+          },
+        },
+      },
+    });
+
+    return { faq, success: true, msg: "Question added successfully" };
+  } catch (err) {
+    console.log(err);
+    return { msg: "Error adding question", success: false };
+  }
+};
+
+// get all the questions related to a course
+export const getCourseFAQs = async (courseId: number) => {
+  try {
+    const faqs = await db.courseFAQ.findMany({
+      where: {
+        courseId,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            profilePicture: true,
+          },
+        },
+      },
+    });
+
+    return { faqs, success: true, msg: "FAQs fetched successfully" };
+  } catch (err) {
+    console.log(err);
+    return { msg: "Error fetching FAQs", success: false };
   }
 };

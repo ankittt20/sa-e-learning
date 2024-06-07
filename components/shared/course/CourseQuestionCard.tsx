@@ -1,30 +1,36 @@
 import Image from "next/image";
 import { IoArrowUpCircleOutline, IoBookmarks } from "react-icons/io5";
 import React from "react";
+import moment from "moment";
 
-const CourseQuestionCard = () => {
+interface CourseQuestionCardProps {
+  question: any;
+}
+
+const CourseQuestionCard = ({ question }: CourseQuestionCardProps) => {
   return (
     <div className="mt-8">
-      <div className="flex-between w-[326px] max-sm:items-start max-sm:gap-3 sm:w-[1170px]">
+      <div className="flex w-[326px] items-start gap-4 max-sm:gap-3 sm:w-[1170px]">
         <Image
-          src="/assets/images/user.png"
+          src={question.user.profilePicture || "/assets/images/user.png"}
           width={66}
           height={66}
           alt="user"
           className="rounded-full max-sm:size-6"
         />
         <div>
-          <p className="text-bold-lg-xl max-sm:text-[7px] max-sm:font-bold">
-            Js Delivr up-To-Date Solution
+          <p className="text-bold-2 max-sm:text-[7px] max-sm:font-bold">
+            {question?.questionTitle}
           </p>
-          <p className="line-clamp-1 text-[20px] max-sm:text-[6px]">
+          <p
+            className="line-clamp-1 text-lg max-sm:text-[6px]"
+            dangerouslySetInnerHTML={{ __html: question?.questionBOdy }}
+          >
             {" "}
-            Hi guys, As youmay have noticed, the jsDelivr website changed its
-            interface since Jonas filmed
           </p>
           <div className="mt-6 flex gap-2">
             <p className="text-semibold-2 text-accent-blue underline underline-offset-2 max-sm:text-[6px] max-sm:font-semibold">
-              Sebastian
+              {question.user.name}
             </p>
             -
             <p className="text-semibold-2 text-accent-blue max-sm:text-[6px] max-sm:font-semibold">
@@ -32,7 +38,7 @@ const CourseQuestionCard = () => {
             </p>
             <p className="text-semibold-2 text-[rgba(0,0,0,0.5)] max-sm:text-[6px] max-sm:font-semibold">
               {" "}
-              - 5 years ago
+              {moment(question.createdAt, "YYYYMMDD").fromNow()}
             </p>
           </div>
         </div>

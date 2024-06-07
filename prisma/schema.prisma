@@ -26,6 +26,8 @@ model User {
   rating          review[]
   courses         studentCourse[]
   wishlist        wishlist?
+  answeredFAQ     courseFAQAnswers[]
+  questions       courseFAQ[]
 }
 
 model SuperAdmin {
@@ -94,6 +96,7 @@ model course {
   student          studentCourse[]
   wishlistProducts wishlistProducts[]
   keywords         courseKeywords[]
+  faq              courseFAQ[]
 }
 
 model keywords{
@@ -109,6 +112,32 @@ model courseKeywords{
   keywordId Int
   keyword   keywords @relation(fields: [keywordId], references: [id])
   course    course   @relation(fields: [courseId], references: [id])
+}
+
+model courseFAQ{
+  id        Int     @unique @id @default(autoincrement())
+  courseId  Int
+  lessonId  Int
+  userId    Int
+  questionTitle String @db.VarChar(255)
+  questionBody  String   @db.VarChar()
+  answer    courseFAQAnswers[]
+  createdAt DateTime @default(now())
+  course    course   @relation(fields: [courseId], references: [id])
+  lesson    lesson   @relation(fields: [lessonId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model courseFAQAnswers{
+  id        Int      @id @default(autoincrement())
+  faqId     Int
+  userId    Int
+  answer    String   @db.VarChar(5000)
+  upvotes   Int      @default(0)
+  createdAt DateTime @default(now())
+  faq       courseFAQ @relation(fields: [faqId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
+
 }
 
 model review {
@@ -174,6 +203,7 @@ model lesson {
   duration         Float?
   courseSections   courseSections @relation(fields: [courseSectionsId], references: [id])
   progressions     progressions[]
+  courseFAQ        courseFAQ[]
 }
 
 model progressions {

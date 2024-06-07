@@ -47,3 +47,8 @@ export const LessonDescriptionSchema = z.object({
 export const CategorySchema = z.object({
   name: z.string().min(3),
 });
+
+export const CourseFAQSchema = z.object({
+  title: z.string().min(5).max(255),
+  body: z.string().min(5),
+});

@@ -1,10 +1,45 @@
+"use client";
 import { Input } from "@/components/ui/input";
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Filter from "../forms/filters/Filter";
 import CourseQuestionCard from "./CourseQuestionCard";
+import { Button } from "@/components/ui/button";
+import AddFaqQuestion from "./AddFaqQuestion";
+import CreateQuestionForm from "./CreateQuestionForm";
+import { getCourseFAQs } from "@/actions/course.action";
 
-const FAQ = () => {
-  return (
+interface FAQProps {
+  courseId: number;
+}
+
+const FAQ = ({ courseId }: FAQProps) => {
+  const [createQuestion, setCreateQuestion] = useState(false);
+  const [questions, setQuestions] = useState<any>([]);
+
+  // function to toggle create question form
+  const handleCreateQuestion = () => {
+    setCreateQuestion(!createQuestion);
+  };
+
+  // funtion to get all the questions related to the course
+  const getQuestions = useCallback(async () => {
+    // fetch all the questions related to the course
+    const res = await getCourseFAQs(courseId);
+    if (res.success) {
+      setQuestions(res.faqs);
+    }
+  }, [courseId]);
+
+  useEffect(() => {
+    getQuestions();
+  }, [getQuestions]);
+
+  return createQuestion ? (
+    <CreateQuestionForm
+      courseId={courseId}
+      handleCreateQuestion={handleCreateQuestion}
+    />
+  ) : (
     <div>
       <Input
         placeholder="Search all course questions"
@@ -37,11 +72,13 @@ const FAQ = () => {
           </span>
         </div>
         <div className="mt-4">
-          <CourseQuestionCard />
-          <CourseQuestionCard />
-          <CourseQuestionCard />
-          <CourseQuestionCard />
-          <CourseQuestionCard />
+          {questions.map((question: any) => (
+            <CourseQuestionCard key={question.id} question={question} />
+          ))}
+          <Button className="mt-12 w-[90%] bg-accent-blue py-6 text-lg font-semibold text-primary-100 hover:bg-[rgb(125,109,190)]">
+            See More
+          </Button>
+          <AddFaqQuestion handleCreateQuestion={handleCreateQuestion} />
         </div>
       </div>
     </div>

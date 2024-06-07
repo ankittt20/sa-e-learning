@@ -32,6 +32,7 @@ const CourseVideoPlayer = () => {
     getVideoProgress();
   }, [selectedCourseLessonId]);
 
+  // update the status of the lesson to completed when the video ends
   const manageLessonStatus = async () => {
     const res = await updateLessonStatus(+selectedCourseLessonId);
 
@@ -41,6 +42,7 @@ const CourseVideoPlayer = () => {
     resetVideoProgressOnEnd();
   };
 
+  // function to update the video progress
   const handleVideoProgress = useCallback(
     async (duration: number) => {
       try {
@@ -51,21 +53,6 @@ const CourseVideoPlayer = () => {
     },
     [selectedCourseLessonId]
   );
-
-  // update video progress when user leaves the page
-  const handleVisibilityChange = useCallback(async () => {
-    if (document.visibilityState === "hidden" && videoRef?.current) {
-      await handleVideoProgress(videoRef?.current?.getCurrentTime());
-    }
-  }, [handleVideoProgress]);
-
-  // useEffect to add event listener for visibility change
-  useEffect(() => {
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
-  }, [handleVisibilityChange]);
 
   // useEffect to update the video progress every 30 seconds
   useEffect(() => {
