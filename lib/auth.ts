@@ -27,7 +27,6 @@ export const authOptions: AuthOptions = {
             return null;
           }
 
-          console.log("credentials", credentials);
           if (credentials.role === "student") {
             const existingUser = await db.user.findUnique({
               where: {
@@ -59,8 +58,7 @@ export const authOptions: AuthOptions = {
           }
 
           if (credentials.role === "tutor") {
-            console.log("inside tutor");
-            const existingTutor = await db.user.findUnique({
+            const existingTutor = await db.tutor.findUnique({
               where: {
                 email: credentials?.email,
               },
@@ -90,7 +88,7 @@ export const authOptions: AuthOptions = {
           }
 
           if (credentials.role === "admin") {
-            const existingAdmin = await db.user.findUnique({
+            const existingAdmin = await db.admin.findUnique({
               where: {
                 email: credentials?.email,
               },
@@ -120,7 +118,7 @@ export const authOptions: AuthOptions = {
           }
 
           if (credentials.role === "super-admin") {
-            const existingSuperAdmin = await db.user.findUnique({
+            const existingSuperAdmin = await db.superAdmin.findUnique({
               where: {
                 email: credentials?.email,
               },

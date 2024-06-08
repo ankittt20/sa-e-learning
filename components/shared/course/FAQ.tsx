@@ -30,6 +30,8 @@ const FAQ = ({ courseId }: FAQProps) => {
     }
   }, [courseId]);
 
+  console.log(questions);
+
   useEffect(() => {
     getQuestions();
   }, [getQuestions]);

@@ -19,7 +19,7 @@ const CartCard = async ({ product, isSavedForLater }: CartCardProps) => {
       <div className="flex flex-wrap justify-between gap-9">
         <div className="flex items-start gap-9">
           <Image
-            src="/assets/images/typescript.png"
+            src={product?.image}
             alt="typescript"
             width={150}
             height={100}

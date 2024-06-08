@@ -375,3 +375,38 @@ export const getCourseFAQs = async (courseId: number) => {
     return { msg: "Error fetching FAQs", success: false };
   }
 };
+
+// add answer to a course question
+export const addCourseAnswer = async (
+  questionId: number,
+  data: { body: string }
+) => {
+  try {
+    // get the logged in user from nextauth
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return { msg: "User not authenticated", success: false };
+    }
+
+    const answer = await db.courseFAQAnswers.create({
+      data: {
+        answer: data.body,
+        faq: {
+          connect: {
+            id: questionId,
+          },
+        },
+        user: {
+          connect: {
+            id: +session?.user?.id,
+          },
+        },
+      },
+    });
+
+    return { answer, success: true, msg: "Answer added successfully" };
+  } catch (err) {
+    console.log(err);
+    return { msg: "Error adding answer", success: false };
+  }
+};

@@ -20,17 +20,32 @@ export async function POST(req: Request) {
 
     const hashedPassword = await hash(password, 10);
 
-    const newUser = await db.user.create({
-      data: {
-        name,
-        email,
-        password: hashedPassword,
-        gender,
-        category,
-      },
-    });
+    let newUser;
 
-    const { password: newUserPassword, ...rest } = newUser;
+    // if category is student then create a student
+
+    if (category === "student") {
+      newUser = await db.user.create({
+        data: {
+          name,
+          email,
+          password: hashedPassword,
+          gender,
+          category,
+        },
+      });
+    }
+    if (category === "tutor") {
+      newUser = await db.tutor.create({
+        data: {
+          name,
+          email,
+          password: hashedPassword,
+        },
+      });
+    }
+
+    const { password: newUserPassword, ...rest } = newUser || {};
 
     return NextResponse.json(
       {

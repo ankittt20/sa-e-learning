@@ -53,10 +53,10 @@ model tutor {
   name           String?   @db.VarChar(255)
   email          String?   @unique @db.VarChar(255)
   password       String?
-  idNumber       String
-  address        String    @db.VarChar(500)
+  idNumber       String?
+  address        String?    @db.VarChar(500)
   forDisabled    Boolean   @default(false)
-  profilePicture String
+  profilePicture String?
   about          String?   @db.VarChar(5000)
   speciality     String?
   experience     String?
