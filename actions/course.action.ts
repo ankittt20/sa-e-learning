@@ -366,6 +366,17 @@ export const getCourseFAQs = async (courseId: number) => {
             profilePicture: true,
           },
         },
+        answer: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                profilePicture: true,
+              },
+            },
+          },
+        },
       },
     });
 
@@ -377,9 +388,9 @@ export const getCourseFAQs = async (courseId: number) => {
 };
 
 // add answer to a course question
-export const addCourseAnswer = async (
+export const addCourseFAQAnswer = async (
   questionId: number,
-  data: { body: string }
+  data: { answer: string }
 ) => {
   try {
     // get the logged in user from nextauth
@@ -390,7 +401,7 @@ export const addCourseAnswer = async (
 
     const answer = await db.courseFAQAnswers.create({
       data: {
-        answer: data.body,
+        answer: data.answer,
         faq: {
           connect: {
             id: questionId,
@@ -408,5 +419,32 @@ export const addCourseAnswer = async (
   } catch (err) {
     console.log(err);
     return { msg: "Error adding answer", success: false };
+  }
+};
+
+// upvote course answer
+export const upvoteCourseFAQAnswer = async (answerId: number) => {
+  try {
+    // get the logged in user from nextauth
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return { msg: "User not authenticated", success: false };
+    }
+
+    await db.courseFAQAnswers.update({
+      where: {
+        id: answerId,
+      },
+      data: {
+        upvotes: {
+          increment: 1,
+        },
+      },
+    });
+
+    return { success: true, msg: "Answer upvoted successfully" };
+  } catch (err) {
+    console.log(err);
+    return { msg: "Error upvoting answer", success: false };
   }
 };

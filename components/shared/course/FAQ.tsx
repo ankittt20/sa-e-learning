@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import AddFaqQuestion from "./AddFaqQuestion";
 import CreateQuestionForm from "./CreateQuestionForm";
 import { getCourseFAQs } from "@/actions/course.action";
+import QuestionDetails from "./QuestionDetails";
 
 interface FAQProps {
   courseId: number;
@@ -15,10 +16,23 @@ interface FAQProps {
 const FAQ = ({ courseId }: FAQProps) => {
   const [createQuestion, setCreateQuestion] = useState(false);
   const [questions, setQuestions] = useState<any>([]);
+  const [showQuestionDetail, setShowQuestionDetail] = useState(false);
+  const [focusedQuestion, setFocusedQuestion] = useState<any>(null);
 
   // function to toggle create question form
   const handleCreateQuestion = () => {
     setCreateQuestion(!createQuestion);
+  };
+
+  // function to toggle question detail
+  const handleQuestionDetail = (question: any) => {
+    setShowQuestionDetail(!showQuestionDetail);
+    setFocusedQuestion(question);
+  };
+
+  // function to update the question array optimistically
+  const updateQuestions = (question: any) => {
+    setQuestions([question, ...questions]);
   };
 
   // funtion to get all the questions related to the course
@@ -30,8 +44,6 @@ const FAQ = ({ courseId }: FAQProps) => {
     }
   }, [courseId]);
 
-  console.log(questions);
-
   useEffect(() => {
     getQuestions();
   }, [getQuestions]);
@@ -40,6 +52,11 @@ const FAQ = ({ courseId }: FAQProps) => {
     <CreateQuestionForm
       courseId={courseId}
       handleCreateQuestion={handleCreateQuestion}
+    />
+  ) : showQuestionDetail ? (
+    <QuestionDetails
+      question={focusedQuestion}
+      updateQuestions={updateQuestions}
     />
   ) : (
     <div>
@@ -70,12 +87,16 @@ const FAQ = ({ courseId }: FAQProps) => {
             All questions in this course
           </h6>
           <span className="text-bold text-[rgba(0,0,0,0.5)] max-sm:text-lg max-sm:font-bold">
-            (21001)
+            ({questions.length} questions)
           </span>
         </div>
         <div className="mt-4">
           {questions.map((question: any) => (
-            <CourseQuestionCard key={question.id} question={question} />
+            <CourseQuestionCard
+              key={question.id}
+              question={question}
+              seeQuestionDetail={handleQuestionDetail}
+            />
           ))}
           <Button className="mt-12 w-[90%] bg-accent-blue py-6 text-lg font-semibold text-primary-100 hover:bg-[rgb(125,109,190)]">
             See More

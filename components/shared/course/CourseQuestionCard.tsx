@@ -2,12 +2,16 @@ import Image from "next/image";
 import { IoArrowUpCircleOutline, IoBookmarks } from "react-icons/io5";
 import React from "react";
 import moment from "moment";
-
+import HTMLParser from "@/lib/htmlParser";
 interface CourseQuestionCardProps {
   question: any;
+  seeQuestionDetail: (question: any) => void;
 }
 
-const CourseQuestionCard = ({ question }: CourseQuestionCardProps) => {
+const CourseQuestionCard = ({
+  question,
+  seeQuestionDetail,
+}: CourseQuestionCardProps) => {
   return (
     <div className="mt-8">
       <div className="flex w-[326px] items-start gap-4 max-sm:gap-3 sm:w-[1170px]">
@@ -19,14 +23,14 @@ const CourseQuestionCard = ({ question }: CourseQuestionCardProps) => {
           className="rounded-full max-sm:size-6"
         />
         <div>
-          <p className="text-bold-2 max-sm:text-[7px] max-sm:font-bold">
+          <p
+            className="text-bold-2 cursor-pointer max-sm:text-[7px] max-sm:font-bold"
+            onClick={seeQuestionDetail.bind(this, question)}
+          >
             {question?.questionTitle}
           </p>
-          <p
-            className="line-clamp-1 text-lg max-sm:text-[6px]"
-            dangerouslySetInnerHTML={{ __html: question?.questionBOdy }}
-          >
-            {" "}
+          <p className="line-clamp-1 text-lg max-sm:text-[6px]">
+            <HTMLParser html={question?.questionBody} />
           </p>
           <div className="mt-6 flex gap-2">
             <p className="text-semibold-2 text-accent-blue underline underline-offset-2 max-sm:text-[6px] max-sm:font-semibold">
