@@ -1,5 +1,6 @@
 "use client";
-import React, { useReducer, useState } from "react";
+import React, { useReducer, useState, useRef } from "react";
+import { Editor } from "@tinymce/tinymce-react";
 import { Button } from "@/components/ui/button";
 import { FaPlay } from "react-icons/fa";
 import { Input } from "@/components/ui/input";
@@ -13,6 +14,9 @@ import { addLesson, getLessonDuration } from "@/actions/tutor.actions";
 const AddLesson = ({ moduleId }: { moduleId: number }) => {
   const searchParams = useSearchParams();
   const courseId = searchParams.get("course-id");
+
+  // set editor ref
+  const editorRef = useRef(null);
 
   const initialState = {
     lessonTitle: "",
@@ -141,6 +145,15 @@ const AddLesson = ({ moduleId }: { moduleId: number }) => {
     }
   };
 
+  const addTextLesson = (e: any) => {
+    e.preventDefault();
+    if (editorRef.current) {
+      // @ts-ignore
+      const content = editorRef.current.getContent();
+      dispatch({ type: "SET_LESSON_FILE", payload: content });
+    }
+  };
+
   return (
     <>
       <div className="space-y-5">
@@ -253,7 +266,52 @@ const AddLesson = ({ moduleId }: { moduleId: number }) => {
 
       <div>
         <form>
-          <Input type="file" id="file" name="file" onChange={handleUpload} />
+          {lessonState.lessonType === "text" ? (
+            <>
+              <Editor
+                apiKey={process.env.NEXT_PUBLIC_TINY_API_KEY}
+                onInit={(evt: any, editor: any) => {
+                  // @ts-ignore
+                  editorRef.current = editor;
+                }}
+                initialValue={""}
+                init={{
+                  height: 350,
+                  menubar: false,
+                  plugins: [
+                    "advlist",
+                    "autolink",
+                    "lists",
+                    "link",
+                    "image",
+                    "charmap",
+                    "preview",
+                    "anchor",
+                    "searchreplace",
+                    "visualblocks",
+                    "codesample",
+                    "fullscreen",
+                    "insertdatetime",
+                    "media",
+                    "table",
+                  ],
+                  toolbar:
+                    "undo redo | " +
+                    "codesample | bold italic forecolor | alignleft aligncenter |" +
+                    "alignright alignjustify | bullist numlist",
+                  content_style: "body { font-family:Inter; font-size:16px }",
+                }}
+              />
+              <Button
+                className="mt-7 bg-accent-blue px-5 text-primary-100"
+                onClick={addTextLesson}
+              >
+                Save Text Lesson
+              </Button>
+            </>
+          ) : (
+            <Input type="file" id="file" name="file" onChange={handleUpload} />
+          )}
         </form>
       </div>
 
