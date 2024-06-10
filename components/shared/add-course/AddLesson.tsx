@@ -21,7 +21,7 @@ const AddLesson = ({ moduleId }: { moduleId: number }) => {
   const initialState = {
     lessonTitle: "",
     lessonDescription: "",
-    lessonType: "",
+    lessonType: "text",
     titleError: "",
     descriptionError: "",
     lessonFile: "",
