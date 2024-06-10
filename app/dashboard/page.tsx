@@ -1,6 +1,5 @@
 import FamousCourses from "@/components/shared/dashboard/FamousCourses";
 import Header from "@/components/shared/dashboard/Header";
-import MyCourses from "@/components/shared/dashboard/MyCourses";
 import Profile from "@/components/shared/dashboard/Profile";
 import Progress from "@/components/shared/dashboard/Progress";
 import Scheduled from "@/components/shared/dashboard/Scheduled";
@@ -37,7 +36,6 @@ const page = async (props: Props) => {
         <div className="flex flex-col-reverse space-x-8 sm:flex-row">
           <div className="space-y-10">
             <Studying userId={session?.user?.id} />
-            <MyCourses />
             <FamousCourses />
           </div>
           <div className="flex grow flex-col max-sm:items-center max-sm:justify-center">

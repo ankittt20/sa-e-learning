@@ -36,7 +36,7 @@ const Profile = ({ user }: Props) => {
           <CardTitle className="text-center text-[15px] font-semibold text-[#202226]">
             {user?.name}
           </CardTitle>
-          <CardDescription className="text-center text-xs text-[#838383] capitalize">
+          <CardDescription className="text-center text-xs capitalize text-[#838383]">
             {user?.role}
           </CardDescription>
         </div>

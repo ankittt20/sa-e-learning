@@ -109,27 +109,88 @@ export const getTotalCourseLessonCount = async (courseId: number) => {
   }
 };
 
-export const getPopularCourses = async () => {
+export const getPopularCourses = async (categoryId: number) => {
   try {
-    const popularCourses = await db.course.findMany({
-      include: {
-        _count: {
-          select: {
-            student: true,
+    if (categoryId === 0) {
+      const popularCourses = await db.course.findMany({
+        include: {
+          _count: {
+            select: {
+              student: true,
+            },
+          },
+          tutor: {
+            select: {
+              name: true,
+              id: true,
+            },
+          },
+          category: {
+            select: {
+              category: {
+                select: {
+                  name: true,
+                  id: true,
+                },
+              },
+            },
           },
         },
-      },
-      orderBy: {
-        student: {
-          _count: "desc",
+        orderBy: {
+          student: {
+            _count: "desc",
+          },
         },
-      },
-    });
-    return {
-      popularCourses,
-      success: true,
-      msg: "Popular courses fetched successfully",
-    };
+      });
+      return {
+        popularCourses,
+        success: true,
+        msg: "Popular courses fetched successfully",
+      };
+    } else {
+      const popularCourses = await db.course.findMany({
+        where: {
+          category: {
+            some: {
+              categoryId,
+            },
+          },
+        },
+        include: {
+          _count: {
+            select: {
+              student: true,
+            },
+          },
+          tutor: {
+            select: {
+              name: true,
+              id: true,
+            },
+          },
+          category: {
+            select: {
+              category: {
+                select: {
+                  name: true,
+                  id: true,
+                },
+              },
+            },
+          },
+        },
+        orderBy: {
+          student: {
+            _count: "desc",
+          },
+        },
+      });
+      return {
+        popularCourses,
+        success: true,
+        msg: "Popular courses fetched successfully",
+      };
+    }
   } catch (err) {
     console.log(err);
     return {

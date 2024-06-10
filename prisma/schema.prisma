@@ -208,6 +208,7 @@ model lesson {
 
 model progressions {
   studentId Int
+  courseId  Int?
   lessonId  Int
   progress  Float?
   completed Boolean  @default(false)

@@ -487,7 +487,38 @@ export const getUserCourses = async (userId: number) => {
       },
     });
 
-    return { userCourses, success: true };
+    const courseProgress = await db.progressions.findMany({
+      where: {
+        studentId: userId,
+        courseId: {
+          in: userCourses.map((course) => course.courseId),
+        },
+      },
+    });
+
+    let updatedUserCourses: any = [];
+
+    // find the number of lessons completed for each course
+    userCourses.forEach((course) => {
+      const progress = courseProgress.filter(
+        (progress) =>
+          progress.courseId === course.courseId && progress.completed
+      );
+
+      const totalLessons = courseProgress.filter(
+        (progress) => progress.courseId === course.courseId
+      );
+
+      updatedUserCourses = [
+        ...updatedUserCourses,
+        {
+          ...course,
+          lessonsCompleted: progress.length,
+          totalLessons: totalLessons.length,
+        },
+      ];
+    });
+    return { userCourses: updatedUserCourses, success: true };
   } catch (err) {
     console.log(err);
     return {
@@ -547,7 +578,10 @@ export const submitUserReview = async (data: {
 };
 
 // change the lesson status of the user
-export const updateLessonStatus = async (lessonId: number) => {
+export const updateLessonStatus = async (
+  lessonId: number,
+  courseId: number
+) => {
   try {
     // get the loggedIn userId
     const session = await getServerSession(authOptions);
@@ -576,6 +610,7 @@ export const updateLessonStatus = async (lessonId: number) => {
       create: {
         studentId: +userId,
         lessonId,
+        courseId,
         completed: true,
       },
     });
@@ -627,7 +662,8 @@ export const getVideoWatchedDuration = async (lessonId: number) => {
 // update the video watched duration of a lesson for a user
 export const updateVideoWatchedDuration = async (
   lessonId: number,
-  duration: number
+  duration: number,
+  courseId: number
 ) => {
   try {
     // get the loggedIn userId
@@ -656,6 +692,7 @@ export const updateVideoWatchedDuration = async (
         studentId: +userId,
         lessonId,
         progress: duration,
+        courseId,
       },
     });
 

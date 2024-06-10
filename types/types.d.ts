@@ -6,10 +6,10 @@ export interface navLinkTypes {
 
 export interface categoryTypes {
   id: number;
-  heading: string;
-  numbers: string;
-  image: string;
-  bgColor: string;
+  name: string;
+  type: string;
+  icon?: string;
+  createdAt: Date;
 }
 
 export interface memberTableDataTypes {

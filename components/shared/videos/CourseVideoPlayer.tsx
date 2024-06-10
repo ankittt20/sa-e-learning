@@ -1,6 +1,7 @@
 "use client";
 import React, { useCallback, useContext, useEffect, useRef } from "react";
 import ReactPlayer from "react-player/lazy";
+import { useParams } from "next/navigation";
 import { CourseContext } from "@/store/course/CourseContext";
 import {
   getVideoWatchedDuration,
@@ -12,6 +13,9 @@ const CourseVideoPlayer = () => {
   const { selectedCourse, selectedCourseLessonId } = useContext(CourseContext);
   const videoRef = useRef<ReactPlayer>(null);
   const progressRef = useRef<number>(0);
+
+  // get the course ID from the URL
+  const { course } = useParams();
 
   // get the progress of the video and resume the video from there
   useEffect(() => {
@@ -34,7 +38,8 @@ const CourseVideoPlayer = () => {
 
   // update the status of the lesson to completed when the video ends
   const manageLessonStatus = async () => {
-    const res = await updateLessonStatus(+selectedCourseLessonId);
+    console.log(+course);
+    const res = await updateLessonStatus(+selectedCourseLessonId, +course);
 
     if (res.success) {
       console.log("Lesson status updated successfully");
@@ -46,12 +51,16 @@ const CourseVideoPlayer = () => {
   const handleVideoProgress = useCallback(
     async (duration: number) => {
       try {
-        await updateVideoWatchedDuration(+selectedCourseLessonId, duration);
+        await updateVideoWatchedDuration(
+          +selectedCourseLessonId,
+          duration,
+          +course
+        );
       } catch (e) {
         console.log(e);
       }
     },
-    [selectedCourseLessonId]
+    [selectedCourseLessonId, course]
   );
 
   // useEffect to update the video progress every 30 seconds

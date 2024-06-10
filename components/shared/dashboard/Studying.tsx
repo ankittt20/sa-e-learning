@@ -23,7 +23,7 @@ const Studying = async ({ userId }: Props) => {
           linkContent="See all"
         />
         <div className="mt-5 flex flex-wrap items-center justify-center gap-4">
-          {courses.userCourses.map((course) => (
+          {courses.userCourses.map((course: any) => (
             <Link href={`/student/${course.course.id}`} key={course.id}>
               <Card
                 className="h-72 w-64 cursor-pointer border-none bg-primary-100"
@@ -55,11 +55,17 @@ const Studying = async ({ userId }: Props) => {
                       width={8}
                       height={11}
                     />
-                    <p className="text-[10px] text-[#838383]">
-                      9/12 Lessons Completed
+                    <p className="text-xs text-[#838383]">
+                      {course.lessonsCompleted} / {course.totalLessons} Lessons
+                      Completed
                     </p>
                   </div>
-                  <Progress className="" value={75} />
+                  <Progress
+                    className=""
+                    value={
+                      (course.lessonsCompleted / course.totalLessons) * 100
+                    }
+                  />
                   <p className="text-xs text-[#838383]">
                     {course.course.tutor.name}
                   </p>
