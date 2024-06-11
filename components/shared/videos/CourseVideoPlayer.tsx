@@ -8,6 +8,7 @@ import {
   updateLessonStatus,
   updateVideoWatchedDuration,
 } from "@/actions/user.actions";
+import HTMLParser from "@/lib/htmlParser";
 
 const CourseVideoPlayer = () => {
   const { selectedCourse, selectedCourseLessonId } = useContext(CourseContext);
@@ -94,20 +95,29 @@ const CourseVideoPlayer = () => {
 
   return (
     <div>
-      {Object.keys(selectedCourse).length !== 0 && (
-        <div className="relative mx-auto w-[326px] sm:w-[900px]">
-          <ReactPlayer
-            // @ts-ignore
-            url={selectedCourse?.videoUrl}
-            width="100%"
-            height="100%"
-            controls
-            onEnded={manageLessonStatus}
-            onPause={handlePause}
-            ref={videoRef}
-          />
-        </div>
-      )}
+      {Object.keys(selectedCourse).length !== 0 &&
+        // @ts-ignore
+        (selectedCourse?.type === "VIDEO" ? (
+          <div className="relative mx-auto w-[326px] sm:w-[900px]">
+            <ReactPlayer
+              // @ts-ignore
+              url={selectedCourse?.videoUrl}
+              width="100%"
+              height="100%"
+              controls
+              onEnded={manageLessonStatus}
+              onPause={handlePause}
+              ref={videoRef}
+            />
+          </div>
+        ) : (
+          <div className="w-full bg-[rgba(255,255,255,0.6)] p-5">
+            {
+              // @ts-ignore
+              <HTMLParser html={selectedCourse?.videoUrl} />
+            }
+          </div>
+        ))}
     </div>
   );
 };
