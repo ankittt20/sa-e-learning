@@ -99,11 +99,26 @@ model course {
   faq              courseFAQ[]
 }
 
+model article{
+  id          Int              @id @default(autoincrement())
+  title       String?          @db.VarChar(255)
+  body        String?          @db.VarChar
+  authorId    Int
+  coverImage  String?
+  publishedAt DateTime?
+  verified    Boolean          @default(false)
+  keywords    articleKeywords[]
+  comments    articleComment[]
+  author      tutor            @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+}
+
 model keywords{
   id        Int      @id @default(autoincrement())
   name      String   @unique @db.VarChar(255)
   createdAt DateTime @default(now())
   courses   courseKeywords[]
+  articles  articleKeywords[]
 }
 
 model courseKeywords{
@@ -112,6 +127,14 @@ model courseKeywords{
   keywordId Int
   keyword   keywords @relation(fields: [keywordId], references: [id])
   course    course   @relation(fields: [courseId], references: [id])
+}
+
+model articleKeywords{
+  id        Int      @id @default(autoincrement())
+  articleId Int
+  keywordId Int
+  keyword   keywords @relation(fields: [keywordId], references: [id])
+  article   article  @relation(fields: [articleId], references: [id])
 }
 
 model courseFAQ{
@@ -233,18 +256,6 @@ model permissions {
   permissionFor String? @db.VarChar(255)
   status        Boolean @default(false)
 }
-
-model article {
-  id          Int              @id @default(autoincrement())
-  title       String?          @db.VarChar(255)
-  content     String?          @db.VarChar
-  authorId    Int
-  publishedAt DateTime?
-  verified    Boolean          @default(false)
-  author      tutor            @relation(fields: [authorId], references: [id])
-  comments    articleComment[]
-}
-
 model articleComment {
   id        Int       @id @default(autoincrement())
   articleId Int

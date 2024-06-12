@@ -52,3 +52,17 @@ export const CourseFAQSchema = z.object({
   title: z.string().min(5).max(255),
   body: z.string().min(5),
 });
+
+export const ArticleSchema = z.object({
+  title: z.string().min(5).max(255),
+  body: z.string().min(5),
+  tags: z
+    .array(
+      z
+        .string()
+        .min(1, { message: "Please select atleast one tag." })
+        .max(15, { message: "Please select less than 15 tags." })
+    )
+    .min(1)
+    .max(3, { message: "Please select atmost 3 tags." }),
+});

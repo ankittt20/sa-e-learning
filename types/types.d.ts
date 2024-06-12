@@ -158,3 +158,10 @@ export interface courseSortInterface {
   name: string;
   value: string;
 }
+
+export interface PostArticleInterface {
+  title: string;
+  body: string;
+  tags: string[];
+  image: string;
+}

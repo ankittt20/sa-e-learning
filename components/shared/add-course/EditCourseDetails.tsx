@@ -32,7 +32,7 @@ const CourseDetail = () => {
   const [error, setError] = useState("");
   const [course, setCourse] = useState<any>();
   const [showCourseDetails, setShowCourseDetails] = useState(false);
-  const [filePath, setFilePath] = useState("");
+  const [filePath] = useState("");
   const searchParams = useSearchParams();
   const courseId = searchParams.get("course-id");
 

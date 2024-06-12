@@ -1,5 +1,9 @@
 "use server";
-import { addCoursesInterface, addTutorTypes } from "@/types/types";
+import {
+  PostArticleInterface,
+  addCoursesInterface,
+  addTutorTypes,
+} from "@/types/types";
 import { db } from "@/lib/prisma";
 import { hashSync } from "bcryptjs";
 import { mailService } from "@/lib/mailService";
@@ -313,5 +317,59 @@ export const getCourseById = async (courseId: number) => {
     return { course, success: true };
   } catch (err) {
     return { msg: "Error fetching course", success: false };
+  }
+};
+
+// add an article by the tutor
+export const addArticle = async (data: PostArticleInterface) => {
+  // destructuring the data
+  const { title, body, tags, image } = data;
+
+  // get the session of the tutor
+  const session = await getServerSession(authOptions);
+  if (!session)
+    return {
+      msg: "You are not authorized to create an article",
+      success: false,
+    };
+  if (session?.user?.role !== "tutor")
+    return {
+      msg: "You are not authorized to create an article",
+      success: false,
+    };
+
+  try {
+    // add tags to the keywords table if they do not exist
+    const newKeywords = await db.keywords.createManyAndReturn({
+      data: tags.map((tag) => ({
+        name: tag.toLowerCase(),
+      })),
+      skipDuplicates: true,
+    });
+
+    const keyWordIds = newKeywords.map((keyword) => keyword.id);
+
+    // add the article
+    const newArticle = await db.article.create({
+      data: {
+        title,
+        body,
+        coverImage: image,
+        authorId: +session?.user?.id,
+      },
+    });
+
+    // update the articleKeyword table with the new keyword ids and the new article id
+    await db.articleKeywords.createMany({
+      data: keyWordIds.map((keyword) => ({
+        keywordId: keyword,
+        articleId: newArticle.id,
+      })),
+    });
+
+    return { msg: "Article created successfully", success: true };
+  } catch (err) {
+    console.log(err);
+    return { msg: "Error creating article", success: false };
   }
 };
