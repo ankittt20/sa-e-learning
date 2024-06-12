@@ -1,6 +1,7 @@
 "use client";
 import { getArticleById } from "@/actions/tutor.actions";
 import HTMLParser from "@/lib/htmlParser";
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 
@@ -23,7 +24,13 @@ const ShowArticleDetails = () => {
 
   return (
     <div className="container">
-      <div>
+      <div className="mt-12 flex flex-col items-center">
+        <Image
+          src={article?.article?.coverImage}
+          alt="article image"
+          width={500}
+          height={300}
+        />
         <h1>{article?.article?.title}</h1>
         <HTMLParser html={article?.article?.body || ""} />
       </div>
