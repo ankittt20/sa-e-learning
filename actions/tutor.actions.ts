@@ -373,3 +373,28 @@ export const addArticle = async (data: PostArticleInterface) => {
     return { msg: "Error creating article", success: false };
   }
 };
+
+// get article by id
+export const getArticleById = async (articleId: number) => {
+  try {
+    // get the article by id
+    const article = await db.article.findUnique({
+      where: {
+        id: articleId,
+      },
+      include: {
+        author: {
+          select: {
+            name: true,
+            id: true,
+            profilePicture: true,
+          },
+        },
+      },
+    });
+
+    return { article, success: true };
+  } catch (err) {
+    return { msg: "Error fetching article", success: false };
+  }
+};
