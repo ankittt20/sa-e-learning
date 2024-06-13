@@ -1,5 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import Filter from "@/components/shared/forms/filters/Filter";
 import FilterInput from "@/components/shared/forms/inputs/FilterInput";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,9 @@ const Courses = () => {
   const [courseError, setError] = useState("");
   const [courseLoading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  // get the category id from the url if any
+  const { urlCategoryId } = useParams();
 
   // fetch all courses
   const fetchCourses = async () => {
@@ -78,7 +82,14 @@ const Courses = () => {
   // handle filter by category
   const handleFilterByCategory = async (value: string) => {
     const category = value === "all" ? 0 : +value;
-    if (category === 0) {
+    if (urlCategoryId) {
+      const fetchCourseByCategory = await getCoursesByCategory(+urlCategoryId);
+      if (fetchCourseByCategory.success) {
+        setCourses(fetchCourseByCategory.courses);
+      } else {
+        setError(fetchCourseByCategory.msg);
+      }
+    } else if (category === 0) {
       const fetchAllCourses = await getAllCourses();
       if (fetchAllCourses.success) {
         setCourses(fetchAllCourses.courses);

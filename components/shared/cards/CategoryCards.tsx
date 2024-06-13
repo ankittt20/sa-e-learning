@@ -7,11 +7,18 @@ interface categoryProps {
   numbers: string;
   image: string;
   bgColor: string;
+  category: number;
 }
 
-const CategoryCards = ({ image, heading, numbers, bgColor }: categoryProps) => {
+const CategoryCards = ({
+  image,
+  heading,
+  numbers,
+  bgColor,
+  category,
+}: categoryProps) => {
   return (
-    <Link href="/courses">
+    <Link href={`/courses?category=${category}`}>
       <div
         className={`${bgColor} flex w-[286px] flex-col flex-wrap items-center justify-center gap-7 rounded-[10px] px-12 py-5 drop-shadow-2xl`}
       >

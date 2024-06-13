@@ -4,6 +4,7 @@ import {
   ref,
   getDownloadURL,
   uploadBytesResumable,
+  deleteObject,
 } from "firebase/storage";
 import { v4 } from "uuid";
 import { validateFile } from "./fileValidation";
@@ -28,4 +29,11 @@ export const uploadFile = async (
     const downloadURL = await getDownloadURL(uploadedFile.ref);
     return downloadURL;
   }
+};
+
+// delete files from firestore
+export const deleteFile = async (path: string) => {
+  const fileRef = ref(storage, path);
+  const res = await deleteObject(fileRef);
+  return res;
 };

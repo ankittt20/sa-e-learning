@@ -12,6 +12,7 @@ import { authOptions } from "@/lib/auth";
 import axios from "axios";
 import { PassThrough } from "stream";
 import ffmpeg from "fluent-ffmpeg";
+import { deleteFile } from "@/lib/fileUpload";
 
 export const addTutor = async (data: addTutorTypes) => {
   // destructuring the data
@@ -88,6 +89,7 @@ export const createCourse = async (data: addCoursesInterface) => {
   const session = await getServerSession(authOptions);
 
   if (session?.user.role !== "tutor") {
+    deleteFile(data.image);
     return { msg: "You are not authorized to create a course", success: false };
   }
 
@@ -104,64 +106,71 @@ export const createCourse = async (data: addCoursesInterface) => {
     tags,
   } = data;
 
-  // add the course to the category
-  const categoryExists = await db.category.findUnique({
-    where: {
-      id: +category,
-    },
-  });
+  try {
+    // add the course to the category
+    const categoryExists = await db.category.findUnique({
+      where: {
+        id: +category,
+      },
+    });
 
-  if (!categoryExists) {
-    return { msg: "Category does not exist", success: false };
+    if (!categoryExists) {
+      deleteFile(image);
+      return { msg: "Category does not exist", success: false };
+    }
+
+    // add tags to the keywords table if they do not exist
+    const newKeywords = await db.keywords.createManyAndReturn({
+      data: tags.map((tag: string) => ({
+        name: tag.toLowerCase(),
+      })),
+      skipDuplicates: true,
+    });
+
+    const keyWordIds = newKeywords.map((keyword) => keyword.id);
+
+    // add the course
+    const newCourse = await db.categorisedCourse.create({
+      data: {
+        category: {
+          connect: {
+            id: +category,
+          },
+        },
+        course: {
+          create: {
+            name: title,
+            description,
+            price,
+            level,
+            requirements,
+            objectives,
+            image,
+            tutorId: +session?.user.id,
+            verified: false,
+          },
+        },
+      },
+    });
+
+    // update the articleKeyword table with the new keyword ids and the new article id
+    await db.courseKeywords.createMany({
+      data: keyWordIds.map((keyword) => ({
+        keywordId: keyword,
+        courseId: newCourse.id,
+      })),
+    });
+
+    return {
+      msg: "Course created successfully",
+      success: true,
+      courseId: newCourse.courseId,
+    };
+  } catch (err) {
+    console.log(err);
+    deleteFile(image);
+    return { msg: "Error creating course", success: false };
   }
-
-  // add tags to the keywords table if they do not exist
-  const newKeywords = await db.keywords.createManyAndReturn({
-    data: tags.map((tag: string) => ({
-      name: tag.toLowerCase(),
-    })),
-    skipDuplicates: true,
-  });
-
-  const keyWordIds = newKeywords.map((keyword) => keyword.id);
-
-  // add the course
-  const newCourse = await db.categorisedCourse.create({
-    data: {
-      category: {
-        connect: {
-          id: +category,
-        },
-      },
-      course: {
-        create: {
-          name: title,
-          description,
-          price,
-          level,
-          requirements,
-          objectives,
-          image,
-          tutorId: +session?.user.id,
-          verified: false,
-        },
-      },
-    },
-  });
-
-  // update the articleKeyword table with the new keyword ids and the new article id
-  await db.courseKeywords.createMany({
-    data: keyWordIds.map((keyword) => ({
-      keywordId: keyword,
-      courseId: newCourse.id,
-    })),
-  });
-
-  return {
-    msg: "Course created successfully",
-    success: true,
-    courseId: newCourse.courseId,
-  };
 };
 
 // add sections to the course
