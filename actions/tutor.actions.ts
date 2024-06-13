@@ -101,6 +101,7 @@ export const createCourse = async (data: addCoursesInterface) => {
     requirements,
     objectives,
     image,
+    tags,
   } = data;
 
   // add the course to the category
@@ -113,6 +114,16 @@ export const createCourse = async (data: addCoursesInterface) => {
   if (!categoryExists) {
     return { msg: "Category does not exist", success: false };
   }
+
+  // add tags to the keywords table if they do not exist
+  const newKeywords = await db.keywords.createManyAndReturn({
+    data: tags.map((tag: string) => ({
+      name: tag.toLowerCase(),
+    })),
+    skipDuplicates: true,
+  });
+
+  const keyWordIds = newKeywords.map((keyword) => keyword.id);
 
   // add the course
   const newCourse = await db.categorisedCourse.create({
@@ -136,6 +147,14 @@ export const createCourse = async (data: addCoursesInterface) => {
         },
       },
     },
+  });
+
+  // update the articleKeyword table with the new keyword ids and the new article id
+  await db.courseKeywords.createMany({
+    data: keyWordIds.map((keyword) => ({
+      keywordId: keyword,
+      courseId: newCourse.id,
+    })),
   });
 
   return {

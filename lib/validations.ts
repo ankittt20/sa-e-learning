@@ -28,6 +28,15 @@ export const addCourseSchema = z.object({
   level: z.string().min(1),
   requirements: z.string().min(5),
   objectives: z.string().min(5),
+  tags: z
+    .array(
+      z
+        .string()
+        .min(1, { message: "The length of the keyword should be atleast 3" })
+        .max(15, { message: "Maximum length of the keyword should be 15" })
+    )
+    .min(1, { message: "Please select atleast 1 keyword." })
+    .max(3, { message: "Please select atmost 3 tags." }),
 });
 
 export const moduleSchema = z.object({
@@ -60,9 +69,9 @@ export const ArticleSchema = z.object({
     .array(
       z
         .string()
-        .min(1, { message: "Please select atleast one tag." })
-        .max(15, { message: "Please select less than 15 tags." })
+        .min(1, { message: "The length of the keyword should be atleast 3" })
+        .max(15, { message: "Maximum length of the keyword should be 15" })
     )
-    .min(1)
+    .min(1, { message: "Please select atleast 1 keyword." })
     .max(3, { message: "Please select atmost 3 tags." }),
 });

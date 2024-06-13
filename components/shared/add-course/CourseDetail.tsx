@@ -6,6 +6,7 @@ import { z } from "zod";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -28,6 +29,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { createCourse } from "@/actions/tutor.actions";
 import { uploadFile } from "@/lib/fileUpload";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
 
 const CourseDetail = () => {
   const [categories, setCategories] = useState<categoriesInterface[]>();
@@ -38,6 +41,16 @@ const CourseDetail = () => {
 
   const form = useForm<z.infer<typeof addCourseSchema>>({
     resolver: zodResolver(addCourseSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      category: "",
+      price: 0,
+      level: "",
+      requirements: "",
+      objectives: "",
+      tags: [],
+    },
   });
 
   useEffect(() => {
@@ -66,10 +79,45 @@ const CourseDetail = () => {
     }
   };
 
+  // add tag
+  const handleInputKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    field: any
+  ) => {
+    if (e.key === "Enter" && field.name === "tags") {
+      e.preventDefault();
+      const tagInput = e.target as HTMLInputElement;
+      const tagValue = tagInput.value.trim();
+      console.log(tagValue);
+      if (tagValue !== "") {
+        if (tagValue.length > 15) {
+          return form.setError("tags", {
+            type: "required",
+            message: "Tag must be less than 15 characters.",
+          });
+        }
+        if (!field.value.includes(tagValue as never)) {
+          form.setValue("tags", [...field.value, tagValue]);
+          tagInput.value = "";
+          form.clearErrors("tags");
+        }
+      } else {
+        form.trigger();
+      }
+    }
+  };
+
+  // remove tag
+  const handleTagRemove = (tag: string, field: any) => {
+    const newTags = field.value.filter((t: string) => t !== tag);
+
+    form.setValue("tags", newTags);
+  };
+
+  // handle submit
   const onSubmit = async (data: z.infer<typeof addCourseSchema>) => {
     try {
       setIsLoading(true);
-      console.log(data);
       const newCourse = await createCourse({ ...data, image: filePath });
       alert(newCourse.msg);
       router.push(`/edit-course?course-id=${newCourse.courseId}`);
@@ -223,6 +271,54 @@ const CourseDetail = () => {
           type="file"
           onChange={handleImageChange}
           required
+        />
+        <FormField
+          control={form.control}
+          name="tags"
+          render={({ field }) => (
+            <FormItem className="mt-10 flex w-full flex-col">
+              <FormLabel className="text-semibold">
+                Tags <span className="text-primary-100">*</span>
+              </FormLabel>
+              <FormControl className="mt-3.5">
+                <div className="mt-10">
+                  <Input
+                    className=" min-h-[56px] border"
+                    placeholder="Add tags..."
+                    onKeyDown={(e) => handleInputKeyDown(e, field)}
+                  />
+
+                  {Array.isArray(field.value) && field.value.length > 0 && (
+                    <div className="flex-start mt-2.5 gap-2.5">
+                      {field.value.map((tag: any) => (
+                        <Badge
+                          key={tag}
+                          className="flex items-center justify-center gap-2 rounded-md border-none bg-accent-pink px-4 py-2 capitalize text-primary-100"
+                          onClick={() => handleTagRemove(tag, field)}
+                        >
+                          {tag}
+                          {
+                            <Image
+                              src="/assets/icons/close.svg"
+                              alt="Close icon"
+                              width={12}
+                              height={12}
+                              className="cursor-pointer object-contain invert-0 dark:invert"
+                            />
+                          }
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </FormControl>
+              <FormDescription>
+                Add up to 3 tags to describe what your question is about. You
+                need to press enter to add a tag.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
         />
         <Button
           type="submit"

@@ -110,6 +110,7 @@ export interface addCoursesInterface {
   level: string;
   requirements: string;
   objectives: string;
+  tags: string[];
 }
 export interface getCoursesInterface {
   id: number;
