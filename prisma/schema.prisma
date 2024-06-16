@@ -93,6 +93,7 @@ model course {
   level            String?
   objectives       String?
   requirements     String?
+  duration         Float?
   createdAt        DateTime            @default(now())
   cartProducts     cartProducts[]
   category         categorisedCourse[]
@@ -231,7 +232,7 @@ model lesson {
   createdAt        DateTime       @default(now())
   type             String
   isPreview        Boolean        @default(false)
-  duration         Float?
+  duration         Float?          @default(60)
   courseSections   courseSections @relation(fields: [courseSectionsId], references: [id])
   progressions     progressions[]
   courseFAQ        courseFAQ[]

@@ -258,7 +258,7 @@ export const changeModulePublication = async (
 };
 
 // add lessons to the section
-export const addLesson = async (data: any) => {
+export const addLesson = async (data: any, courseId: number) => {
   // destructuring the data
   const {
     name,
@@ -283,6 +283,22 @@ export const addLesson = async (data: any) => {
         type: courseTypeEnum,
         isPreview,
         duration,
+      },
+    });
+
+    let durationUpdate = 0;
+    if (duration === 0) durationUpdate = 60;
+    else durationUpdate = duration;
+
+    // update the total duration of the course
+    await db.course.update({
+      where: {
+        id: courseId,
+      },
+      data: {
+        duration: {
+          increment: durationUpdate,
+        },
       },
     });
 

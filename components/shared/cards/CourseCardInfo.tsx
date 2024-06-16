@@ -46,7 +46,7 @@ const CourseCardInfo = ({ course }: courseProps) => {
                 fontStyles="text-xs text-[#333333]"
               />
               <Info
-                text="100 mins"
+                text={course.duration || "100 min"}
                 image="/assets/icons/clock.svg"
                 isImage={true}
                 size={12}

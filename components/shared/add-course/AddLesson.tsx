@@ -13,7 +13,7 @@ import { addLesson, getLessonDuration } from "@/actions/tutor.actions";
 
 const AddLesson = ({ moduleId }: { moduleId: number }) => {
   const searchParams = useSearchParams();
-  const courseId = searchParams.get("course-id");
+  const courseId = searchParams.get("course-id") ?? "";
 
   // set editor ref
   const editorRef = useRef(null);
@@ -133,7 +133,7 @@ const AddLesson = ({ moduleId }: { moduleId: number }) => {
 
     try {
       setIsLoading(true);
-      const res = await addLesson(formData);
+      const res = await addLesson(formData, +courseId);
       if (res.success) {
         alert("Lesson added successfully");
         window.location.reload();

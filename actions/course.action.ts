@@ -24,6 +24,7 @@ export const getAllCourses = async () => {
         createdAt: "desc",
       },
     });
+
     return { courses, success: true, msg: "Courses fetched successfully" };
   } catch (err) {
     console.log(err);
