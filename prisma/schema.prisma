@@ -48,6 +48,14 @@ model admin {
   createdAt    DateTime @default(now())
 }
 
+model newsLetterSubscriber {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique @db.VarChar(255)
+  verified Boolean  @default(false)
+  validActivationTime DateTime?
+  token     String?
+  createdAt DateTime @default(now())
+}
 model tutor {
   id             Int       @id @default(autoincrement())
   name           String?   @db.VarChar(255)

@@ -18,7 +18,7 @@ type Props = {
 const AdminNav = ({ user }: Props) => {
   return (
     <div className="flex justify-between p-8 sm:hidden">
-      <h3 className="font-bold text-xl">
+      <h3 className="text-xl font-bold">
         <a href="/">SAelearning</a>
       </h3>
       <div className="flex items-center space-x-4">
@@ -56,12 +56,12 @@ const AdminNav = ({ user }: Props) => {
                           callbackUrl: "/",
                         })
                       }
-                      className="mt-5 btn rounded-md text-sm shadow-sm hover:shadow-md"
+                      className="btn mt-5 rounded-md text-sm shadow-sm hover:shadow-md"
                     >
                       Sign Out
                     </Button>
                   ) : (
-                    <Button className="mt-5 btn rounded-md text-sm shadow-sm hover:shadow-md">
+                    <Button className="btn mt-5 rounded-md text-sm shadow-sm hover:shadow-md">
                       <a href="/login" className="text-lg font-semibold">
                         Register/Login
                       </a>

@@ -2,6 +2,7 @@
 import { db } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { mailService } from "@/lib/mailService";
 
 // add to course to user cart
 export const addCourseToCart = async (courseId: number) => {
@@ -703,5 +704,88 @@ export const updateVideoWatchedDuration = async (
   } catch (err) {
     console.log(err);
     return { msg: "Error updating video watched duration", success: false };
+  }
+};
+
+// add the user email to the newsletter list
+export const addUserToNewsletter = async (email: string) => {
+  // generate a random token
+  const token = crypto.randomUUID();
+  try {
+    // check if the given email is already verified
+    const isVerified = await db.newsLetterSubscriber.findUnique({
+      where: {
+        email,
+        verified: true,
+      },
+    });
+
+    if (isVerified)
+      return {
+        msg: "You are already a part of our newsletter.",
+        success: false,
+      };
+
+    // add the user email to the newsletter list
+    await db.newsLetterSubscriber.upsert({
+      where: {
+        email,
+      },
+      update: {
+        validActivationTime: new Date(Date.now() + 5 * 60 * 1000),
+        token,
+      },
+      create: {
+        email,
+        validActivationTime: new Date(Date.now() + 5 * 60 * 1000),
+        token,
+      },
+    });
+
+    await mailService.sendMail({
+      to: email,
+      subject: "Newsletter Subscription",
+      html: `<h1>Thank you for subscribing to our newsletter</h1><br/><p>You will receive the latest updates on our courses</p><br/><p>Click on the button below to activate your subscription</p><br/><a href="http://localhost:3000/activate-newsletter?email=${email}&token=${token}">Activate Subscription</a>`,
+    });
+
+    return { msg: "User added to newsletter successfully", success: true };
+  } catch (err) {
+    console.log(err);
+    return { msg: "Error adding user to newsletter", success: false };
+  }
+};
+
+// verify the user for newsletter
+export const verifyUserForNewsletter = async (email: string, token: string) => {
+  try {
+    // check if the email and the link are valid or not
+    const isUserValid = await db.newsLetterSubscriber.findFirst({
+      where: {
+        email,
+        token,
+        validActivationTime: {
+          gt: new Date(),
+        },
+      },
+    });
+
+    if (!isUserValid) {
+      return { msg: "Invalid link", success: false };
+    }
+
+    // activate the user
+    await db.newsLetterSubscriber.update({
+      where: {
+        email,
+      },
+      data: {
+        verified: true,
+      },
+    });
+
+    return { msg: "User subscribed to newsletter successfully", success: true };
+  } catch (err) {
+    console.log(err);
+    return { msg: "Error subscribing user to newsletter", success: false };
   }
 };
