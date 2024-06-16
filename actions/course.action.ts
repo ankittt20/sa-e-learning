@@ -370,6 +370,68 @@ export const searchCourses = async (search: string) => {
   }
 };
 
+// filter courses by category, price and suitable for
+export const filterCourses = async (filter: {
+  category: number;
+  price: number;
+  suitableFor: string;
+}) => {
+  try {
+    // make dynamic conditions based on the filter
+    const conditions = [];
+    // check if the category is not 0
+    if (filter.category !== 0) {
+      conditions.push({
+        category: {
+          some: {
+            categoryId: filter.category,
+          },
+        },
+      });
+    }
+
+    // check if the price is not -1
+    if (filter.price !== -1) {
+      conditions.push({
+        price: {
+          lte: filter.price,
+        },
+      });
+    }
+
+    // check if the suitableFor is not empty
+    if (filter.suitableFor !== "") {
+      conditions.push({
+        level: filter.suitableFor,
+      });
+    }
+
+    const courses = await db.course.findMany({
+      where: {
+        AND: conditions,
+      },
+      include: {
+        tutor: true,
+        category: {
+          select: {
+            category: true,
+          },
+        },
+        _count: {
+          select: {
+            student: true,
+          },
+        },
+      },
+    });
+
+    return { courses, success: true, msg: "Courses fetched successfully" };
+  } catch (err) {
+    console.log(err);
+    return { msg: "Error fetching courses", success: false };
+  }
+};
+
 // add a new faq question to a course
 export const addCourseFAQ = async (
   courseId: number,

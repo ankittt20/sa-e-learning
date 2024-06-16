@@ -97,3 +97,18 @@ export const coursesSortFilters = [
     value: "price_desc",
   },
 ];
+
+export const SUITALBE_FOR = [
+  {
+    id: 1,
+    name: "beginner",
+  },
+  {
+    id: 2,
+    name: "intermediate",
+  },
+  {
+    id: 3,
+    name: "advanced",
+  },
+];
