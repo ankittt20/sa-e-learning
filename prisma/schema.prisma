@@ -28,7 +28,7 @@ model User {
   wishlist        wishlist?
   answeredFAQ     courseFAQAnswers[]
   questions       courseFAQ[]
-  tutorReviews    tutorReview[]
+  reviews         tutorReview[]
 }
 
 model SuperAdmin {
@@ -70,6 +70,7 @@ model tutor {
   speciality     String?
   experience     String?
   education      String?
+  rating         Int?
   fbUrl          String?
   linkedInUrl    String?
   twitterUrl     String?
@@ -79,7 +80,7 @@ model tutor {
   createdAt      DateTime  @default(now())
   articles       article[]
   courses        course[]
-  tutorReviews   tutorReview[]
+  reviews        tutorReview[]
 }
 
 model course {
@@ -184,7 +185,7 @@ model review {
   user      User     @relation(fields: [userId], references: [id])
 }
 
-model tutorReview{
+model tutorReview {
   id        Int      @id @default(autoincrement())
   tutorId   Int
   userId    Int
