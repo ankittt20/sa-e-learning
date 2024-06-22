@@ -55,7 +55,11 @@ const StudentCourseDetail = () => {
                         {courseDetails?.tutor?.speciality || ""}
                       </p>
                       <div className="size-2 rounded-full bg-[#D9D9D9]"></div>
-                      <CreateReviewModal course={course} />
+                      <CreateReviewModal
+                        course={+course}
+                        type="course"
+                        placeholder="How did this course meet your expectations?"
+                      />
                     </div>
                     <div className="mt-6">
                       <Tabs

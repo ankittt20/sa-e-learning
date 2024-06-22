@@ -28,6 +28,7 @@ model User {
   wishlist        wishlist?
   answeredFAQ     courseFAQAnswers[]
   questions       courseFAQ[]
+  tutorReviews    tutorReview[]
 }
 
 model SuperAdmin {
@@ -69,7 +70,6 @@ model tutor {
   speciality     String?
   experience     String?
   education      String?
-  rating         Int?
   fbUrl          String?
   linkedInUrl    String?
   twitterUrl     String?
@@ -79,6 +79,7 @@ model tutor {
   createdAt      DateTime  @default(now())
   articles       article[]
   courses        course[]
+  tutorReviews   tutorReview[]
 }
 
 model course {
@@ -180,6 +181,17 @@ model review {
   review    String?  @db.VarChar(5000)
   createdAt DateTime @default(now())
   course    course   @relation(fields: [courseId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model tutorReview{
+  id        Int      @id @default(autoincrement())
+  tutorId   Int
+  userId    Int
+  rating    Int?
+  review    String?  @db.VarChar(5000)
+  createdAt DateTime @default(now())
+  tutor     tutor    @relation(fields: [tutorId], references: [id])
   user      User     @relation(fields: [userId], references: [id])
 }
 

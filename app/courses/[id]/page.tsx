@@ -2,9 +2,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import FilterInput from "@/components/shared/forms/inputs/FilterInput";
 import { Button } from "@/components/ui/button";
-import { FaSearch, FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 import { CiStar } from "react-icons/ci";
 import CurriculumCard from "@/components/shared/cards/CurriculumCard";
 import CourseReview from "@/components/shared/reviews/CourseReview";
@@ -14,6 +13,7 @@ import LearningNow from "@/components/shared/LearningNow";
 import Footer from "@/components/shared/footer/Footer";
 import { getCourseById } from "@/actions/course.action";
 import Link from "next/link";
+import CreateReviewModal from "@/components/shared/reviews/CreateReviewModal";
 
 const CourseDetails = () => {
   const params = useParams();
@@ -42,29 +42,19 @@ const CourseDetails = () => {
       <div className="container">
         <div className="mt-28 flex flex-wrap justify-between gap-8 max-sm:items-center max-sm:justify-center">
           <h3 className="h3-bold-extra max-sm:text-center">{course.name}</h3>
-          <div className="flex items-end justify-end gap-4">
-            <FilterInput
-              label="Search"
-              forType="search"
-              placeholder="Find Your Course"
-            />
-            <Button className="rounded-lg bg-accent-blue">
-              <FaSearch size={17} color="#fff" />
-            </Button>
-          </div>
         </div>
         <div className="mt-28">
           <div className="flex flex-col gap-12 sm:flex-row">
             <div>
               <div className="relative w-fit rounded-xl">
                 <div className="">
-                  {/* <Image
+                  <Image
                     src={course.image}
                     width={500}
                     height={300}
                     alt="course"
                     className="rounded-t-xl"
-                  /> */}
+                  />
                   <div>
                     <h5 className="absolute left-[24px] top-[28px] text-[10px] font-bold uppercase text-primary-100">
                       Programming
@@ -114,7 +104,7 @@ const CourseDetails = () => {
                 <h4 className="text-2xl font-bold text-[#333333]">
                   Instructor
                 </h4>
-                <div className="mt-6 flex flex-col justify-center gap-4 sm:flex-row">
+                <div className="mt-6 flex flex-col gap-4 sm:flex-row">
                   <Image
                     src="/assets/images/user.png"
                     alt="instructor"
@@ -152,6 +142,10 @@ const CourseDetails = () => {
                           <CiStar size={24} />
                         </div>
                       </div>
+                      <CreateReviewModal
+                        type="tutor"
+                        placeholder="Review Tutor"
+                      />
                     </div>
                   </div>
                 </div>
