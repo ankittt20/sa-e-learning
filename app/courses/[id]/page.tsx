@@ -4,7 +4,6 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
-import { CiStar } from "react-icons/ci";
 import CurriculumCard from "@/components/shared/cards/CurriculumCard";
 import CourseReview from "@/components/shared/reviews/CourseReview";
 import CourseInfo from "@/components/shared/course/CourseInfo";
@@ -13,17 +12,33 @@ import LearningNow from "@/components/shared/LearningNow";
 import Footer from "@/components/shared/footer/Footer";
 import { getCourseById } from "@/actions/course.action";
 import Link from "next/link";
-import CreateReviewModal from "@/components/shared/reviews/CreateReviewModal";
+import ReviewStar from "@/components/shared/reviews/ReviewStar";
 
 const CourseDetails = () => {
   const params = useParams();
   const [course, setCourse] = useState<any>({});
+  const [tutorRating, setTutorRating] = useState<number>(0);
 
   const fetchCourseById = useCallback(async (courseId: string | string[]) => {
     try {
       // get the course by id
       const course = await getCourseById(+courseId);
       setCourse(course?.course);
+      console.log(course);
+      // calculate the average rating
+      const totalRating = course?.course?.tutor?.tutorReviews?.reduce(
+        (acc: number, review: any) => acc + review.rating,
+        0
+      );
+      if (
+        totalRating === undefined ||
+        course?.course?.tutor?.tutorReviews?.length === undefined
+      )
+        setTutorRating(1);
+      else
+        setTutorRating(
+          totalRating / course?.course?.tutor?.tutorReviews?.length
+        );
     } catch (err) {
       console.log(err);
       return { msg: "Error fetching course", success: false };
@@ -133,19 +148,13 @@ const CourseDetails = () => {
                         </Link>
                       </div>
                       <div className="flex gap-4">
-                        (50 reviews)
-                        <div className="flex gap-2">
-                          <CiStar size={24} color="#F07867" />
-                          <CiStar size={24} color="#F07867" />
-                          <CiStar size={24} color="#F07867" />
-                          <CiStar size={24} color="#F07867" />
-                          <CiStar size={24} />
-                        </div>
+                        ({course?.tutor?.reviews?.length || 0} Reviews)
+                        <ReviewStar
+                          rating={tutorRating}
+                          setRating={() => {}}
+                          isNotPointer={true}
+                        />
                       </div>
-                      <CreateReviewModal
-                        type="tutor"
-                        placeholder="Review Tutor"
-                      />
                     </div>
                   </div>
                 </div>
@@ -153,8 +162,18 @@ const CourseDetails = () => {
               <div className="mt-12">
                 <h4 className="text-2xl font-bold text-[#333333]">Reviews</h4>
                 <div className="mt-6 flex flex-col justify-center gap-5">
-                  <CourseReview />
-                  <CourseReview />
+                  {course.rating.length === 0 && <p>No reviews available</p>}
+                  {course.rating.map((review: any, idx: number) => {
+                    return (
+                      <CourseReview
+                        key={idx}
+                        creator={review.user}
+                        createdAt={review.createdAt}
+                        body={review.review}
+                        rating={review.rating}
+                      />
+                    );
+                  })}
                   <Button className="mx-auto mt-5 bg-accent-blue text-primary-100">
                     Load More
                   </Button>

@@ -51,6 +51,11 @@ export const getCourseById = async (courseId: number) => {
             instagramUrl: true,
             linkedInUrl: true,
             about: true,
+            tutorReviews: {
+              select: {
+                rating: true,
+              },
+            },
           },
         },
         category: {
@@ -62,6 +67,15 @@ export const getCourseById = async (courseId: number) => {
         rating: {
           select: {
             rating: true,
+            review: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+                profilePicture: true,
+              },
+            },
+            createdAt: true,
           },
         },
         _count: {
