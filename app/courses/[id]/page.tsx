@@ -26,19 +26,16 @@ const CourseDetails = () => {
       setCourse(course?.course);
       console.log(course);
       // calculate the average rating
-      const totalRating = course?.course?.tutor?.tutorReviews?.reduce(
+      const totalRating = course?.course?.tutor?.reviews?.reduce(
         (acc: number, review: any) => acc + review.rating,
         0
       );
       if (
         totalRating === undefined ||
-        course?.course?.tutor?.tutorReviews?.length === undefined
+        course?.course?.tutor?.reviews?.length === undefined
       )
         setTutorRating(1);
-      else
-        setTutorRating(
-          totalRating / course?.course?.tutor?.tutorReviews?.length
-        );
+      else setTutorRating(totalRating / course?.course?.tutor?.reviews?.length);
     } catch (err) {
       console.log(err);
       return { msg: "Error fetching course", success: false };
@@ -100,7 +97,7 @@ const CourseDetails = () => {
                       return (
                         <CurriculumCard
                           title={section.name}
-                          duration={"35min"}
+                          duration={section.duration || "35min"}
                           count={idx + 1}
                           key={section.id}
                           id={section.id}
@@ -162,8 +159,10 @@ const CourseDetails = () => {
               <div className="mt-12">
                 <h4 className="text-2xl font-bold text-[#333333]">Reviews</h4>
                 <div className="mt-6 flex flex-col justify-center gap-5">
-                  {course.rating.length === 0 && <p>No reviews available</p>}
-                  {course.rating.map((review: any, idx: number) => {
+                  {course.rating && course?.rating.length === 0 && (
+                    <p>No reviews available</p>
+                  )}
+                  {course?.rating?.map((review: any, idx: number) => {
                     return (
                       <CourseReview
                         key={idx}

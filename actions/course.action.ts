@@ -51,9 +51,10 @@ export const getCourseById = async (courseId: number) => {
             instagramUrl: true,
             linkedInUrl: true,
             about: true,
-            tutorReviews: {
+            reviews: {
               select: {
                 rating: true,
+                review: true,
               },
             },
           },

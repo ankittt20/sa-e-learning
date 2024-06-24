@@ -233,6 +233,7 @@ model courseSections {
   createdAt   DateTime @default(now())
   published   Boolean  @default(false)
   course      course   @relation(fields: [courseId], references: [id])
+  sectionDuration Float? 
   lessons     lesson[]
 }
 

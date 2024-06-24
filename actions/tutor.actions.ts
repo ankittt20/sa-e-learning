@@ -302,6 +302,18 @@ export const addLesson = async (data: any, courseId: number) => {
       },
     });
 
+    // update the total duration of the module
+    await db.courseSections.update({
+      where: {
+        id: courseSectionsId,
+      },
+      data: {
+        sectionDuration: {
+          increment: durationUpdate,
+        },
+      },
+    });
+
     return { msg: "Lesson created successfully", success: true };
   } catch (err) {
     console.log(err);
