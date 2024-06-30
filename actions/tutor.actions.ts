@@ -173,6 +173,99 @@ export const createCourse = async (data: addCoursesInterface) => {
   }
 };
 
+// update the course
+export const updateCourse = async (
+  data: addCoursesInterface,
+  courseId: number
+) => {
+  const session = await getServerSession(authOptions);
+
+  if (session?.user.role !== "tutor") {
+    deleteFile(data.image);
+    return { msg: "You are not authorized to update a course", success: false };
+  }
+
+  // destructuring the data
+  const {
+    title,
+    description,
+    price,
+    category,
+    level,
+    requirements,
+    objectives,
+    image,
+    tags,
+  } = data;
+
+  try {
+    // add the course to the category
+    const categoryExists = await db.category.findUnique({
+      where: {
+        id: +category,
+      },
+    });
+
+    if (!categoryExists) {
+      deleteFile(image);
+      return { msg: "Category does not exist", success: false };
+    }
+
+    // add tags to the keywords table if they do not exist
+    const newKeywords = await db.keywords.createManyAndReturn({
+      data: tags.map((tag: string) => ({
+        name: tag.toLowerCase(),
+      })),
+      skipDuplicates: true,
+    });
+
+    const keyWordIds = newKeywords.map((keyword) => keyword.id);
+
+    // delete the old image if the image is updated
+    const course = await db.course.findUnique({
+      where: {
+        id: courseId,
+      },
+    });
+    if (course) {
+      if (course.image !== image) {
+        if (course?.image) deleteFile(course.image);
+      }
+    }
+
+    // update the course
+    await db.course.update({
+      where: {
+        id: courseId,
+      },
+      data: {
+        name: title,
+        description,
+        price,
+        level,
+        requirements,
+        objectives,
+        image,
+        verified: false,
+      },
+    });
+
+    // update the courseKeywords table with the new keyword ids and the new article id
+    await db.courseKeywords.createMany({
+      data: keyWordIds.map((keyword) => ({
+        keywordId: keyword,
+        courseId,
+      })),
+    });
+
+    return { msg: "Course updated successfully", success: true };
+  } catch (err) {
+    console.log(err);
+    deleteFile(image);
+    return { msg: "Error updating course", success: false };
+  }
+};
+
 // add sections to the course
 export const addSection = async (data: any) => {
   // destructuring the data
@@ -367,6 +460,18 @@ export const getCourseById = async (courseId: number) => {
     const course = await db.course.findUnique({
       where: {
         id: courseId,
+      },
+      include: {
+        category: true,
+        keywords: {
+          select: {
+            keyword: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
       },
     });
 
