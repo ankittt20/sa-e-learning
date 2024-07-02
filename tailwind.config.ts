@@ -25,6 +25,7 @@ const config: Config = {
       "accent-blue": "#7D6DD8",
       "accent-secondary": "#E0DAFD",
       "accent-pink": "#F762A2",
+      "accent-danger": "#C70700",
     },
     fontFamily: {
       inter: ["var(--font-inter)"],
@@ -36,17 +37,17 @@ const config: Config = {
       require("@tailwindcss/typography"),
       function ({ addUtilities }: { addUtilities: any }) {
         const newUtilities = {
-          '.no-scrollbar': {
+          ".no-scrollbar": {
             /* Hide scrollbar for Webkit browsers */
-            '-webkit-overflow-scrolling': 'touch',
-            '-ms-overflow-style': 'none',
-            'scrollbar-width': 'none',
+            "-webkit-overflow-scrolling": "touch",
+            "-ms-overflow-style": "none",
+            "scrollbar-width": "none",
           },
-          '.no-scrollbar::-webkit-scrollbar': {
-            display: 'none',
+          ".no-scrollbar::-webkit-scrollbar": {
+            display: "none",
           },
         };
-  
+
         addUtilities(newUtilities);
       },
     ],

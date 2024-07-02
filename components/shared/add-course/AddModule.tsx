@@ -13,6 +13,8 @@ const AddModule = ({ handleModuleSelect, selectedModule }: Props) => {
   const searchParams = useSearchParams();
   const courseId = searchParams.get("course-id");
   const [showModuleForm, setShowModuleForm] = useState(false);
+  // set if module is being edited
+  const [editModule, setEditModule] = useState(false);
 
   const toggleModuleForm = () => {
     setShowModuleForm(!showModuleForm);
@@ -29,11 +31,21 @@ const AddModule = ({ handleModuleSelect, selectedModule }: Props) => {
           {!showModuleForm ? "New Module" : "Cancel"}
         </p>
       </div>
-      {showModuleForm && <ModuleForm courseId={courseId} />}
+      {showModuleForm && (
+        <ModuleForm
+          courseId={courseId}
+          isModuleEditing={editModule}
+          moduleId={editModule ? selectedModule : undefined}
+        />
+      )}
       <ListModules
         courseId={courseId}
         selectModule={handleModuleSelect}
         selectedModule={selectedModule}
+        editModule={() => {
+          setShowModuleForm(true);
+          setEditModule(true);
+        }}
       />
     </div>
   );

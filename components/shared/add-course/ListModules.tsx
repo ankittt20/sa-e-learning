@@ -11,12 +11,14 @@ interface ListModulesProps {
   courseId: string | null;
   selectModule: (id: number) => void;
   selectedModule: number;
+  editModule: () => void;
 }
 
 const ListModules = ({
   courseId,
   selectModule,
   selectedModule,
+  editModule,
 }: ListModulesProps) => {
   const [modules, setModules] = useState<
     getCourseModulesInterface[] | undefined
@@ -65,10 +67,18 @@ const ListModules = ({
               className={`cursor-pointer space-y-2 rounded-lg ${bgColor} px-5 py-3`}
               onClick={setModule.bind(null, module.id)}
             >
-              <h1 className="text-sm font-medium">
-                {idx + 1}. {module.name}(
-                {module.published ? "Published" : "Draft"})
-              </h1>
+              <div className="flex items-center">
+                <h1 className="text-sm font-medium">
+                  {idx + 1}. {module.name}(
+                  {module.published ? "Published" : "Draft"})
+                </h1>
+                <Button
+                  className="ml-auto text-accent-blue hover:underline"
+                  onClick={editModule}
+                >
+                  Edit
+                </Button>
+              </div>
               <p className="text-xs font-medium opacity-50">
                 {module.description}
               </p>
