@@ -578,6 +578,54 @@ export const submitUserReview = async (data: {
   }
 };
 
+// submit the user review for the tutor
+export const submitTutorReview = async (data: {
+  rating: number;
+  review: string;
+  tutorId: number;
+}) => {
+  const { tutorId, rating, review } = data;
+  try {
+    // get the loggedIn userId
+    const session = await getServerSession(authOptions);
+    const userId = session?.user.id;
+
+    if (!userId) {
+      return {
+        msg: "You are not authorized to submit review",
+        success: false,
+      };
+    }
+
+    // check if the user has already reviewed the tutor
+    const isUserAlreadyReviewed = await db.tutorReview.findFirst({
+      where: {
+        userId: +userId,
+        tutorId,
+      },
+    });
+
+    if (isUserAlreadyReviewed) {
+      return { msg: "You have already reviewed the tutor", success: false };
+    }
+
+    // submit the review
+    await db.tutorReview.create({
+      data: {
+        userId: +userId,
+        tutorId,
+        rating,
+        review,
+      },
+    });
+
+    return { msg: "Review submitted successfully", success: true };
+  } catch (err) {
+    console.log(err);
+    return { msg: "Error submitting review", success: false };
+  }
+};
+
 // change the lesson status of the user
 export const updateLessonStatus = async (
   lessonId: number,

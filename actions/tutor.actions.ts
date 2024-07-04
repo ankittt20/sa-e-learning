@@ -173,6 +173,99 @@ export const createCourse = async (data: addCoursesInterface) => {
   }
 };
 
+// update the course
+export const updateCourse = async (
+  data: addCoursesInterface,
+  courseId: number
+) => {
+  const session = await getServerSession(authOptions);
+
+  if (session?.user.role !== "tutor") {
+    deleteFile(data.image);
+    return { msg: "You are not authorized to update a course", success: false };
+  }
+
+  // destructuring the data
+  const {
+    title,
+    description,
+    price,
+    category,
+    level,
+    requirements,
+    objectives,
+    image,
+    tags,
+  } = data;
+
+  try {
+    // add the course to the category
+    const categoryExists = await db.category.findUnique({
+      where: {
+        id: +category,
+      },
+    });
+
+    if (!categoryExists) {
+      deleteFile(image);
+      return { msg: "Category does not exist", success: false };
+    }
+
+    // add tags to the keywords table if they do not exist
+    const newKeywords = await db.keywords.createManyAndReturn({
+      data: tags.map((tag: string) => ({
+        name: tag.toLowerCase(),
+      })),
+      skipDuplicates: true,
+    });
+
+    const keyWordIds = newKeywords.map((keyword) => keyword.id);
+
+    // delete the old image if the image is updated
+    const course = await db.course.findUnique({
+      where: {
+        id: courseId,
+      },
+    });
+    if (course) {
+      if (course.image !== image) {
+        if (course?.image) deleteFile(course.image);
+      }
+    }
+
+    // update the course
+    await db.course.update({
+      where: {
+        id: courseId,
+      },
+      data: {
+        name: title,
+        description,
+        price,
+        level,
+        requirements,
+        objectives,
+        image,
+        verified: false,
+      },
+    });
+
+    // update the courseKeywords table with the new keyword ids and the new article id
+    await db.courseKeywords.createMany({
+      data: keyWordIds.map((keyword) => ({
+        keywordId: keyword,
+        courseId,
+      })),
+    });
+
+    return { msg: "Course updated successfully", success: true };
+  } catch (err) {
+    console.log(err);
+    deleteFile(image);
+    return { msg: "Error updating course", success: false };
+  }
+};
+
 // add sections to the course
 export const addSection = async (data: any) => {
   // destructuring the data
@@ -302,6 +395,18 @@ export const addLesson = async (data: any, courseId: number) => {
       },
     });
 
+    // update the total duration of the module
+    await db.courseSections.update({
+      where: {
+        id: courseSectionsId,
+      },
+      data: {
+        sectionDuration: {
+          increment: durationUpdate,
+        },
+      },
+    });
+
     return { msg: "Lesson created successfully", success: true };
   } catch (err) {
     console.log(err);
@@ -348,6 +453,137 @@ export const getTutorCourses = async () => {
   }
 };
 
+// get module details by id
+export const getModuleById = async (moduleId: number) => {
+  try {
+    // get the module by id
+    const section = await db.courseSections.findUnique({
+      where: {
+        id: moduleId,
+      },
+    });
+
+    return { section, success: true };
+  } catch (err) {
+    return { msg: "Error fetching module", success: false };
+  }
+};
+
+// edit module details
+export const editModule = async (
+  data: { name: string; description: string },
+  moduleId: number,
+  courseId: number
+) => {
+  // destructuring the data
+  const { name, description } = data;
+
+  // check if the creator of the module is the tutor
+  const session = await getServerSession(authOptions);
+  if (session?.user.role !== "tutor") {
+    return {
+      msg: "You are not authorized to edit this module",
+      success: false,
+    };
+  }
+
+  const courseAuthor = await db.course.findUnique({
+    where: {
+      id: courseId,
+    },
+    select: {
+      tutorId: true,
+    },
+  });
+
+  if (courseAuthor?.tutorId !== +session?.user.id) {
+    return {
+      msg: "You are not authorized to edit this module",
+      success: false,
+    };
+  }
+
+  try {
+    // update the module
+    await db.courseSections.update({
+      where: {
+        id: moduleId,
+      },
+      data: {
+        name,
+        description,
+      },
+    });
+
+    return { msg: "Module updated successfully", success: true };
+  } catch (err) {
+    return { msg: "Error updating module", success: false };
+  }
+};
+
+// delete module
+export const deleteModule = async (moduleId: number, courseId: number) => {
+  // check if the creator of the module is the tutor
+  const session = await getServerSession(authOptions);
+  if (session?.user.role !== "tutor") {
+    return {
+      msg: "You are not authorized to delete this module",
+      success: false,
+    };
+  }
+
+  const courseAuthor = await db.course.findUnique({
+    where: {
+      id: courseId,
+    },
+    select: {
+      tutorId: true,
+    },
+  });
+
+  if (courseAuthor?.tutorId !== +session?.user.id) {
+    return {
+      msg: "You are not authorized to delete this module",
+      success: false,
+    };
+  }
+
+  try {
+    // get the module details
+    const selectedModule = await db.courseSections.findUnique({
+      where: {
+        id: moduleId,
+      },
+      select: {
+        sectionDuration: true,
+      },
+    });
+
+    // delete the module
+    await db.courseSections.delete({
+      where: {
+        id: moduleId,
+      },
+    });
+
+    // update the total duration of the course
+    await db.course.update({
+      where: {
+        id: courseId,
+      },
+      data: {
+        duration: {
+          decrement: selectedModule?.sectionDuration || 0,
+        },
+      },
+    });
+
+    return { msg: "Module deleted successfully", success: true };
+  } catch (err) {
+    return { msg: "Error deleting module", success: false };
+  }
+};
+
 // get course by id
 export const getCourseById = async (courseId: number) => {
   try {
@@ -355,6 +591,18 @@ export const getCourseById = async (courseId: number) => {
     const course = await db.course.findUnique({
       where: {
         id: courseId,
+      },
+      include: {
+        category: true,
+        keywords: {
+          select: {
+            keyword: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
       },
     });
 

@@ -21,6 +21,7 @@ const Login = (props: Props) => {
   const [role, setRole] = useState("");
   const [error, setError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -30,6 +31,8 @@ const Login = (props: Props) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    setLoading(true);
 
     const signInData = await signIn("credentials", {
       email,
@@ -42,6 +45,7 @@ const Login = (props: Props) => {
     if (!signInData?.ok) {
       setError(true);
     } else {
+      setLoading(false);
       router.push("/dashboard");
     }
   };
@@ -77,12 +81,12 @@ const Login = (props: Props) => {
               id="email"
               name="email"
               autoComplete="off"
-              className="focus:shadow-outline w-full appearance-none rounded border border-[#BBC8D4] px-3 py-2 leading-tight placeholder:text-[#BBC8D4] shadow focus:outline-none"
+              className="focus:shadow-outline w-full appearance-none rounded border border-[#BBC8D4] px-3 py-2 leading-tight shadow placeholder:text-[#BBC8D4] focus:outline-none"
               placeholder="wbelenskyweber@gmail.com"
             />
           </div>
 
-          <div className="mb-4 relative">
+          <div className="relative mb-4">
             <label
               className="text-gray-700 mb-2 block text-[12px] font-semibold sm:text-[16px]"
               htmlFor="password"
@@ -95,13 +99,13 @@ const Login = (props: Props) => {
               name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="focus:shadow-outline w-full appearance-none rounded border border-[#BBC8D4] px-3 py-2 leading-tight placeholder:text-[#BBC8D4] shadow focus:outline-none pr-10"
+              className="focus:shadow-outline w-full appearance-none rounded border border-[#BBC8D4] px-3 py-2 pr-10 leading-tight shadow placeholder:text-[#BBC8D4] focus:outline-none"
               placeholder="Password"
             />
             <button
               type="button"
               onClick={togglePasswordVisibility}
-              className="absolute right-4 top-9 sm:top-11 text-accent-blue"
+              className="absolute right-4 top-9 text-accent-blue sm:top-11"
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
@@ -141,6 +145,7 @@ const Login = (props: Props) => {
           <Button
             type="submit"
             className="btn mb-4 w-full rounded-[30px] text-[12px] font-bold sm:text-[16px]"
+            disabled={loading}
           >
             Log In
           </Button>

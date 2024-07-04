@@ -10,21 +10,42 @@ import {
 } from "@/components/ui/dialog";
 import ReviewStar from "./ReviewStar";
 import { Button } from "@/components/ui/button";
-import { submitUserReview } from "@/actions/user.actions";
+import { submitUserReview, submitTutorReview } from "@/actions/user.actions";
 
-const CreateReviewBody = ({ courseId }: { courseId: number }) => {
+interface CreateReviewBodyProps {
+  courseId?: number;
+  tutorId?: number;
+  type: "course" | "tutor";
+  placeholder: string;
+}
+
+const CreateReviewBody = ({
+  courseId,
+  tutorId,
+  type,
+  placeholder,
+}: CreateReviewBodyProps) => {
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   const submitReview = async () => {
     setSubmitting(true);
-    const res = await submitUserReview({ rating, review, courseId });
-    if (res.success) {
-      alert("Review submitted successfully");
-      setRating(0);
-      setReview("");
-    } else alert("Failed to submit review");
+    if (type === "course" && courseId !== undefined) {
+      const res = await submitUserReview({ rating, review, courseId });
+      if (res.success) {
+        alert("Review submitted successfully");
+        setRating(0);
+        setReview("");
+      } else alert("Failed to submit review");
+    } else if (type === "tutor" && tutorId !== undefined) {
+      const res = await submitTutorReview({ rating, review, tutorId });
+      if (res.success) {
+        alert("Review submitted successfully");
+        setRating(0);
+        setReview("");
+      } else alert("Failed to submit review");
+    }
     setSubmitting(false);
   };
 
@@ -59,13 +80,30 @@ const CreateReviewBody = ({ courseId }: { courseId: number }) => {
   );
 };
 
-const CreateReviewModal = ({ course }: { course: string | string[] }) => {
+interface CreateReviewModalProps {
+  course?: number;
+  tutorId?: number;
+  type: "course" | "tutor";
+  placeholder: string;
+}
+
+const CreateReviewModal = ({
+  course,
+  tutorId,
+  type,
+  placeholder,
+}: CreateReviewModalProps) => {
   return (
     <Dialog>
       <DialogTrigger className="font-semibold text-accent-blue">
         Leave a rating
       </DialogTrigger>
-      <CreateReviewBody courseId={+course} />
+      <CreateReviewBody
+        tutorId={tutorId}
+        type={type}
+        courseId={course}
+        placeholder={placeholder}
+      />
     </Dialog>
   );
 };

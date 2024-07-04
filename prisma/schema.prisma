@@ -28,6 +28,7 @@ model User {
   wishlist        wishlist?
   answeredFAQ     courseFAQAnswers[]
   questions       courseFAQ[]
+  reviews         tutorReview[]
 }
 
 model SuperAdmin {
@@ -79,6 +80,7 @@ model tutor {
   createdAt      DateTime  @default(now())
   articles       article[]
   courses        course[]
+  reviews        tutorReview[]
 }
 
 model course {
@@ -183,6 +185,17 @@ model review {
   user      User     @relation(fields: [userId], references: [id])
 }
 
+model tutorReview {
+  id        Int      @id @default(autoincrement())
+  tutorId   Int
+  userId    Int
+  rating    Int?
+  review    String?  @db.VarChar(5000)
+  createdAt DateTime @default(now())
+  tutor     tutor    @relation(fields: [tutorId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+}
+
 model category {
   id     Int                 @id @default(autoincrement())
   name   String              @unique @db.VarChar(255)
@@ -220,6 +233,7 @@ model courseSections {
   createdAt   DateTime @default(now())
   published   Boolean  @default(false)
   course      course   @relation(fields: [courseId], references: [id])
+  sectionDuration Float? 
   lessons     lesson[]
 }
 

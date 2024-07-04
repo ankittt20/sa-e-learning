@@ -94,7 +94,7 @@ const CourseInfo = ({ course }: CourseInfoProps) => {
             </div>
             <div className="flex items-center justify-between border-t border-[#EFDED5] pt-3">
               <h6 className="text-xs font-bold uppercase">Duration</h6>
-              <span>3 Hours</span>
+              <span>{course.duration || "3 Hours"}</span>
             </div>
             <div className="flex items-center justify-between border-t border-[#EFDED5] pt-3">
               <h6 className="text-xs font-bold uppercase">Lessons</h6>

@@ -2,10 +2,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import FilterInput from "@/components/shared/forms/inputs/FilterInput";
 import { Button } from "@/components/ui/button";
-import { FaSearch, FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
-import { CiStar } from "react-icons/ci";
+import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 import CurriculumCard from "@/components/shared/cards/CurriculumCard";
 import CourseReview from "@/components/shared/reviews/CourseReview";
 import CourseInfo from "@/components/shared/course/CourseInfo";
@@ -14,16 +12,30 @@ import LearningNow from "@/components/shared/LearningNow";
 import Footer from "@/components/shared/footer/Footer";
 import { getCourseById } from "@/actions/course.action";
 import Link from "next/link";
+import ReviewStar from "@/components/shared/reviews/ReviewStar";
 
 const CourseDetails = () => {
   const params = useParams();
   const [course, setCourse] = useState<any>({});
+  const [tutorRating, setTutorRating] = useState<number>(0);
 
   const fetchCourseById = useCallback(async (courseId: string | string[]) => {
     try {
       // get the course by id
       const course = await getCourseById(+courseId);
       setCourse(course?.course);
+      console.log(course);
+      // calculate the average rating
+      const totalRating = course?.course?.tutor?.reviews?.reduce(
+        (acc: number, review: any) => acc + review.rating,
+        0
+      );
+      if (
+        totalRating === undefined ||
+        course?.course?.tutor?.reviews?.length === undefined
+      )
+        setTutorRating(1);
+      else setTutorRating(totalRating / course?.course?.tutor?.reviews?.length);
     } catch (err) {
       console.log(err);
       return { msg: "Error fetching course", success: false };
@@ -42,29 +54,19 @@ const CourseDetails = () => {
       <div className="container">
         <div className="mt-28 flex flex-wrap justify-between gap-8 max-sm:items-center max-sm:justify-center">
           <h3 className="h3-bold-extra max-sm:text-center">{course.name}</h3>
-          <div className="flex items-end justify-end gap-4">
-            <FilterInput
-              label="Search"
-              forType="search"
-              placeholder="Find Your Course"
-            />
-            <Button className="rounded-lg bg-accent-blue">
-              <FaSearch size={17} color="#fff" />
-            </Button>
-          </div>
         </div>
         <div className="mt-28">
           <div className="flex flex-col gap-12 sm:flex-row">
             <div>
               <div className="relative w-fit rounded-xl">
                 <div className="">
-                  {/* <Image
+                  <Image
                     src={course.image}
                     width={500}
                     height={300}
                     alt="course"
                     className="rounded-t-xl"
-                  /> */}
+                  />
                   <div>
                     <h5 className="absolute left-[24px] top-[28px] text-[10px] font-bold uppercase text-primary-100">
                       Programming
@@ -95,7 +97,7 @@ const CourseDetails = () => {
                       return (
                         <CurriculumCard
                           title={section.name}
-                          duration={"35min"}
+                          duration={section.duration || "35min"}
                           count={idx + 1}
                           key={section.id}
                           id={section.id}
@@ -114,7 +116,7 @@ const CourseDetails = () => {
                 <h4 className="text-2xl font-bold text-[#333333]">
                   Instructor
                 </h4>
-                <div className="mt-6 flex flex-col justify-center gap-4 sm:flex-row">
+                <div className="mt-6 flex flex-col gap-4 sm:flex-row">
                   <Image
                     src="/assets/images/user.png"
                     alt="instructor"
@@ -143,14 +145,12 @@ const CourseDetails = () => {
                         </Link>
                       </div>
                       <div className="flex gap-4">
-                        (50 reviews)
-                        <div className="flex gap-2">
-                          <CiStar size={24} color="#F07867" />
-                          <CiStar size={24} color="#F07867" />
-                          <CiStar size={24} color="#F07867" />
-                          <CiStar size={24} color="#F07867" />
-                          <CiStar size={24} />
-                        </div>
+                        ({course?.tutor?.reviews?.length || 0} Reviews)
+                        <ReviewStar
+                          rating={tutorRating}
+                          setRating={() => {}}
+                          isNotPointer={true}
+                        />
                       </div>
                     </div>
                   </div>
@@ -159,8 +159,20 @@ const CourseDetails = () => {
               <div className="mt-12">
                 <h4 className="text-2xl font-bold text-[#333333]">Reviews</h4>
                 <div className="mt-6 flex flex-col justify-center gap-5">
-                  <CourseReview />
-                  <CourseReview />
+                  {course.rating && course?.rating.length === 0 && (
+                    <p>No reviews available</p>
+                  )}
+                  {course?.rating?.map((review: any, idx: number) => {
+                    return (
+                      <CourseReview
+                        key={idx}
+                        creator={review.user}
+                        createdAt={review.createdAt}
+                        body={review.review}
+                        rating={review.rating}
+                      />
+                    );
+                  })}
                   <Button className="mx-auto mt-5 bg-accent-blue text-primary-100">
                     Load More
                   </Button>

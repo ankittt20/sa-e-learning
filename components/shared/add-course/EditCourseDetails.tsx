@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -25,19 +25,34 @@ import { Button } from "@/components/ui/button";
 import { addCourseSchema } from "@/lib/validations";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { createCourse, getCourseById } from "@/actions/tutor.actions";
+import { getCourseById, updateCourse } from "@/actions/tutor.actions";
+import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
 
 const CourseDetail = () => {
   const [categories, setCategories] = useState<categoriesInterface[]>();
   const [error, setError] = useState("");
   const [course, setCourse] = useState<any>();
   const [showCourseDetails, setShowCourseDetails] = useState(false);
-  const [filePath] = useState("");
+  const [filePath, setFilePath] = useState("");
   const searchParams = useSearchParams();
   const courseId = searchParams.get("course-id");
 
+  // router
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof addCourseSchema>>({
     resolver: zodResolver(addCourseSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      category: "0",
+      price: 0,
+      level: "",
+      requirements: "",
+      objectives: "",
+      tags: [],
+    },
   });
 
   useEffect(() => {
@@ -59,14 +74,67 @@ const CourseDetail = () => {
       if (courseId) {
         const res = await getCourseById(+courseId);
         setCourse(res.course);
+        form.setValue("title", res?.course?.name || "");
+        form.setValue("description", res?.course?.description || "");
+        form.setValue("category", `${res?.course?.category[0].id}` || "0");
+        form.setValue("price", res?.course?.price || 0);
+        form.setValue("level", res?.course?.level || "");
+        form.setValue("requirements", res?.course?.requirements || "");
+        form.setValue("objectives", res?.course?.objectives || "");
+        setFilePath(res?.course?.image || "");
+        const keywordsArray = res?.course?.keywords.map(
+          (keyword: { keyword: { name: string } }) => {
+            return keyword.keyword.name;
+          }
+        );
+        form.setValue("tags", keywordsArray || []);
       }
     };
     fetchCourseById();
-  }, [courseId]);
+  }, [courseId, form]);
+
+  // add tag
+  const handleInputKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    field: any
+  ) => {
+    if (e.key === "Enter" && field.name === "tags") {
+      e.preventDefault();
+      const tagInput = e.target as HTMLInputElement;
+      const tagValue = tagInput.value.trim();
+      if (tagValue !== "") {
+        if (tagValue.length > 15) {
+          return form.setError("tags", {
+            type: "required",
+            message: "Tag must be less than 15 characters.",
+          });
+        }
+        if (!field.value.includes(tagValue as never)) {
+          form.setValue("tags", [...field.value, tagValue]);
+          tagInput.value = "";
+          form.clearErrors("tags");
+        }
+      } else {
+        form.trigger();
+      }
+    }
+  };
+
+  // remove tag
+  const handleTagRemove = (tag: string, field: any) => {
+    const newTags = field.value.filter((t: string) => t !== tag);
+
+    form.setValue("tags", newTags);
+  };
 
   const onSubmit = async (data: z.infer<typeof addCourseSchema>) => {
-    const addCourse = await createCourse({ ...data, image: filePath });
-    alert(addCourse.msg);
+    console.log(data);
+    if (courseId === null) return;
+    const res = await updateCourse({ ...data, image: filePath }, +courseId);
+    if (res.success) {
+      router.push("/tutor");
+    }
+    alert(res.msg);
   };
 
   if (error) return <div>{error}</div>;
@@ -89,7 +157,6 @@ const CourseDetail = () => {
       </div>
     );
   }
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
@@ -227,7 +294,62 @@ const CourseDetail = () => {
             </FormItem>
           )}
         />
-        <Input placeholder="Image for the course" type="file" required />
+        <div>
+          <Input placeholder="Image for the course" type="file" />
+          {filePath && (
+            <Image
+              src={filePath}
+              alt="course image"
+              width={100}
+              height={100}
+              className="mt-5"
+            />
+          )}
+        </div>
+        <FormField
+          control={form.control}
+          name="tags"
+          render={({ field }) => (
+            <FormItem className="mt-10 flex w-full flex-col">
+              <FormLabel className="text-semibold">
+                Tags <span className="text-primary-100">*</span>
+              </FormLabel>
+              <FormControl className="mt-3.5">
+                <div className="mt-10">
+                  <Input
+                    className=" min-h-[56px] border"
+                    placeholder="Add tags..."
+                    onKeyDown={(e) => handleInputKeyDown(e, field)}
+                  />
+
+                  {Array.isArray(field.value) && field.value.length > 0 && (
+                    <div className="flex-start mt-2.5 gap-2.5">
+                      {field.value.map((tag: any) => (
+                        <Badge
+                          key={tag}
+                          className="flex items-center justify-center gap-2 rounded-md border-none bg-accent-pink px-4 py-2 capitalize text-primary-100"
+                          onClick={() => handleTagRemove(tag, field)}
+                        >
+                          {tag}
+                          {
+                            <Image
+                              src="/assets/icons/close.svg"
+                              alt="Close icon"
+                              width={12}
+                              height={12}
+                              className="cursor-pointer object-contain invert-0 dark:invert"
+                            />
+                          }
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button type="submit" className="bg-accent-blue px-5 text-primary-100">
           Submit
         </Button>
