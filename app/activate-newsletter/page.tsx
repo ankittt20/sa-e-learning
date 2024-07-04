@@ -3,7 +3,9 @@ import React, { useEffect, useCallback, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { verifyUserForNewsletter } from "@/actions/user.actions";
 
-const Newsletter = () => {
+type Props = {};
+
+const page = (props: Props) => {
   // get the email of the user from the url
   const params = useSearchParams();
   const email = params.get("email");
@@ -47,4 +49,4 @@ const Newsletter = () => {
   );
 };
 
-export default Newsletter;
+export default page;

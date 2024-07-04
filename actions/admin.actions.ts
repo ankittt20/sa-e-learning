@@ -193,7 +193,6 @@ export const addArticle = async (
     await db.article.create({
       data: {
         title,
-        content,
         authorId,
         publishedAt,
         verified: false,
@@ -233,7 +232,6 @@ export const updateArticle = async (
       },
       data: {
         title,
-        content,
         authorId,
         publishedAt,
       },

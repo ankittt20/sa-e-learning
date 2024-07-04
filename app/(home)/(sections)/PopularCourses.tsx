@@ -11,7 +11,7 @@ const PopularCourses = () => {
 
   useEffect(() => {
     const fetchCourses = async () => {
-      const res = await getPopularCourses();
+      const res = await getPopularCourses(0);
       setCourses(res.popularCourses);
     };
     fetchCourses();
